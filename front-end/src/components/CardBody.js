@@ -7,22 +7,21 @@ const CardBody = (props) => {
 
   const turnToFront = (e) => {
     setIsTurned(true);
-    const element = e.target;
-    console.log(element.style)
-    if (element.className.includes('card')) {
-      if(element.style.transform === "rotateY(180deg)") {
-        element.style.transform = "rotateY(0deg)";
-      }
-      else {
-        element.style.transform = "rotateY(180deg)";
-      }
-    }
+    // const element = e.target;
+    // if (element.className.includes('card')) {
+    //   if(element.style.transform === "rotateY(180deg)") {
+    //     element.style.transform = "rotateY(0deg)";
+    //   }
+    //   else {
+    //     element.style.transform = "rotateY(180deg)";
+    //   }
+    // }
   }
 
     return (
       <>
             <div
-            className="card"
+            className="cardBody"
             onClick = {isTurned ? undefined : (e) => turnToFront(e)}
             >
               <div className="front">
