@@ -1,33 +1,29 @@
-import React,{useState} from 'react';
 import 'tachyons';
+// where is this used??
 
 const CardBody = (props) => {
-    const { color } = props;
-    const [isTurned, setIsTurned] = useState(false);
+    const { color, isTurned, isInactive, id, handleCardClick } = props;
 
-  const turnToFront = (e) => {
-    setIsTurned(true);
-    // const element = e.target;
-    // if (element.className.includes('card')) {
-    //   if(element.style.transform === "rotateY(180deg)") {
-    //     element.style.transform = "rotateY(0deg)";
-    //   }
-    //   else {
-    //     element.style.transform = "rotateY(180deg)";
-    //   }
-    // }
-  }
-
+    const handleClick = (e) => {
+      isTurned = true;
+      handleCardClick(e.target.id);
+      console.log(isTurned)
+    }
     return (
       <>
             <div
-            className="cardBody"
-            onClick = {isTurned ? undefined : (e) => turnToFront(e)}
+            id = {id}
+            className = "cardBody"
+            className = {isTurned ? "isTurned" : ""}
+            // need to fix problem with class names
+            onClick={handleClick}
             >
-              <div className="front">
+              <div 
+              className="card-face front" 
+              id = {id}>
                 <h1>{color}</h1>
               </div>
-              <div className="back">
+              <div className="card-face back" id = {id}>
               </div>
             </div>
       </>

@@ -9,7 +9,8 @@ const MemoryGrid = () => {
     fetch('http://localhost:4000')
     .then (res => res.json())
     .then (data => {
-    setColors(data);
+    setColors(data.concat(data));
+    colors = colors.sort((a, b) => 0.5 - Math.random());
     })
     .catch(e => {
       console.log(e);
@@ -17,9 +18,7 @@ const MemoryGrid = () => {
   }, []);
 
     return (
-      <div className="grid">
           <CardList colors={colors}/>
-      </div>
     );
 }
 
