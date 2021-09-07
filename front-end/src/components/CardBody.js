@@ -1,29 +1,25 @@
+import { useEffect } from 'react';
 import 'tachyons';
 // where is this used??
 
 const CardBody = (props) => {
-    const { color, isTurned, isInactive, id, handleCardClick } = props;
-
-    const handleClick = (e) => {
-      isTurned = true;
-      handleCardClick(e.target.id);
-      console.log(isTurned)
+  const { color, isTurned, isInactive, id, i, handleCardClick } = props;
+  
+    const handleClick = () => {
+      handleCardClick(i, id);
     }
     return (
-      <>
+      <> 
             <div
             id = {id}
-            className = "cardBody"
-            className = {isTurned ? "isTurned" : ""}
-            // need to fix problem with class names
+            className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""}`}
             onClick={handleClick}
             >
               <div 
-              className="card-face front" 
-              id = {id}>
+              className="card-face front">
                 <h1>{color}</h1>
               </div>
-              <div className="card-face back" id = {id}>
+              <div className="card-face back"> <h3>{id}</h3>
               </div>
             </div>
       </>

@@ -1,21 +1,17 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
 
 const CardList = (props) => {
     const {colors} = props;
-    // const doubleArray = colors.concat(colors);
-    // const randomColors = doubleArray.sort((a, b) => 0.5 - Math.random());
-
     // initialize variables with hooks
     const [ turnedCards, setTurnedCards ] = useState([]);
+    const [ turnedCardsId, setTurnedCardsId ] = useState([]);
     const [ matchingCards, setMatchingCards ] = useState([]);
     const [ finish, setFinish ] = useState(false);
     const [ moves, setMoves ] = useState(0);
     const [ bestScore, setBestScore ] = useState(
-      JSON.parse(localStorage.getItem("bestScore")) 
-      // || Number.Positive_INFINITY
-      )
+      JSON.parse(localStorage.getItem("bestScore")));
 
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -25,21 +21,57 @@ const CardList = (props) => {
       return turnedCards.includes(i);
     }
     
-    const handleCardClick = (id) => {
+    const handleCardClick = (i, id) => {
       if (turnedCards.length === 1) {
-        setTurnedCards((current) => [...current, id]);
-        setMoves((moves) => moves+1);
+        setTurnedCards((current) => [...current, i]);
+        setTurnedCardsId((current) => [...current, id]);
+        setMoves((moves) => moves + 1);
       } else {
-        setTurnedCards([id])
+        setTurnedCards([i]);
+        setTurnedCardsId([id]);
       }
-      
-      console.log("turned cards " + turnedCards)
-      
+    }
+
+    const checkMatch = () => {
+      const [ cardOneId, cardTwoId ] = turnedCardsId;
+      const [ cardOne, cardTwo ] = turnedCards;
+      if (cardOneId === cardTwoId) {
+        setMatchingCards((current) => [ ...current, cardOne, cardTwo]);
+        setTurnedCards([]);
+      } else {
+        setTimeout(() => {
+          setTurnedCards([], 1000);
+        })
+      }
+    }
+
+    useEffect(() => {
+      if (turnedCards.length === 2) {
+        setTimeout(checkMatch, 700)
+      }
+    }, [turnedCards])
+
+    useEffect(() => {
+      checkFinish();
+    }, [matchingCards])
+
+    const checkFinish = () => {
+      if (matchingCards.length === colors.length) {
+        setFinish(true)
+        const highestScore = Math.min(moves, bestScore);
+        setBestScore(highestScore);
+        localStorage.setItem("bestScore", highestScore)
+      }
     }
 
     return (
       <>
-      <h1>{moves}</h1>
+      {/* <h1>length {turnedCards.length}</h1>
+      <h1>Turned Cards: {turnedCards.map(item => <li>{item}</li>)}</h1>
+      <h1>Turned Cards ID: {turnedCardsId.map(item => <li>{item}</li>)}</h1>
+      <h1>Moves: {moves}</h1>
+      <h1>Matching: {matchingCards}</h1> */}
+      <h1>Best Score: {bestScore}</h1>
       <Container>
         <Row>
           {
@@ -51,6 +83,7 @@ const CardList = (props) => {
                     // key is unique for each card
                     color={color.color_name}
                     id={color.color_id}
+                    i = {i}
                     // id is shared by two identical cards
                     // isDisabled={shouldDisableAllCards}
                     isInactive={isInactive(i)}

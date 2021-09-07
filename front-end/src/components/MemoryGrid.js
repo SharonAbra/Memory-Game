@@ -9,8 +9,10 @@ const MemoryGrid = () => {
     fetch('http://localhost:4000')
     .then (res => res.json())
     .then (data => {
-    setColors(data.concat(data));
-    colors = colors.sort((a, b) => 0.5 - Math.random());
+    // double the array in order to have identical pairs
+    data = data.concat(data)
+    // shuffle the array
+    setColors(data.sort((a, b) => 0.5 - Math.random()));
     })
     .catch(e => {
       console.log(e);
