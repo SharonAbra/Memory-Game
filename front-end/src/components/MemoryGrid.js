@@ -4,7 +4,7 @@ import CardList from './CardList';
 
 const MemoryGrid = ( {category} ) => {
   console.log(category)
-  const [colors, setColors] = useState([]);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:4000/${category}`)
@@ -13,7 +13,7 @@ const MemoryGrid = ( {category} ) => {
     // double the array in order to have identical pairs
     data = data.concat(data)
     // shuffle the array
-    setColors(data.sort((a, b) => 0.5 - Math.random()));
+    setCards(data.sort((a, b) => 0.5 - Math.random()));
     })
     .catch(e => {
       console.log(e);
@@ -22,7 +22,7 @@ const MemoryGrid = ( {category} ) => {
 
     return (
       <div className = "grid">
-          <CardList colors={colors}/>
+          <CardList cards={cards}/>
       </div>
     );
 }

@@ -39,10 +39,10 @@ margin-bottom: 25px;
     margin: 10px 0px 20px 0px;
 }
 
-.cardBody:hover {
+/* .cardBody:hover {
   transform: scale(1.1);
   transition: 0.5s;
-}
+} */
 
   .card-face {
     backface-visibility: hidden;
@@ -76,17 +76,11 @@ margin-bottom: 25px;
   .MuiDialog-paperWidthSm {
     max-width: null !important;
     width: 80% !important;
-    /* background-color: rgb(142, 208, 212) !important; */
-    background: radial-gradient(
-      rgb(136, 255, 229) 60%,
-      rgba(243, 243, 56, 0.664)
-    );
-  
     border-radius: 30px !important;
     text-align: center;
   }
+  
   h2 {
-    color: rgb(255, 0, 221) !important;
     margin-top: 15px;
   }
   .MuiDialogContentText-root {
@@ -94,12 +88,18 @@ margin-bottom: 25px;
   }
   .MuiTypography-h6 {
     font-size: 25px !important;
-    color: orangered !important;
     font-weight: 500;
   }
   .MuiDialogActions-root {
     display: unset !important;
   }
   .MuiButton-label:hover {
-    color: rgb(255, 0, 221) !important;
+  }
+
+  .categories {
+    
+  }
+
+  .welcome {
+    color: #9304be;
   }

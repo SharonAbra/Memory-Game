@@ -4,7 +4,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 const CardList = (props) => {
     // retrieve array of cards from props
-    const {colors} = props;
+    const {cards} = props;
     // initialize variables with hooks
     const [ turnedCards, setTurnedCards ] = useState([]);
     const [ turnedCardsId, setTurnedCardsId ] = useState([]);
@@ -59,7 +59,7 @@ const CardList = (props) => {
     const checkFinish = () => {
       console.log("checkFinish in action")
       console.log(matchingCards)
-      if (matchingCards.length === colors.length) {
+      if (matchingCards.length === cards.length) {
         setFinish(true);
         const highestScore = Math.min(moves, bestScore);
         setBestScore(highestScore);
@@ -78,14 +78,14 @@ const CardList = (props) => {
       <Container>
         <Row>
           {
-            colors.map((color, i) => {
+            cards.map((card, i) => {
               return (
                 <Col xs={2}>
                   <CardBody
                     key={i}
                     // key is unique for each card
-                    color={color.color_name}
-                    id={color.color_id}
+                    card={card.name}
+                    id={card.id}
                     i = {i}
                     // id is shared by two identical cards
                     // isDisabled={shouldDisableAllCards}

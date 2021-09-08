@@ -1,6 +1,6 @@
 
 const CardBody = (props) => {
-  const { color, isTurned, isInactive, id, i, handleCardClick } = props;
+  const { card, isTurned, isInactive, id, i, handleCardClick } = props;
   
     const handleClick = () => {
       handleCardClick(i, id);
@@ -14,7 +14,7 @@ const CardBody = (props) => {
             >
               <div 
               className="card-face front">
-                <h1>{color}</h1>
+                <h1>{card}</h1>
               </div>
               <div className="card-face back"> <h3></h3>
               </div>
