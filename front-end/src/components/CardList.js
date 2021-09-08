@@ -60,7 +60,7 @@ const CardList = (props) => {
       console.log("checkFinish in action")
       console.log(matchingCards)
       if (matchingCards.length === colors.length) {
-        // setFinish(true)
+        setFinish(true);
         const highestScore = Math.min(moves, bestScore);
         setBestScore(highestScore);
         localStorage.setItem("bestScore", highestScore)
@@ -70,17 +70,17 @@ const CardList = (props) => {
 
     return (
       <>
-      <h1>Turned Cards: {turnedCards.map(item => <li>{item}</li>)}</h1>
+      {/* <h1>Turned Cards: {turnedCards.map(item => <li>{item}</li>)}</h1>
       <h1>Turned Cards ID: {turnedCardsId.map(item => <li>{item}</li>)}</h1>
       <h1>Moves: {moves}</h1>
       <h1>Matching: {matchingCards}</h1>
-      <h1>Best Score: {bestScore} moves!</h1>
+      <h1>Best Score: {bestScore} moves!</h1> */}
       <Container>
         <Row>
           {
             colors.map((color, i) => {
               return (
-                <Col xs={3}>
+                <Col xs={2}>
                   <CardBody
                     key={i}
                     // key is unique for each card

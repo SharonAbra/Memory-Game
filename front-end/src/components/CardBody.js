@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-import 'tachyons';
-// where is this used??
 
 const CardBody = (props) => {
   const { color, isTurned, isInactive, id, i, handleCardClick } = props;
@@ -19,7 +16,7 @@ const CardBody = (props) => {
               className="card-face front">
                 <h1>{color}</h1>
               </div>
-              <div className="card-face back"> <h3>{id}</h3>
+              <div className="card-face back"> <h3></h3>
               </div>
             </div>
       </>

@@ -20,7 +20,9 @@ const MemoryGrid = () => {
   }, []);
 
     return (
+      <div className = "grid">
           <CardList colors={colors}/>
+      </div>
     );
 }
 
