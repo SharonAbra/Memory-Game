@@ -2,6 +2,7 @@ import Game from './components/Game';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import './components/style.css';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <Route exact path='/'>
               <Home/>
            </Route>
-           <Route exact path='/game'>
+           <Route exact path='/:category'>
               <Game/>
            </Route>
         </Switch>

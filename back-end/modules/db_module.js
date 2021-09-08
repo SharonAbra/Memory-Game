@@ -18,6 +18,12 @@ const getAllColors = () => {
     return db.select('color_id','color_name').from('colors');
   }
 
+  const getAllAnimals = () => {
+    return db.select('id','name').from('animals');
+  }
+
+
 module.exports = {
-  getAllColors
+  getAllColors,
+  getAllAnimals
 }

@@ -1,12 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import CardList from './CardList';
-import './style.css';
 
-const MemoryGrid = () => {
+
+const MemoryGrid = ( {category} ) => {
+  console.log(category)
   const [colors, setColors] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000')
+    fetch(`http://localhost:4000/${category}`)
     .then (res => res.json())
     .then (data => {
     // double the array in order to have identical pairs

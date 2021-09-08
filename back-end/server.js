@@ -11,7 +11,7 @@ app.use(cors());
 // app.use(bp.urlencoded({extended:false}))
 // app.use(bp.json());
 
-app.get('/', (req,res)=> {
+app.get('/colors', (req,res)=> {
     DB.getAllColors()
     .then(data => {
       res.send(data)
@@ -19,6 +19,16 @@ app.get('/', (req,res)=> {
     .catch(e => {
       res.send('Things are not working as expected')
     })
+})
+
+app.get('/animals', (req,res)=> {
+  DB.getAllAnimals()
+  .then(data => {
+    res.send(data)
+  })
+  .catch(e => {
+    res.send('Things are not working as expected')
+  })
 })
 
 app.listen(process.env.PORT, () => {
