@@ -1,3 +1,4 @@
+import Finish from './Finish';
 import React,{useEffect, useState} from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
@@ -53,19 +54,26 @@ const CardList = (props) => {
     }, [turnedCards])
 
     useEffect(() => {
+      if (cards.length > 0) {
       checkFinish();
+      }
     }, [matchingCards])
 
     const checkFinish = () => {
-      console.log("checkFinish in action")
-      console.log(matchingCards)
       if (matchingCards.length === cards.length) {
-        setFinish(true);
         const highestScore = Math.min(moves, bestScore);
         setBestScore(highestScore);
         localStorage.setItem("bestScore", highestScore)
-        console.log("checkFinish done")
+        setFinish(true);
       }
+    }
+
+    const handleRestart = () => {
+      setMatchingCards([]);
+      setTurnedCards([]);
+      setTurnedCardsId([])
+      setFinish(false);
+      setMoves(0);
     }
 
     return (
@@ -99,6 +107,7 @@ const CardList = (props) => {
           }
         </Row>
       </Container>
+      <Finish finish={finish} moves={moves} handleRestart={handleRestart}/>
       </>
     )
   }

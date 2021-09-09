@@ -3,7 +3,6 @@ import CardList from './CardList';
 
 
 const MemoryGrid = ( {category} ) => {
-  console.log(category)
   const [cards, setCards] = useState([]);
 
   useEffect(() => {

@@ -3,14 +3,13 @@ import MemoryGrid from "./MemoryGrid";
 import Finish from './Finish';
 import { useParams } from 'react-router';
 
-const Game = (props) => {
+const Game = () => {
   const { category } = useParams();
           return (
         <> 
 
-            <Header/>
+            <Header category={category}/>
             <MemoryGrid category={category}/>
-            <Finish/>
         </>
       )
     }

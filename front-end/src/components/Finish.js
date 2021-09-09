@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
+import {Link} from 'react-router-dom';
 
 function PaperComponent(props) {
   return (
@@ -17,14 +18,12 @@ function PaperComponent(props) {
 }
 
 export default function Finish({finish, moves, handleRestart}) {
-
   return (
     <div>
       <Dialog
         open={finish}
         disableBackdropClick
         disableEscapeKeyDown
-        // onClose={handleClose}
         PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title"
       >
@@ -32,17 +31,15 @@ export default function Finish({finish, moves, handleRestart}) {
           Well done!
         </DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
+          <DialogContentText>
             You've matched them all in {moves} moves!
-          </DialogContentText> */}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {/* <Button autoFocus onClick={handleRestart} color="primary">
-            Restart
+          <Button onClick={handleRestart} className="btn btn-primary custom-bg">
+            RESTART
           </Button>
-          <Button onClick={handleHome} color="primary">
-            Home
-          </Button> */}
+          <Link to="/" className="btn btn-primary custom-bg">HOME</Link>
         </DialogActions>
       </Dialog>
     </div>

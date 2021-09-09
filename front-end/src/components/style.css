@@ -70,7 +70,8 @@ margin-bottom: 25px;
   }
   
   .is-inactive {
-    opacity: 0.3;
+    transform: rotateY(180deg);
+    box-shadow: none;
   }
 
   .MuiDialog-paperWidthSm {
@@ -83,23 +84,26 @@ margin-bottom: 25px;
   h2 {
     margin-top: 15px;
   }
+
   .MuiDialogContentText-root {
     font-size: 20px !important;
   }
+  
   .MuiTypography-h6 {
     font-size: 25px !important;
     font-weight: 500;
   }
+
   .MuiDialogActions-root {
     display: unset !important;
-  }
-  .MuiButton-label:hover {
-  }
-
-  .categories {
-    
   }
 
   .welcome {
     color: #9304be;
+  }
+
+  .choose {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-evenly;
   }

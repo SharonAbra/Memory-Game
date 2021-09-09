@@ -15,7 +15,7 @@ const db = knex({
 });
 
 const getAllColors = () => {
-    return db.select('id','name').from('colors');
+    return db.select('id','name').from('colors').whereIn('id', [1,2,3]);
   }
 
   const getAllAnimals = () => {
