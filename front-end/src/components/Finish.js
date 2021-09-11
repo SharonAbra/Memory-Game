@@ -1,3 +1,5 @@
+import { connect } from 'react-redux';
+import { handleRestart } from '../redux/actions.js'
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 import {Link} from 'react-router-dom';
 
+
 function PaperComponent(props) {
   return (
     <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
@@ -17,7 +20,7 @@ function PaperComponent(props) {
   );
 }
 
-export default function Finish({finish, moves, handleRestart}) {
+const Finish = ({finish, moves, handleRestart}) => {
   return (
     <div>
       <Dialog
@@ -45,3 +48,15 @@ export default function Finish({finish, moves, handleRestart}) {
     </div>
   );
 }
+
+  const mapStateToProps = (state) => {
+    return {finish:state.finish, moves:state.moves}
+  }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      handleRestart: () => dispatch(handleRestart())
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Finish);

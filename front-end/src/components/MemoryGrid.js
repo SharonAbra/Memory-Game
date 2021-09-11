@@ -1,29 +1,33 @@
-import React,{useState,useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
+import { connect } from 'react-redux';
+import { fetchCards } from '../redux/actions.js'
 import CardList from './CardList';
 
+class MemoryGrid extends React.Component {
+  
+  componentDidMount() {
+    this.props.fetchCards(this.props.category);
+  }
 
-const MemoryGrid = ( {category} ) => {
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    fetch(`https://memory-game-g.herokuapp.com/${category}`)
-    .then (res => res.json())
-    .then (data => {
-    // double the array in order to have identical pairs
-    data = data.concat(data)
-    // shuffle the array
-    setCards(data.sort((a, b) => 0.5 - Math.random()));
-    })
-    .catch(e => {
-      console.log(e);
-    })
-  }, []);
-
+  render() {
     return (
-      <div className = "grid">
-          <CardList cards={cards}/>
-      </div>
-    );
+        <div className = "grid">
+            <CardList cards={this.props.cards}/>
+        </div>
+      );
+  }
 }
 
-export default MemoryGrid;
+const mapStateToProps = (state) => {
+  return {
+    cards: state.cards
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCards: (category) => dispatch(fetchCards(category))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MemoryGrid);

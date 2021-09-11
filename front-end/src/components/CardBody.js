@@ -1,9 +1,11 @@
+import { connect } from 'react-redux';
+import { handleCardClick } from '../redux/actions';
+
 const CardBody = (props) => {
   const { card, isTurned, isInactive, isDisabled, id, i, handleCardClick } = props;
   
     const handleClick = () => {
       handleCardClick(i, id);
-      // dispatch(handleCardClick)
     }
     return (
       <> 
@@ -22,4 +24,11 @@ const CardBody = (props) => {
       </>
     )
   }
-  export default CardBody;
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      handleCardClick: (i, id) => dispatch(handleCardClick(i, id))
+    }
+  }
+
+  export default connect(null, mapDispatchToProps)(CardBody);

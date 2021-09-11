@@ -1,4 +1,4 @@
-import { Navbar, Nav, Link, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
 function NavBar() {
     return (

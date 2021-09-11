@@ -1,21 +1,13 @@
-import Finish from './Finish';
-import React,{useEffect, useState} from 'react';
+import { connect } from 'react-redux';
+import { checkMatch, checkFinish} from '../redux/actions.js'
+import React,{ useEffect } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
 
 const CardList = (props) => {
-    // retrieve array of cards from props
-    const {cards} = props;
-    // initialize variables with hooks
-    const [ turnedCards, setTurnedCards ] = useState([]);
-    const [ turnedCardsId, setTurnedCardsId ] = useState([]);
-    const [ matchingCards, setMatchingCards ] = useState([]);
-    const [ finish, setFinish ] = useState(false);
-    const [ disable, setDisable ] = useState(false);
-    const [ moves, setMoves ] = useState(0);
-    const [ bestScore, setBestScore ] = useState(
-      JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY);
     
+    const { cards, turnedCards, matchingCards, disable, checkMatch, checkFinish } = props;
+
     const isInactive = (i) => {
       return matchingCards.includes(i)
     }
@@ -23,42 +15,7 @@ const CardList = (props) => {
     const isTurned = (i) => {
       return turnedCards.includes(i);
     }
-
-    const disableAll = () => {
-      setDisable(true);
-    }
-
-    const enableAll = () => {
-      setDisable(false)
-    }
     
-    const handleCardClick = (i, id) => {
-      
-      if (turnedCards.length === 1) {
-        disableAll();
-        setTurnedCards((current) => [...current, i]);
-        setTurnedCardsId((current) => [...current, id]);
-        setMoves((moves) => moves + 1);
-      } else {
-        setTurnedCards([i]);
-        setTurnedCardsId([id]);
-      }
-    }
-
-    const checkMatch = () => {
-      enableAll();
-      const [ cardOneId, cardTwoId ] = turnedCardsId;
-      const [ cardOne, cardTwo ] = turnedCards;
-      if (cardOneId === cardTwoId) {
-        setMatchingCards((current) => [ ...current, cardOne, cardTwo]);
-        setTurnedCards([]);
-      } else {
-        setTimeout(() => {
-          setTurnedCards([], 1000);
-        })
-      }
-    }
-
     useEffect(() => {
       if (turnedCards.length === 2) {
         setTimeout(checkMatch, 700)
@@ -66,27 +23,10 @@ const CardList = (props) => {
     }, [turnedCards])
 
     useEffect(() => {
-      if (cards.length > 0) {
+      if (cards.length > 0 && matchingCards.length > 0) {
       checkFinish();
       }
     }, [matchingCards])
-
-    const checkFinish = () => {
-      if (matchingCards.length === cards.length) {
-        const highestScore = Math.min(moves, bestScore);
-        setBestScore(highestScore);
-        localStorage.setItem("bestScore", highestScore)
-        setFinish(true);
-      }
-    }
-
-    const handleRestart = () => {
-      setMatchingCards([]);
-      setTurnedCards([]);
-      setTurnedCardsId([])
-      setFinish(false);
-      setMoves(0);
-    }
 
     return (
       <>
@@ -106,7 +46,6 @@ const CardList = (props) => {
                     isDisabled={disable}
                     isInactive={isInactive(i)}
                     isTurned={isTurned(i)}
-                    handleCardClick={handleCardClick}
                   />
                 </Col>
               );
@@ -114,8 +53,25 @@ const CardList = (props) => {
           }
         </Row>
       </Container>
-      <Finish finish={finish} moves={moves} handleRestart={handleRestart}/>
+      
       </>
     )
   }
-  export default CardList;
+
+  const mapStateToProps = (state) => {
+    return {
+      turnedCards: state.turnedCards,
+      turnedCardsId: state.turnedCardsId,
+      matchingCards: state.matchingCards,
+      disable: state.disable,
+    }
+  }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      checkMatch: () => dispatch(checkMatch()),
+      checkFinish: () => dispatch(checkFinish())
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(CardList);
