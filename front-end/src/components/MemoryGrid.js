@@ -6,7 +6,7 @@ const MemoryGrid = ( {category} ) => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/${category}`)
+    fetch(`https://memory-game-g.herokuapp.com/${category}`)
     .then (res => res.json())
     .then (data => {
     // double the array in order to have identical pairs

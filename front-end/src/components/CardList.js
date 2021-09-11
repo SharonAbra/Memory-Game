@@ -11,6 +11,7 @@ const CardList = (props) => {
     const [ turnedCardsId, setTurnedCardsId ] = useState([]);
     const [ matchingCards, setMatchingCards ] = useState([]);
     const [ finish, setFinish ] = useState(false);
+    const [ disable, setDisable ] = useState(false);
     const [ moves, setMoves ] = useState(0);
     const [ bestScore, setBestScore ] = useState(
       JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY);
@@ -22,9 +23,19 @@ const CardList = (props) => {
     const isTurned = (i) => {
       return turnedCards.includes(i);
     }
+
+    const disableAll = () => {
+      setDisable(true);
+    }
+
+    const enableAll = () => {
+      setDisable(false)
+    }
     
     const handleCardClick = (i, id) => {
+      
       if (turnedCards.length === 1) {
+        disableAll();
         setTurnedCards((current) => [...current, i]);
         setTurnedCardsId((current) => [...current, id]);
         setMoves((moves) => moves + 1);
@@ -35,6 +46,7 @@ const CardList = (props) => {
     }
 
     const checkMatch = () => {
+      enableAll();
       const [ cardOneId, cardTwoId ] = turnedCardsId;
       const [ cardOne, cardTwo ] = turnedCards;
       if (cardOneId === cardTwoId) {
@@ -78,17 +90,12 @@ const CardList = (props) => {
 
     return (
       <>
-      {/* <h1>Turned Cards: {turnedCards.map(item => <li>{item}</li>)}</h1>
-      <h1>Turned Cards ID: {turnedCardsId.map(item => <li>{item}</li>)}</h1>
-      <h1>Moves: {moves}</h1>
-      <h1>Matching: {matchingCards}</h1>
-      <h1>Best Score: {bestScore} moves!</h1> */}
       <Container>
         <Row>
           {
             cards.map((card, i) => {
               return (
-                <Col xs={2}>
+                <Col xs={4} sm={3} md={2}>
                   <CardBody
                     key={i}
                     // key is unique for each card
@@ -96,7 +103,7 @@ const CardList = (props) => {
                     id={card.id}
                     i = {i}
                     // id is shared by two identical cards
-                    // isDisabled={shouldDisableAllCards}
+                    isDisabled={disable}
                     isInactive={isInactive(i)}
                     isTurned={isTurned(i)}
                     handleCardClick={handleCardClick}
