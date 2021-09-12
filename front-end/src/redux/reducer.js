@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP } from './Constants';
 
 const initialState = {
     cards: [],
@@ -9,7 +9,7 @@ const initialState = {
     disable: false,
     finish: false,
     moves: 0,
-    bestScore: localStorage.getItem("bestScore")
+    vsComp: false
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -49,10 +49,10 @@ const reducer = (state=initialState,action={}) => {
             }
         case CHECKFINISH:
             if (state.matchingCards.length === state.cards.length) {
-                const highScore = Math.min(state.moves, state.bestScore);
-                localStorage.setItem("bestScore", highScore);
                 return { ...state, finish:true}
             }
+        case VSCOMP:
+            return { ...state, vsComp:true}
         default:
             return {...state}
     }

@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
     fetch(`https://memory-game-g.herokuapp.com/${category}`)
@@ -42,5 +42,11 @@ export const setCategory = (choice) => {
   export const handleRestart = () => {
     return {
       type: HANDLERESTART,
+    }
+  }
+
+  export const handleVsComp = () => {
+    return {
+      type: VSCOMP,
     }
   }
