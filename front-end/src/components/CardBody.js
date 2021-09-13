@@ -18,7 +18,7 @@ const CardBody = (props) => {
               >
                 <div 
                 className="card-face front">
-                  <img src={card} width="90%"></img>
+                  <img src={card} width="60%"></img>
                 </div>
                 <div className="card-face back"> <h3>{id}</h3>
                 </div>
@@ -52,3 +52,5 @@ const CardBody = (props) => {
   }
 
   export default connect(null, mapDispatchToProps)(CardBody);
+
+  

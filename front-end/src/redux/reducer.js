@@ -48,7 +48,7 @@ const reducer = (state=initialState,action={}) => {
                 return { ...state, turnedCards: [], disable:false}
             }
         case CHECKFINISH:
-            if (state.matchingCards.length === state.cards.length) {
+            if (state.matchingCards.length === state.cards.length * 2) {
                 return { ...state, finish:true}
             }
         case VSCOMP:
