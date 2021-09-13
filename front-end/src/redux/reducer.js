@@ -37,7 +37,7 @@ const reducer = (state=initialState,action={}) => {
                 return { ...state,
                         turnedCards: [action.payload[0]],
                         turnedCardsId: [action.payload[1]]
-                    } 
+                    }
             }
         case CHECKMATCH:
             const [ cardOne, cardTwo ] = state.turnedCards;

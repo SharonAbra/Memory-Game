@@ -7,22 +7,42 @@ const CardBody = (props) => {
     const handleClick = () => {
       handleCardClick(i, id);
     }
-    return (
-      <> 
-            <div
-            id = {id}
-            className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
-            onClick={handleClick}
-            >
-              <div 
-              className="card-face front">
-                <span>{card}</span>
+
+    if (card.includes('png')) {
+      return (
+        <> 
+              <div
+              id = {id}
+              className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
+              onClick={handleClick}
+              >
+                <div 
+                className="card-face front">
+                  <img src={card} width="90%"></img>
+                </div>
+                <div className="card-face back"> <h3>{id}</h3>
+                </div>
               </div>
-              <div className="card-face back"> <h3>{id}</h3>
+        </>
+      )
+    } else {
+      return (
+        <> 
+              <div
+              id = {id}
+              className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
+              onClick={handleClick}
+              >
+                <div 
+                className="card-face front">
+                  <span>{card}</span>
+                </div>
+                <div className="card-face back"> <h3>{id}</h3>
+                </div>
               </div>
-            </div>
-      </>
-    )
+        </>
+      )
+    }
   }
 
   const mapDispatchToProps = (dispatch) => {

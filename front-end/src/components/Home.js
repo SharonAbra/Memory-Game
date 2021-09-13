@@ -6,6 +6,7 @@ const Home = ({handleVsComp}) => {
 return (
       <> 
         <div className="home">
+        <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
           <h1 className="welcome">Welcome to Memory Game!</h1>
           <h3>Please choose game mode:</h3>
           <button>Play solo</button>

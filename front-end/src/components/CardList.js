@@ -34,12 +34,19 @@ const CardList = (props) => {
         <Row>
           {
             cards.map((card, i) => {
+              let data = '';
+              if (card.name === undefined) {
+                data = card.url;
+              } else {
+                data = card.name;
+              }
+   
               return (
                 <Col xs={4} sm={3} md={2}>
                   <CardBody
                     key={i}
                     // key is unique for each card
-                    card={card.name}
+                    card={data}
                     id={card.id}
                     i = {i}
                     // id is shared by two identical cards

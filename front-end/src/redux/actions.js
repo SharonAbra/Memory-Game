@@ -1,11 +1,9 @@
 import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
-    fetch(`https://memory-game-g.herokuapp.com/${category}`)
+    fetch(`http://localhost:4000/${category}`)
     .then(res => res.json())
     .then(data => {
-        data = data.concat(data)
-        data.sort((a, b) => 0.5 - Math.random())
         dispatch({type:FETCHCARDS, payload:data})
     })
     .catch(e => {
