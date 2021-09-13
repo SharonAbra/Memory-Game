@@ -18,7 +18,7 @@ const CardBody = (props) => {
               >
                 <div 
                 className="card-face front">
-                  <img src={card} width="60%"></img>
+                  <img src={card} width="60%" alt=""></img>
                 </div>
                 <div className="card-face back"> <h3>{id}</h3>
                 </div>

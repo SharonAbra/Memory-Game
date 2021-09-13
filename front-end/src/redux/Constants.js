@@ -5,3 +5,4 @@ export const HANDLERESTART = 'HANDLERESTART';
 export const SETCATEGORY = 'SETCATEGORY';
 export const FETCHCARDS = 'FETCHCARDS';
 export const VSCOMP = 'VSCOMP';
+export const COMPUTERMOVE = 'COMPUTERMOVE';

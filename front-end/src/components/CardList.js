@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { checkMatch, checkFinish} from '../redux/actions.js'
+import { checkMatch, checkFinish, computerMove} from '../redux/actions.js'
 import React,{ useEffect } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
 
 const CardList = (props) => {
     
-    const { cards, turnedCards, matchingCards, disable, checkMatch, checkFinish } = props;
+    const { cards, turnedCards, matchingCards, disable, checkMatch, checkFinish, vsComp, computerMove, compTurn } = props;
 
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -19,14 +19,28 @@ const CardList = (props) => {
     useEffect(() => {
       if (turnedCards.length === 2) {
         setTimeout(checkMatch, 700)
-      }
-    }, [turnedCards])
+    }
+  }, [turnedCards])
 
     useEffect(() => {
       if (cards.length > 0 && matchingCards.length > 0) {
       checkFinish();
       }
     }, [matchingCards])
+
+    useEffect(() => {
+      if (vsComp && compTurn) {
+        // random that is not in the matched
+        //maybe make a list of duplicate id's to choose from
+        const randomCard = Math.floor(Math.random()*cards.length);
+        setTimeout(() => {
+          computerMove(1);
+      }, 700)
+      setTimeout(() => {
+        computerMove(2);
+    }, 1500)
+  }
+}, [compTurn])
 
     return (
       <>
@@ -71,13 +85,16 @@ const CardList = (props) => {
       turnedCardsId: state.turnedCardsId,
       matchingCards: state.matchingCards,
       disable: state.disable,
+      vsComp: state.vsComp,
+      compTurn: state.compTurn
     }
   }
 
   const mapDispatchToProps = (dispatch) => {
     return {
       checkMatch: () => dispatch(checkMatch()),
-      checkFinish: () => dispatch(checkFinish())
+      checkFinish: () => dispatch(checkFinish()),
+      computerMove: (i) => dispatch(computerMove(i))
     }
   }
 
