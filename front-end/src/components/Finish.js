@@ -31,7 +31,7 @@ const Finish = ({finish, moves, handleRestart}) => {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Well done!
+          Well Done!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -39,10 +39,8 @@ const Finish = ({finish, moves, handleRestart}) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleRestart} className="btn btn-primary custom-bg">
-            RESTART
-          </Button>
-          <Link to="/" className="btn btn-primary custom-bg">HOME</Link>
+          <Button onClick={handleRestart} className="restartButton">RESTART</Button>
+          <Link to="/" className="btn myHomeButton">HOME</Link>
         </DialogActions>
       </Dialog>
     </div>

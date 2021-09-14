@@ -1,31 +1,29 @@
-import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
-import { handleVsComp } from '../redux/actions';
-const Home = ({handleVsComp}) => {
+import CategoryChoice from './CategoryChoice';
+import ModeChoice from './ModeChoice';
+import {Route, BrowserRouter, Switch, Link} from 'react-router-dom';
+
+const Home = () => {
 
 return (
       <> 
         <div className="home">
-        <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
           <h1 className="welcome">Welcome to Memory Game!</h1>
-          <h3>Please choose game mode:</h3>
-          <button>Play solo</button>
-          <button onClick={handleVsComp}>Play vs computer</button>
-          <button>Play vs friends</button>
-          <h3>Please choose your category:</h3>
-            <div className="choose">
-              <Link to="/colors">Colors</Link>
-              <Link to="/animals">Animals</Link>
-            </div>
+          <div className="start"><Link to="/mode-choice" className="startButton">START PLAYING</Link></div>
         </div>
+        <BrowserRouter>
+      <Switch>
+          <Route exact path='/mode-choice'>
+              <ModeChoice/>
+           </Route>
+           <Route exact path='/category-choice'>
+              <CategoryChoice/>
+           </Route>
+        </Switch>
+      </BrowserRouter>
       </>
     )
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {handleVsComp: () => dispatch(handleVsComp())}
-}
   
-export default connect(null, mapDispatchToProps)(Home);
+export default Home;
 
     

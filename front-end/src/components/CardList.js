@@ -28,32 +28,25 @@ const CardList = (props) => {
       }
     }, [matchingCards])
 
-      const chooseRandomCard = () => {
-        // random assignment to enable the while loop.
-        let randomCard = {i:100, id:100};
-        const rLength = cards.length-1;
-        while (matchingCards.includes(randomCard.i) && turnedCards.includes(randomCard.i)) {
-            randomCard = pairList[Math.floor(Math.random()*rLength)];
-        }
-      return randomCard;
+    const chooseRandomCard = () => {
+      let randomCard;
+      const rLength = cards.length-1;
+      do {
+        randomCard = pairList[Math.floor(Math.random()*rLength)];
+      }
+      while (matchingCards.includes(randomCard.i) && turnedCards.includes(randomCard.i))
+    return randomCard;
     }
 
     useEffect(() => {
       if (vsComp && compTurn) {
         setTimeout(() => {
           const randomCard = chooseRandomCard(); 
-          computerMove(randomCard);
-        // const rLength = cards.length-1
-        // computerMove(pairList[Math.floor(Math.random()*rLength)]);          
+          computerMove(randomCard);   
       }, 700)
       setTimeout(() => {
         const randomCard = chooseRandomCard(); 
         computerMove(randomCard);
-        // const randomCard = chooseRandomCard();
-        // const rLength = cards.length-1
-        // computerMove(pairList[Math.floor(Math.random()*rLength)]);
-        // const rLength = cards.length-1
-        // computerMove(Math.floor(Math.random()*rLength));
     }, 1500)
   }
 }, [compTurn])
@@ -74,7 +67,8 @@ let pairList = [];
               }
    
               return (
-                <Col xs={4} sm={3} md={2}>
+                // <Col xs={4} sm={3} md={2}>
+                <Col xs={2}>
                   <CardBody
                     key={i}
                     // key is unique for each card

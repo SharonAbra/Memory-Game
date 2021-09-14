@@ -12,7 +12,7 @@ const initialState = {
     moves: 0,
 
     // state for game mode: vs computer
-    vsComp: true,
+    vsComp: false,
     compTurn: false,
     computerMoves: 0
 }
@@ -63,6 +63,8 @@ const reducer = (state=initialState,action={}) => {
         case CHECKFINISH:
             if (state.matchingCards.length === state.cards.length * 2) {
                 return { ...state, finish:true}
+            } else {
+                return {...state}
             }
         case VSCOMP:
             return { ...state, vsComp:true}

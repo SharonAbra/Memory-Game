@@ -50,7 +50,6 @@ export const setCategory = (choice) => {
   }
 
   export const computerMove = ({i, id}) => {
-    //destructure first?
     return {
       type: COMPUTERMOVE,
       payload: [i, id]
