@@ -9,6 +9,7 @@ return (
         <div className="home">
           <h1 className="welcome">Welcome to Memory Game!</h1>
           <div className="start"><Link to="/mode-choice" className="startButton">START PLAYING</Link></div>
+          <div><img src="https://i.ibb.co/YkzRhDb/cards.png" alt="cards" width="200px"></img></div>
         </div>
         <BrowserRouter>
       <Switch>

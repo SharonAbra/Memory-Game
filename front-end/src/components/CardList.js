@@ -86,7 +86,6 @@ let pairList = [];
           }
         </Row>
       </Container>
-      
       </>
     )
   }
