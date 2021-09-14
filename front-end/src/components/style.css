@@ -35,6 +35,27 @@
   text-decoration: none;
 }
 
+.ModeChoice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.CategoryChoice {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.startCategory {
+  background-color: #9304be;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
 .header {
   text-align: center;
   margin-bottom: 20px;
@@ -54,7 +75,7 @@ margin-bottom: 25px;
 .cardBody {
     border: 1px solid black;
     width: 100%;
-    height: 120px;
+    height: 80px;
     border-radius: 4px;
     box-shadow: 1px 1px 3px 3px black;
     transition: 0.5s;
@@ -67,7 +88,7 @@ margin-bottom: 25px;
 
 @media screen and (max-width: 767px) {
   .cardBody {
-    height: 60px;
+    height: 40px;
   }
 }
 
@@ -152,11 +173,6 @@ margin-bottom: 25px;
     color: #9304be;
     margin-top: 50px;
     margin-bottom: 50px;
-  }
-
-  .choose {
-    display: flex;
-    justify-content: space-evenly;
   }
 
   .footer {
