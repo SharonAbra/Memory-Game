@@ -15,12 +15,12 @@ const CardList = (props) => {
     const isTurned = (i) => {
       return turnedCards.includes(i);
     }
-    
+
     useEffect(() => {
       if (turnedCards.length === 2) {
         setTimeout(checkMatch, 700)
     }
-  }, [turnedCards])
+    }, [turnedCards])
 
     useEffect(() => {
       if (cards.length > 0 && matchingCards.length > 0) {
@@ -28,26 +28,44 @@ const CardList = (props) => {
       }
     }, [matchingCards])
 
+      const chooseRandomCard = () => {
+        // random assignment to enable the while loop.
+        let randomCard = {i:100, id:100};
+        const rLength = cards.length-1;
+        while (matchingCards.includes(randomCard.i) && turnedCards.includes(randomCard.i)) {
+            randomCard = pairList[Math.floor(Math.random()*rLength)];
+        }
+      return randomCard;
+    }
+
     useEffect(() => {
       if (vsComp && compTurn) {
-        // random that is not in the matched
-        //maybe make a list of duplicate id's to choose from
-        const randomCard = Math.floor(Math.random()*cards.length);
         setTimeout(() => {
-          computerMove(1);
+          const randomCard = chooseRandomCard(); 
+          computerMove(randomCard);
+        // const rLength = cards.length-1
+        // computerMove(pairList[Math.floor(Math.random()*rLength)]);          
       }, 700)
       setTimeout(() => {
-        computerMove(2);
+        const randomCard = chooseRandomCard(); 
+        computerMove(randomCard);
+        // const randomCard = chooseRandomCard();
+        // const rLength = cards.length-1
+        // computerMove(pairList[Math.floor(Math.random()*rLength)]);
+        // const rLength = cards.length-1
+        // computerMove(Math.floor(Math.random()*rLength));
     }, 1500)
   }
 }, [compTurn])
 
+let pairList = [];
     return (
       <>
       <Container>
         <Row>
           {
             cards.map((card, i) => {
+              pairList.push({i:i, id:card.id})
               let data = '';
               if (card.name === undefined) {
                 data = card.url;

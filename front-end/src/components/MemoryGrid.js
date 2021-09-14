@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { fetchCards } from '../redux/actions.js'
 import CardList from './CardList';
