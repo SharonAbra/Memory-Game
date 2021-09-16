@@ -14,9 +14,9 @@ function App() {
           <Route exact path='/'>
               <Home/>
            </Route>
-           <Route exact path='/game/:category'>
+           {/* <Route exact path='/game/:category'>
               <Game/>
-           </Route>
+           </Route> */}
         </Switch>
         <Footer/>
       </BrowserRouter>
