@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 const CategoryChoice = () => {
     return (
     <div className="CategoryChoice"> 
-    <h3>Please choose your category:</h3>
+    <h1>Please choose your category:</h1>
         <div>
-        <div className="startCategory"><Link to="/game/animals" className="startButton">Animals</Link></div>
+        <div className="startCategory first"><Link to="/game/animals" className="startButton">Animals</Link></div>
         </div>
     </div>
     )

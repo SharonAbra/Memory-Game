@@ -1,17 +1,16 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO } from './Constants';
 
 const initialState = {
-    // state for game mode: solo
     cards: [],
     category: '',
     turnedCards: [],
     turnedCardsId: [],
     matchingCards: [],
     disable: false,
-    finish: false,
+    finish: true,
     moves: 0,
-
-    // state for game mode: vs computer
+    gameMode: '',
+    solo: false,
     vsComp: false,
     compTurn: false,
     computerMoves: 0
@@ -67,7 +66,9 @@ const reducer = (state=initialState,action={}) => {
                 return {...state}
             }
         case VSCOMP:
-            return { ...state, vsComp:true}
+            return { ...state, vsComp:true, gameMode: 'vs Computer'}
+        case SOLO:
+        return { ...state, solo:true, gameMode: 'Solo'}
         case COMPUTERMOVE:
             if (state.turnedCards.length === 1) {
                 return { ...state, 

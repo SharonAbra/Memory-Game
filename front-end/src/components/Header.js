@@ -22,8 +22,8 @@ useEffect(() => {
                 <h1 className="gameName">MEMORY GAME</h1>
                 <h4 className="instructions">Click on two cards to find a match!</h4>
                 <div className="information">
-                    <span>Category: <i>{category}</i></span>
-                    <span>Moves: {moves}</span>
+                    <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                    <span>Moves: <b>{moves}</b></span>
                 </div>
             </header>
         );
@@ -35,9 +35,9 @@ useEffect(() => {
                     <h1 className="gameName">MEMORY GAME</h1>
                     <h4 className="instructions">Click on two cards to find a match!</h4>
                     <div className="information">
-                        <span>Category: <i>{category}</i></span>
-                        <span>Your Moves: {moves}</span>
-                        <span>Computer Moves: {computerMoves}</span>
+                        <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                        <span>Your Moves: <b>{moves}</b></span>
+                        <span>Computer Moves: <b>{computerMoves}</b></span>
                         {/* <span>Your Best Score: {bestScore}</span> */}
                         {/* computer matches and your matches? */}
                     </div>
@@ -50,9 +50,9 @@ useEffect(() => {
                     <h1 className="gameName">MEMORY GAME</h1>
                     <h4 className="instructions">Click on two cards to find a match!</h4>
                     <div className="information">
-                        <span>Category: <i>{category}</i></span>
-                        <span>Moves: {moves}</span>
-                        <span>Best Score: {bestScore}</span>
+                        <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                        <span>Moves: <b>{moves}</b></span>
+                        <span>Best Score: <b>{bestScore}</b></span>
                     </div>
                 </header>
             )
@@ -61,7 +61,11 @@ useEffect(() => {
 }
   
   const mapStateToProps = (state) => {
-    return {category: state.category, moves:state.moves, finish:state.finish, vsComp: state.vsComp, computerMoves: state.computerMoves}
+    return {category: state.category,
+            moves:state.moves, 
+            finish:state.finish, 
+            vsComp: state.vsComp, 
+            computerMoves: state.computerMoves}
   }
   
   export default connect(mapStateToProps)(Header);

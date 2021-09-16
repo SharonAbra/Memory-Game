@@ -8,18 +8,9 @@ import './components/style.css';
 function App() {
   return (
     <>
-    <BrowserRouter>
       <NavBar/>
-      <Switch>
-          <Route exact path='/'>
-              <Home/>
-           </Route>
-           {/* <Route exact path='/game/:category'>
-              <Game/>
-           </Route> */}
-        </Switch>
-        <Footer/>
-      </BrowserRouter>
+      <Home/>
+      <Footer/>
     </>
   );
 }

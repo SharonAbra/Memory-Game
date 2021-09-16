@@ -1,15 +1,3 @@
-/* @media screen and (min-width: 320px) and (max-width: 800px) and (orientation: portrait) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    overflow-x: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
-} */
-
 .home {
   text-align: center;
   display: flex;
@@ -20,7 +8,7 @@
 
 .start {
    background-color: #9304be;
-   width: 30%;
+   width: 50%;
    border-radius: 20px;
    margin-bottom: 30px;
 }
@@ -30,23 +18,37 @@
 }
 
 .startButton {
-  color:white !important;
+  color:white;
   font-size: 300%;
   text-decoration: none;
 }
 
-.ModeChoice {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+.startButton:hover {
+  color:white
 }
 
-.CategoryChoice {
+@media screen and (max-width: 576px) {
+  .start {
+    width:60%
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .startButton {
+    font-size: 200%;
+  }
+}
+
+.ModeChoice, .CategoryChoice {
   display: flex;
   flex-direction: column;
-  text-align: center;
   align-items: center;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.first {
+  margin-top: 40px;
 }
 
 .startCategory {
@@ -69,7 +71,12 @@ margin-bottom: 25px;
   display: flex;
   justify-content: space-evenly;
   font-size: 150%;
-  font-weight: bold;
+}
+
+@media screen and (max-width: 576px) {
+  .information {
+    font-size: 4vw;
+  }
 }
 
 .cardBody {
@@ -139,24 +146,23 @@ margin-bottom: 25px;
   
   .MuiTypography-h6 {
     font-size: 45px !important;
-    font-weight: 500 !important;
-    color: #c404ff !important;
+    font-weight: 500;
+    color: #c404ff;
   }
 
   .MuiDialogActions-root {
-    background-color: #c404ff !important;
+    background-color: #c404ff;
     display: unset !important;
-    margin-top: 20px !important;
+    margin-top: 20px;
   }
 
   .restartButton {
     color: white !important;
     border: 1px solid white !important;
-    border-radius: 5px !important;
+    border-radius: 5px;
     font-weight: bold !important;
-    font-size: 150% !important; 
-    width: 100px !important;
-    float: left !important;
+    width: 100px;
+    float: left;
     margin-left: 20px !important;
   }
 
@@ -164,9 +170,9 @@ margin-bottom: 25px;
     color: white !important;
     border: 1px solid white !important;
     font-weight: bold !important;
-    width: 100px !important;
-    float: right !important;
-    margin-right: 20px !important;
+    width: 100px;
+    float: right;
+    margin-right: 20px;
   }
 
   .welcome {
