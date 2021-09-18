@@ -1,7 +1,7 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
-    fetch(`https://memory-game-g.herokuapp.com/${category}`)
+    fetch(`http://localhost:4000/${category}`)
     .then(res => res.json())
     .then(data => {
         dispatch({type:FETCHCARDS, payload:data})
@@ -62,3 +62,14 @@ export const setCategory = (choice) => {
     }
   }
   
+  export const handleMultiPlayer = () => {
+    return {
+      type: MULTI,
+    }
+  }
+  
+  export const toggleDisable = () => {
+    return {
+      type: TOGGLEDISABLE,
+    }
+  }

@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE } from './Constants';
 
 const initialState = {
     cards: [],
@@ -7,13 +7,14 @@ const initialState = {
     turnedCardsId: [],
     matchingCards: [],
     disable: false,
-    finish: true,
+    finish: false,
     moves: 0,
     gameMode: '',
     solo: false,
     vsComp: false,
     compTurn: false,
-    computerMoves: 0
+    computerMoves: 0,
+    multiPlayer: true
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -66,9 +67,9 @@ const reducer = (state=initialState,action={}) => {
                 return {...state}
             }
         case VSCOMP:
-            return { ...state, vsComp:true, gameMode: 'vs Computer'}
+            return { ...state, vsComp:true, gameMode: 'Playing vs Computer'}
         case SOLO:
-        return { ...state, solo:true, gameMode: 'Solo'}
+            return { ...state, solo:true, gameMode: 'Playing Solo'}
         case COMPUTERMOVE:
             if (state.turnedCards.length === 1) {
                 return { ...state, 
@@ -83,6 +84,15 @@ const reducer = (state=initialState,action={}) => {
                         turnedCardsId: [action.payload[1]],
                     }
             }
+        case MULTI:
+            return {multiPlayer: true, disable: true, gameMode: 'Playing with friends'}
+        case TOGGLEDISABLE:
+            if (state.disable === true) {
+                return {...state, disable: false}
+            } else {
+                return {...state, disable: true}
+            }
+            
         default:
             return {...state}
     }

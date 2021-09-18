@@ -7,3 +7,5 @@ export const FETCHCARDS = 'FETCHCARDS';
 export const VSCOMP = 'VSCOMP';
 export const COMPUTERMOVE = 'COMPUTERMOVE';
 export const SOLO = 'SOLO';
+export const MULTI = 'MULTI';
+export const TOGGLEDISABLE = 'TOGGLEDISABLE';

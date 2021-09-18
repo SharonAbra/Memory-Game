@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
-import { checkMatch, checkFinish, computerMove} from '../redux/actions.js'
+import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable} from '../redux/actions.js'
 import React,{ useEffect } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
+import  { SocketContext } from '../contexts/Socket.js';
 
 const CardList = (props) => {
-    
-    const { cards, turnedCards, matchingCards, disable, checkMatch, checkFinish, vsComp, computerMove, compTurn } = props;
+    const socket = React.useContext(SocketContext);
+    const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
 
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -51,6 +52,18 @@ const CardList = (props) => {
   }
 }, [compTurn])
 
+const handleSocketInfo = () => {
+  // toggleDisable();
+  if (multiPlayer===true) {
+    socket.on('turn card', (item) => {
+      const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
+      if (flippedCardIndex > -1) {
+        handleCardClick(flippedCardIndex, item.id);
+      }
+    })
+  }
+}
+
 let pairList = [];
     return (
       <>
@@ -67,15 +80,15 @@ let pairList = [];
               }
    
               return (
-                // <Col xs={4} sm={3} md={2}>
-                <Col xs={2}>
+                <Col key={i} xs={2}>
                   <CardBody
+                  // key is unique for each card
                     key={i}
-                    // key is unique for each card
                     card={data}
                     id={card.id}
+                    type ={card.type}
+                   // id is shared by two identical cards
                     i = {i}
-                    // id is shared by two identical cards
                     isDisabled={disable}
                     isInactive={isInactive(i)}
                     isTurned={isTurned(i)}
@@ -97,7 +110,8 @@ let pairList = [];
       matchingCards: state.matchingCards,
       disable: state.disable,
       vsComp: state.vsComp,
-      compTurn: state.compTurn
+      compTurn: state.compTurn,
+      multiPlayer: state.multiPlayer
     }
   }
 
@@ -105,7 +119,9 @@ let pairList = [];
     return {
       checkMatch: () => dispatch(checkMatch()),
       checkFinish: () => dispatch(checkFinish()),
-      computerMove: (i) => dispatch(computerMove(i))
+      computerMove: (i) => dispatch(computerMove(i)), 
+      handleCardClick: (i, id) => dispatch(handleCardClick(i, id)),
+      toggleDisable: () => dispatch(toggleDisable())
     }
   }
 

@@ -61,6 +61,7 @@
 .header {
   text-align: center;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .instructions {
@@ -192,5 +193,17 @@ margin-bottom: 25px;
 
   .icons {
     font-size: 70%;
+  }
+
+  .game {
+    display: flex;
+  }
+
+  .chat {
+    width: 250px;
+    height: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #f3e0ff;
   }
   

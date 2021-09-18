@@ -1,21 +1,20 @@
 const exp = require('express');
 const cors = require('cors');
+const DB = require('./modules/db_module.js');
 const env = require('dotenv');
 env.config();
-const DB = require('./modules/db_module.js');
-
 const app = exp();
-app.use(cors());
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
 
-app.get('/colors', (req,res)=> {
-    DB.getAllColors()
-    .then(data => {
-      res.send(data)
-    })
-    .catch(e => {
-      res.send('Things are not working as expected')
-    })
-})
+app.use(cors());
 
 app.get('/animals', (req,res)=> {
   DB.getAllAnimals()
@@ -27,5 +26,12 @@ app.get('/animals', (req,res)=> {
   })
 })
 
-app.listen(process.env.PORT, () => {
+io.on('connection', (socket) => {
+  // socket.emit('connection', 'WELCOME NEW USER!')
+  // socket.broadcast.emit('connection', `${socket.id} has now connected`)
+  socket.on('turn card', (item) => {
+    socket.broadcast.emit('turn card', item);
+  });
 });
+
+server.listen(process.env.PORT)

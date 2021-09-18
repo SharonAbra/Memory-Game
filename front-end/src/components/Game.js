@@ -15,9 +15,11 @@ const Game = ({categoryFunc}) => {
 
           return (
         <> 
+          <div>
             <Header/>
             <MemoryGrid category={category}/>
             <Finish/>
+            </div>
         </>
       )
     }
