@@ -1,3 +1,4 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { setCategory } from '../redux/actions.js'
 import Header from './Header';

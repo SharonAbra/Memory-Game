@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE, USER } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
     fetch(`http://localhost:4000/${category}`)
@@ -71,5 +71,11 @@ export const setCategory = (choice) => {
   export const toggleDisable = () => {
     return {
       type: TOGGLEDISABLE,
+    }
+  }
+
+  export const handleUser = (user) => {
+    return {
+      type: USER,
     }
   }

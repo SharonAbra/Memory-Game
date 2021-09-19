@@ -91,7 +91,7 @@ margin-bottom: 25px;
     position: relative;
     cursor: pointer;
     margin: 10px 0px 20px 0px;
-    font-size: 4vw;
+    font-size: 3vw;
 }
 
 @media screen and (max-width: 767px) {
@@ -199,17 +199,27 @@ margin-bottom: 25px;
     display: flex;
   }
 
+  .chatContainer {
+    margin-left: 40px;
+    margin-right: 20px;
+  }
+
   .chat {
-    width: 250px;
-    height: 80%;
-    border: 1px solid black;
+    width: 220px;
+    height: 310px;
+    box-shadow: 1px 1px 3px 3px black;
     border-radius: 5px;
     background-color: #f3e0ff;
+    margin-bottom: 20px;
+    padding: 7px;
   }
 
   input {
     background-color: #f3e0ff;
     border-radius: 5px;
-    margin-top: 15px;
+  }
+
+  li {
+    list-style-type: none; margin: 0; padding: 0;
   }
   

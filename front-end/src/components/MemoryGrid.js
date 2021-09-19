@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchCards } from '../redux/actions.js'
 import CardList from './CardList';
+import Chat from './Chat';
 
 class MemoryGrid extends React.Component {
-  
+
   componentDidMount() {
     this.props.fetchCards(this.props.category);
   }
-  // const socket = React.useContext(SocketContext);
+
   render() {
     const cards = this.props.cards;
     const nameList = cards.map(card => {
@@ -22,14 +23,9 @@ class MemoryGrid extends React.Component {
     
       if( localStorage.getItem("gameMode") === "Playing with Friends") { 
       return (
-      <div className="game">
-        <div className="chatContainer">
-          <div className="chat"></div>
-          <input type="text"></input>
-          <button>SEND</button>
-          {/* <button>Start Playing with Friends</button> */}
-        </div>
-        <CardList cards={shuffledCards}/>
+        <div className="game">
+          <Chat/>
+          <CardList cards={shuffledCards}/>
         </div>
       )
     } else {

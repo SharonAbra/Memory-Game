@@ -9,3 +9,4 @@ export const COMPUTERMOVE = 'COMPUTERMOVE';
 export const SOLO = 'SOLO';
 export const MULTI = 'MULTI';
 export const TOGGLEDISABLE = 'TOGGLEDISABLE';
+export const USER = 'USER';

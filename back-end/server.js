@@ -29,12 +29,14 @@ app.get('/animals', (req,res)=> {
 io.on('connection', (socket) => {
   console.log(socket.id)
   socket.on('user', (user) => {
-  socket.broadcast.emit('user', user);
+  socket.broadcast.emit(user);
+  })
+  socket.on('message', (message) => {
+    io.emit('message', message);
   })
   // socket.emit('connection', 'WELCOME NEW USER!')
   // socket.broadcast.emit('connection', `${socket.id} has now connected`)
   socket.on('turn card', (item) => {
-    console.log(item)
     socket.broadcast.emit('turn card', item);
   });
 });

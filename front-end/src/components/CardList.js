@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable} from '../redux/actions.js'
+import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable, handleUser} from '../redux/actions.js'
 import React,{ useEffect, useState } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
@@ -69,6 +69,7 @@ useEffect(() => {
   setTimeout(() => {
   if (gameMode === "Playing with Friends" && cards.length > 0) {
     let user = prompt('Welcome! what is your name?')
+    handleUser(user)
     handleSocketInfo();
     socket.emit('user', user)
   }
@@ -133,7 +134,8 @@ let pairList = [];
       checkFinish: () => dispatch(checkFinish()),
       computerMove: (i) => dispatch(computerMove(i)), 
       handleCardClick: (i, id) => dispatch(handleCardClick(i, id)),
-      toggleDisable: () => dispatch(toggleDisable())
+      toggleDisable: () => dispatch(toggleDisable()),
+      handleUser: (user) => dispatch(handleUser(user))
     }
   }
 

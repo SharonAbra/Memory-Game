@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE, USER } from './Constants';
 
 const initialState = {
     cards: [],
@@ -14,7 +14,8 @@ const initialState = {
     // vsComp: localStorage.getItem("vsComp"),
     // multiPlayer: localStorage.getItem("multi"),
     compTurn: false,
-    computerMoves: 0
+    computerMoves: 0,
+    user: ''
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -25,6 +26,8 @@ const reducer = (state=initialState,action={}) => {
         //     return { ...state, vsComp:true, gameMode: 'Playing vs Computer'}
         // case MULTI:
         // return {...state, multiPlayer: true, gameMode: 'Playing with friends'}
+        case USER:
+            return {...state, user: action.payload}
         case FETCHCARDS:
             return {...state, cards:action.payload}
         case SETCATEGORY:
