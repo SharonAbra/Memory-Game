@@ -27,6 +27,7 @@ app.get('/animals', (req,res)=> {
 })
 
 io.on('connection', (socket) => {
+  console.log(socket.id)
   // socket.emit('connection', 'WELCOME NEW USER!')
   // socket.broadcast.emit('connection', `${socket.id} has now connected`)
   socket.on('turn card', (item) => {

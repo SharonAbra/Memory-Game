@@ -99,6 +99,7 @@ let pairList = [];
           }
         </Row>
       </Container>
+      <button onClick={handleSocketInfo}>Start Playing with Friends</button>
       </>
     )
   }

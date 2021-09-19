@@ -19,22 +19,30 @@ class MemoryGrid extends React.Component {
     })
     const shuffledCards = nameList.concat(urlList);
     shuffledCards.sort((a, b) => 0.5 - Math.random());
-    return (
+    
+      if( this.props.multiPlayer === true) { 
+      return (
       <div className="game">
         <div className="chatContainer">
           <div className="chat"></div>
           <input type="text"></input>
+          <button>SEND</button>
+          <button>Start Playing with Friends</button>
         </div>
-        {/* <button onClick={handleSocketInfo}>Start Playing with Friends</button> */}
         <CardList cards={shuffledCards}/>
         </div>
-      );
+      )
+    } else {
+      return (
+        <CardList cards={shuffledCards}/>
+      )
+    }   
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    cards: state.cards
+    cards: state.cards, multiPlayer: state.multiPlayer
   }
 }
 

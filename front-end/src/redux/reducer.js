@@ -14,7 +14,7 @@ const initialState = {
     vsComp: false,
     compTurn: false,
     computerMoves: 0,
-    multiPlayer: true
+    multiPlayer: false
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -85,7 +85,7 @@ const reducer = (state=initialState,action={}) => {
                     }
             }
         case MULTI:
-            return {multiPlayer: true, disable: true, gameMode: 'Playing with friends'}
+            return {...state, multiPlayer: true, gameMode: 'Playing with friends'}
         case TOGGLEDISABLE:
             if (state.disable === true) {
                 return {...state, disable: false}

@@ -206,4 +206,10 @@ margin-bottom: 25px;
     border-radius: 5px;
     background-color: #f3e0ff;
   }
+
+  input {
+    background-color: #f3e0ff;
+    border-radius: 5px;
+    margin-top: 15px;
+  }
   
