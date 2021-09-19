@@ -7,6 +7,9 @@ function Header(props) {
 
     const [ bestScore, setBestScore ] = useState(
         JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY);
+    
+    const gameMode = localStorage.getItem("gameMode");
+    // console.log(typeof(gameMode));
 
 useEffect(() => {
     if (finish === true) {
@@ -29,7 +32,7 @@ useEffect(() => {
         );
     } else {
 
-        if (vsComp) {
+        if (gameMode === "Playing vs Computer") {
             return (
                 <header className ="header">
                     <h1 className="gameName">MEMORY GAME</h1>

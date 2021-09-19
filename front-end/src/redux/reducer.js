@@ -9,16 +9,22 @@ const initialState = {
     disable: false,
     finish: false,
     moves: 0,
-    gameMode: '',
-    solo: false,
-    vsComp: false,
+    // gameMode: localStorage.getItem("gameMode"),
+    // solo: localStorage.getItem("solo"),
+    // vsComp: localStorage.getItem("vsComp"),
+    // multiPlayer: localStorage.getItem("multi"),
     compTurn: false,
-    computerMoves: 0,
-    multiPlayer: false
+    computerMoves: 0
 }
 
 const reducer = (state=initialState,action={}) => {
     switch(action.type) {
+        // case SOLO:
+        //     return { ...state, solo:true, gameMode: 'Playing Solo'}
+        // case VSCOMP:
+        //     return { ...state, vsComp:true, gameMode: 'Playing vs Computer'}
+        // case MULTI:
+        // return {...state, multiPlayer: true, gameMode: 'Playing with friends'}
         case FETCHCARDS:
             return {...state, cards:action.payload}
         case SETCATEGORY:
@@ -66,10 +72,6 @@ const reducer = (state=initialState,action={}) => {
             } else {
                 return {...state}
             }
-        case VSCOMP:
-            return { ...state, vsComp:true, gameMode: 'Playing vs Computer'}
-        case SOLO:
-            return { ...state, solo:true, gameMode: 'Playing Solo'}
         case COMPUTERMOVE:
             if (state.turnedCards.length === 1) {
                 return { ...state, 
@@ -84,8 +86,6 @@ const reducer = (state=initialState,action={}) => {
                         turnedCardsId: [action.payload[1]],
                     }
             }
-        case MULTI:
-            return {...state, multiPlayer: true, gameMode: 'Playing with friends'}
         case TOGGLEDISABLE:
             if (state.disable === true) {
                 return {...state, disable: false}

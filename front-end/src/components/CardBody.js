@@ -7,11 +7,11 @@ import { Socket } from 'socket.io-client';
 const CardBody = (props) => {
   const { card, isTurned, isInactive, isDisabled, type, id, i, handleCardClick } = props;
   const socket = React.useContext(SocketContext);
-  const multiPlayer = useSelector(state => state.multiPlayer)
+  const gameMode = localStorage.getItem("gameMode");
 
     const handleClick = () => {
       handleCardClick(i, id);
-      if (multiPlayer === true) {
+      if (gameMode === "Playing with Friends") {
         socket.emit('turn card', {id: id, type: type})
       }
     }

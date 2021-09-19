@@ -1,7 +1,8 @@
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-function NavBar({gameMode, category}) {
+function NavBar({category}) {
+  const gameMode = localStorage.getItem("gameMode");
     return (
       <>
    <Navbar expand="xxl" bg="dark" variant="dark">

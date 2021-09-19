@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable} from '../redux/actions.js'
-import React,{ useEffect } from 'react';
+import React,{ useEffect, useState } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
 import  { SocketContext } from '../contexts/Socket.js';
@@ -8,7 +8,8 @@ import  { SocketContext } from '../contexts/Socket.js';
 const CardList = (props) => {
     const socket = React.useContext(SocketContext);
     const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
-
+    const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"))
+    
     const isInactive = (i) => {
       return matchingCards.includes(i)
     }
@@ -40,7 +41,7 @@ const CardList = (props) => {
     }
 
     useEffect(() => {
-      if (vsComp && compTurn) {
+      if (gameMode === "Playing vs Computer" && compTurn) {
         setTimeout(() => {
           const randomCard = chooseRandomCard(); 
           computerMove(randomCard);   
@@ -54,15 +55,25 @@ const CardList = (props) => {
 
 const handleSocketInfo = () => {
   // toggleDisable();
-  if (multiPlayer===true) {
     socket.on('turn card', (item) => {
+      console.log(item);
       const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
+      console.log(flippedCardIndex);
       if (flippedCardIndex > -1) {
         handleCardClick(flippedCardIndex, item.id);
       }
     })
-  }
 }
+
+useEffect(() => {
+  setTimeout(() => {
+  if (gameMode === "Playing with Friends" && cards.length > 0) {
+    let user = prompt('Welcome! what is your name?')
+    handleSocketInfo();
+    socket.emit('user', user)
+  }
+}, 500)
+}, [cards])
 
 let pairList = [];
     return (
@@ -99,7 +110,7 @@ let pairList = [];
           }
         </Row>
       </Container>
-      <button onClick={handleSocketInfo}>Start Playing with Friends</button>
+      {/* <button onClick={handleSocketInfo}>Start Playing with Friends</button> */}
       </>
     )
   }
