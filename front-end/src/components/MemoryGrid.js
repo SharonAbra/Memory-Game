@@ -4,6 +4,7 @@ import { fetchCards } from '../redux/actions.js'
 import CardList from './CardList';
 import Chat from './Chat';
 
+
 class MemoryGrid extends React.Component {
 
   componentDidMount() {
@@ -23,10 +24,13 @@ class MemoryGrid extends React.Component {
     
       if( localStorage.getItem("gameMode") === "Playing with Friends") { 
       return (
-        <div className="game">
-          <Chat/>
-          <CardList cards={shuffledCards}/>
-        </div>
+        <>
+          
+          <div className="game">
+            <Chat/>
+            <CardList cards={shuffledCards}/>
+          </div>
+        </>
       )
     } else {
       return (

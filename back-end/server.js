@@ -37,7 +37,8 @@ const MAX_WAITING = 10000;
 function next_turn(){
   turn = current_turn++ % players.length;
   console.log(turn)
-  players[turn].emit('your_turn');
+  players[turn].broadcast.emit('next', `${players[turn].username} is now playing`)
+  players[turn].emit('your_turn', 'Your Turn!');
   console.log("next turn triggered " , turn);
   triggerTimeout();
 }

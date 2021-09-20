@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable, handleUser} from '../redux/actions.js'
 import React,{ useEffect, useState } from 'react';
 import CardBody from './CardBody';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row,  ProgressBar } from 'react-bootstrap';
+// import ProgressBar from 'react-bootstrap/ProgressBar'
 // import useSocket from 'use-socket.io-client';
 
 // import  { socket } from '../contexts/Socket.js';
@@ -88,9 +89,7 @@ const handleSocketInfo = () => {
 useEffect(() => {
   if (turnedCards.length === 2) {
     setTimeout(checkMatch, 700);
-    //this needs to be somewhere else
-    socket.emit('pass_turn');
-}
+  }
 }, [turnedCards])
 
 useEffect(() => {

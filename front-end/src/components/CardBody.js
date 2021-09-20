@@ -9,10 +9,14 @@ import socket from '../modules/Socket.js'
 
 const CardBody = (props) => {
   const { card, isTurned, isInactive, isDisabled, type, id, i, handleCardClick } = props;
+  const turnedCards = useSelector(state => state.turnedCards);
   // const socket = React.useContext(SocketContext);
   const gameMode = localStorage.getItem("gameMode");
 
     const handleClick = () => {
+      if (turnedCards.length === 1) {
+        socket.emit('pass_turn');
+      }
       handleCardClick(i, id);
       if (gameMode === "Playing with Friends") {
         socket.emit('turn card', {id: id, type: type})
