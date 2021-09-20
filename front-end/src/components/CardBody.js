@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { handleCardClick } from '../redux/actions';
-import  { SocketContext } from '../contexts/Socket.js';
-import { Socket } from 'socket.io-client';
+// import  { socket } from '../contexts/Socket.js';
+// import  { SocketContext } from '../contexts/Socket.js';
+// import { Socket } from 'socket.io-client';
+// import useSocket from 'use-socket.io-client';
+import socket from '../modules/Socket.js'
 
 const CardBody = (props) => {
   const { card, isTurned, isInactive, isDisabled, type, id, i, handleCardClick } = props;
-  const socket = React.useContext(SocketContext);
+  // const socket = React.useContext(SocketContext);
   const gameMode = localStorage.getItem("gameMode");
 
     const handleClick = () => {

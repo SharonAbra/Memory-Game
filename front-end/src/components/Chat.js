@@ -1,12 +1,15 @@
 import React,{ useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
-import  { SocketContext } from '../contexts/Socket.js';
+// import { useSelector } from 'react-redux'
+// import  { SocketContext } from '../contexts/Socket.js';
+// import  { socket } from '../contexts/Socket.js';
+// import useSocket from 'use-socket.io-client';
+import socket from '../modules/Socket.js'
 
 const Chat = () => {
-    const socket = React.useContext(SocketContext);
+    // const socket = React.useContext(SocketContext);
     const [ input, setInput ] = useState()
     const [ messageList , setMessageList ] = useState([])
-    const user = useSelector(state => state.user);
+    // const user = useSelector(state => state.user);
 
     socket.on('welcome', (msg) => {
         setMessageList([...messageList, msg]);
@@ -34,7 +37,7 @@ const Chat = () => {
    <div className="chatContainer">
         <div className="chat">
             {
-                messageList.map(msg => <li>{msg}</li>)
+                messageList.map((msg, i) => <li key={i}>{msg}</li>)
             }
         </div>
         <input type="text" onBlur = {(e) => handleInput(e)}></input>

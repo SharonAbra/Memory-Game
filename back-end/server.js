@@ -56,18 +56,22 @@ function resetTimeOut(){
 }
 
 io.on('connection', (socket) => {
+  console.log(socket.id)
   socket.on('user', (user) => {
   socket.username = user;
   players.push(socket)
-  console.log(players)
+  socket.emit('user turn', players.indexOf(socket))
+  console.log(players.length)
   socket.emit ('welcome', (`Welcome ${user}!`))
   socket.broadcast.emit('welcome', (`${user} has joined the game.`));
   });
   socket.on('disconnect', () => {
-    socket.broadcast.emit('disconnected', (`${socket.username} has disconnected.`));
-    players.splice(players.indexOf(socket),1);
-    turn--;
-    console.log(players)
+    if (players.includes(socket)) {
+      socket.broadcast.emit('disconnected', (`${socket.username} has disconnected.`));
+      players.splice(players.indexOf(socket),1);
+      turn--;
+      console.log(players.length)
+    }
   });
   socket.on('message', (message) => {
     io.emit('message', (`${socket.username}: ${message}`));

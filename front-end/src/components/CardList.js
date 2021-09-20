@@ -3,12 +3,19 @@ import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable, h
 import React,{ useEffect, useState } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
-import  { SocketContext } from '../contexts/Socket.js';
+// import useSocket from 'use-socket.io-client';
+
+// import  { socket } from '../contexts/Socket.js';
+// import io from "socket.io-client";
+import socket from '../modules/Socket.js'
 
 const CardList = (props) => {
-    const socket = React.useContext(SocketContext);
+    // const socket = React.useContext(SocketContext);
     const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
     const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"))
+    const [ firstUser, setFirstUser ] = useState(false);
+    // const [socket, setSocket] = useState(null);
+    // const [socket] = useSocket('http://localhost:4000')
     
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -17,14 +24,7 @@ const CardList = (props) => {
     const isTurned = (i) => {
       return turnedCards.includes(i);
     }
-
-    useEffect(() => {
-      if (turnedCards.length === 2) {
-        setTimeout(checkMatch, 700);
-        socket.emit('pass_turn');
-    }
-    }, [turnedCards])
-
+ 
     useEffect(() => {
       if (cards.length > 0 && matchingCards.length > 0) {
       checkFinish();
@@ -54,38 +54,50 @@ const CardList = (props) => {
   }
 }, [compTurn])
 
-const handleSocketInfo = () => {
-    socket.on('turn card', (item) => {
-      const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
-      if (flippedCardIndex > -1) {
-        handleCardClick(flippedCardIndex, item.id);
-      }
-    })
-}
-
 useEffect(() => {
   setTimeout(() => {
   if (gameMode === "Playing with Friends" && cards.length > 0) {
+    toggleDisable();
     let user = '';
     while (user === '') {
       user = prompt('Welcome! what is your name?')
     }
     // do I need handleUser?
     //can I move this part to chat?
-    // toggleDisable();
     handleUser(user)
     handleSocketInfo();
     socket.emit('user', user)
+    socket.on('user turn', (number) => {
+      if (number === 0) {
+        setFirstUser(true);
+      }
+    })
   }
 }, 500)
 }, [cards])
 
-// useEffect(() => {
-//   socket.on('your_turn', () => {
-//     console.log('your turn')
-//     toggleDisable();
-//   })
-// })
+const handleSocketInfo = () => {
+  socket.on('turn card', (item) => {
+    const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
+    if (flippedCardIndex > -1) {
+      handleCardClick(flippedCardIndex, item.id);
+    }
+  })
+}
+
+useEffect(() => {
+  if (turnedCards.length === 2) {
+    setTimeout(checkMatch, 700);
+    //this needs to be somewhere else
+    socket.emit('pass_turn');
+}
+}, [turnedCards])
+
+useEffect(() => {
+  if (firstUser === true){
+    toggleDisable();
+  }
+}, [firstUser])
 
 let pairList = [];
     return (

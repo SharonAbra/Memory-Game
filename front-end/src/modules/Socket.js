@@ -1,9 +1,17 @@
-// import React, { useContext, useEffect, useState } from 'react'
-import React from 'react';
-import io from "socket.io-client";
+const io = require('socket.io-client')
+module.exports = io('http://localhost:4000')
 
-export const socket = io('http://localhost:4000');
-export const SocketContext = React.createContext(socket);
+// import React, { useContext, useEffect, useState } from 'react'
+
+// import io from 'socket.io-client';
+
+// export const socket = io.connect('http://localhost:4000')
+
+// export { socket }
+
+
+// export const socket = io('http://localhost:4000');
+// export const SocketContext = React.createContext(socket);
 
 // const SocketContext = React.createContext()
 
