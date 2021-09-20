@@ -5,11 +5,15 @@ import  { SocketContext } from '../contexts/Socket.js';
 const Chat = () => {
     const socket = React.useContext(SocketContext);
     const [ input, setInput ] = useState()
-    const [ messageList , setMessageList ] = useState(['Welcome!'])
+    const [ messageList , setMessageList ] = useState([])
     const user = useSelector(state => state.user);
 
-    socket.on('user', (user) => {
-        setMessageList([...messageList, `${user} has joined the game`]);
+    socket.on('welcome', (msg) => {
+        setMessageList([...messageList, msg]);
+    })
+
+    socket.on('disconnected', (message) => {
+        setMessageList([...messageList, message]);
     })
 
     socket.on('message', (message) => {
@@ -17,7 +21,8 @@ const Chat = () => {
     })
 
     function handleInput (e) {
-        setInput(e.target.value)
+        setInput(e.target.value);
+        e.target.value = '';
     }
 
     function handleSend () {
@@ -32,7 +37,7 @@ const Chat = () => {
                 messageList.map(msg => <li>{msg}</li>)
             }
         </div>
-        <input type="text" onChange = {(e) => handleInput(e)}></input>
+        <input type="text" onBlur = {(e) => handleInput(e)}></input>
         <button onClick = {handleSend}>SEND</button>
     </div>
     </>

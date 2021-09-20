@@ -25,9 +25,9 @@ const ModeChoice = ({handleVsComp, handleSolo, handleMultiPlayer}) => {
     return (
     <div className="ModeChoice"> 
         <h1>How would you like to play?</h1>
-        <div className="start first"><Link to="/category-choice" className="startButton" onClick={handleSoloClick}>Play solo</Link></div>
-        <div className="start"><Link to="/category-choice" className="startButton" onClick={handleVsCompClick}>Play vs computer</Link></div>
-        <div className="start"><Link to="/game/animals" className="startButton"onClick = {handleMultiPlayerClick}>Play with friends</Link></div>
+        <Link to="/category-choice" className="start" onClick={handleSoloClick}><div className="startButton">Play solo</div></Link>
+        <Link to="/category-choice" className="start" onClick={handleVsCompClick}><div className="startButton">Play vs computer</div></Link>
+       <Link to="/game/animals" className="start"onClick = {handleMultiPlayerClick}><div className="startButton">Play with friends</div></Link>
     </div>
     )
 }

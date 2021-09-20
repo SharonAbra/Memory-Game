@@ -40,7 +40,7 @@ const Finish = ({finish, moves, handleRestart}) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleRestart} className="restartButton">RESTART</Button>
-          <Link to="/" className="btn myHomeButton">HOME</Link>
+          <Link to="/" className="btn myHomeButton" onClick={handleRestart}>HOME</Link>
         </DialogActions>
       </Dialog>
     </div>

@@ -26,19 +26,62 @@ app.get('/animals', (req,res)=> {
   })
 })
 
+// initialize variables for socket functionality
+
+let players = [];
+let current_turn = 0;
+let timeOut;
+let turn = 0;
+const MAX_WAITING = 10000;
+
+function next_turn(){
+  turn = current_turn++ % players.length;
+  console.log(turn)
+  players[turn].emit('your_turn');
+  console.log("next turn triggered " , turn);
+  triggerTimeout();
+}
+
+function triggerTimeout(){
+ timeOut = setTimeout(()=>{
+   next_turn();
+ },MAX_WAITING);
+}
+
+function resetTimeOut(){
+  if(typeof timeOut === 'object'){
+    console.log("timeout reset");
+    clearTimeout(timeOut);
+  }
+}
+
 io.on('connection', (socket) => {
-  console.log(socket.id)
   socket.on('user', (user) => {
-  socket.broadcast.emit(user);
-  })
+  socket.username = user;
+  players.push(socket)
+  console.log(players)
+  socket.emit ('welcome', (`Welcome ${user}!`))
+  socket.broadcast.emit('welcome', (`${user} has joined the game.`));
+  });
+  socket.on('disconnect', () => {
+    socket.broadcast.emit('disconnected', (`${socket.username} has disconnected.`));
+    players.splice(players.indexOf(socket),1);
+    turn--;
+    console.log(players)
+  });
   socket.on('message', (message) => {
-    io.emit('message', message);
-  })
-  // socket.emit('connection', 'WELCOME NEW USER!')
-  // socket.broadcast.emit('connection', `${socket.id} has now connected`)
+    io.emit('message', (`${socket.username}: ${message}`));
+  });
   socket.on('turn card', (item) => {
     socket.broadcast.emit('turn card', item);
   });
+  socket.on('pass_turn',function(){
+    io.emit('message', (`${players[turn]} is now playing`));
+    if(players[turn] == socket){
+       resetTimeOut();
+       next_turn();
+    }
+ })
 });
 
 server.listen(process.env.PORT)

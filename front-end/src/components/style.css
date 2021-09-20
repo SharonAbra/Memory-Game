@@ -11,6 +11,7 @@
    width: 50%;
    border-radius: 20px;
    margin-bottom: 30px;
+   text-decoration: none;
 }
 
 .start:hover {
@@ -47,15 +48,12 @@
   margin-top: 40px;
 }
 
-.first {
-  margin-top: 40px;
-}
-
 .startCategory {
   background-color: #9304be;
   border-radius: 20px;
   margin-bottom: 30px;
   padding: 20px;
+
 }
 
 .header {

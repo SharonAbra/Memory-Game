@@ -20,7 +20,8 @@ const CardList = (props) => {
 
     useEffect(() => {
       if (turnedCards.length === 2) {
-        setTimeout(checkMatch, 700)
+        setTimeout(checkMatch, 700);
+        socket.emit('pass_turn');
     }
     }, [turnedCards])
 
@@ -54,11 +55,8 @@ const CardList = (props) => {
 }, [compTurn])
 
 const handleSocketInfo = () => {
-  // toggleDisable();
     socket.on('turn card', (item) => {
-      console.log(item);
       const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
-      console.log(flippedCardIndex);
       if (flippedCardIndex > -1) {
         handleCardClick(flippedCardIndex, item.id);
       }
@@ -68,13 +66,26 @@ const handleSocketInfo = () => {
 useEffect(() => {
   setTimeout(() => {
   if (gameMode === "Playing with Friends" && cards.length > 0) {
-    let user = prompt('Welcome! what is your name?')
+    let user = '';
+    while (user === '') {
+      user = prompt('Welcome! what is your name?')
+    }
+    // do I need handleUser?
+    //can I move this part to chat?
+    // toggleDisable();
     handleUser(user)
     handleSocketInfo();
     socket.emit('user', user)
   }
 }, 500)
 }, [cards])
+
+// useEffect(() => {
+//   socket.on('your_turn', () => {
+//     console.log('your turn')
+//     toggleDisable();
+//   })
+// })
 
 let pairList = [];
     return (
