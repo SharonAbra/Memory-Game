@@ -1,65 +1,89 @@
-import React,{ useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux'
-// import  { SocketContext } from '../contexts/Socket.js';
-// import  { socket } from '../contexts/Socket.js';
-// import useSocket from 'use-socket.io-client';
-import socket from '../modules/Socket.js';
-import ProgressBar from 'react-bootstrap/ProgressBar';
+import React, { useEffect, useState, useRef } from "react";
+import socket from "../modules/Socket.js";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import { toggleDisable } from "../redux/actions.js";
 
-const Chat = () => {
-    // const socket = React.useContext(SocketContext);
-    const [ input, setInput ] = useState()
-    const [ messageList , setMessageList ] = useState([])
-    const [ time, setTime ] = useState(100)
-    // const user = useSelector(state => state.user);
+function Chat() {
+  const [input, setInput] = useState();
+  const [messageList, setMessageList] = useState([]);
+  const [time, setTime] = useState(100);
+  const timeRef = useRef(time);
+  useEffect(() => timeRef.current = time, [time]); 
+    const countdown = useRef(null);
+  const [yourTurn, setYourTurn] = useState(false);
 
-    socket.on('welcome', (msg) => {
-        setMessageList([...messageList, msg]);
-    })
+  useEffect(() => {
+    socket.on("welcome", (message) => {
+      console.log(message);
+      setMessageList((list) => [...list, message]);
+    });
+  }, []);
 
-    socket.on('disconnected', (message) => {
-        setMessageList([...messageList, message]);
-    })
+  useEffect(() => {
+    socket.on("disconnected", (message) =>
+      setMessageList((list) => [...list, message])
+    );
+  }, []);
 
-    socket.on('message', (message) => {
-        setMessageList([...messageList, message]);
-    })
+  useEffect(() => {
+    socket.on("message", (message) =>
+      setMessageList((list) => [...list, message])
+    );
+  }, []);
 
-    socket.on('next', (message) => {
-        setMessageList([...messageList, message]);
-    })
+  useEffect(() => {
+    socket.on("next", (message) =>
+      setMessageList((list) => [...list, message])
+    );
+  }, []);
 
-    function handleInput (e) {
-        setInput(e.target.value);
-        e.target.value = '';
-    }
+  function handleInput(e) {
+    setInput(e.target.value);
+    e.target.value = "";
+  }
 
-    function handleSend () {
-        socket.emit('message', input)
-    }
+  function handleSend() {
+    socket.emit("message", input);
+  }
 
-    socket.on('your_turn', (message) => {
-        setMessageList([...messageList, message]);
-        const countdown = setInterval(function() {
-            setTime(time => time -10);
-        },1000);
-        return () => clearInterval(countdown);
-    })
+  useEffect(() => {
+    socket.on("your_turn", () => {
+      setYourTurn(true);
+      toggleDisable();
 
+        if(countdown.current){
+            clearInterval(countdown.current);
+        }
 
-    return (
-    <> 
-   <div className="chatContainer">
+      countdown.current = setInterval(() => {
+        if (timeRef.current > 0) {
+          setTime((time) => time - 10);
+        } else {
+          console.log("my turn ended");
+          clearInterval(countdown.current);
+          setTime(100);
+          setYourTurn(false);
+          toggleDisable();
+          socket.emit("pass_turn");
+        }
+      }, 1000);
+    });
+  });
+
+  return (
+    <>
+      <div className="chatContainer">
         <div className="chat">
-            {
-                messageList.map((msg, i) => <li key={i}>{msg}</li>)
-            }
+          {messageList.map((msg, i) => <li key={i}>{msg}</li>)}
         </div>
-        <ProgressBar animated now={time}/>
-        <input type="text" onBlur = {(e) => handleInput(e)}></input>
-        <button onClick = {handleSend}>SEND</button>
-    </div>
+        {yourTurn && <div>
+            <h2>YOUR TURN! {time}</h2>
+            <ProgressBar animated now={time} />
+          </div>}
+        <input type="text" onBlur={(e) => handleInput(e)}></input>
+        <button onClick={handleSend}>SEND</button>
+      </div>
     </>
-    ) 
+  );
 }
 export default Chat;

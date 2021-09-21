@@ -2,21 +2,13 @@ import { connect } from 'react-redux';
 import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable, handleUser} from '../redux/actions.js'
 import React,{ useEffect, useState } from 'react';
 import CardBody from './CardBody';
-import { Container, Col, Row,  ProgressBar } from 'react-bootstrap';
-// import ProgressBar from 'react-bootstrap/ProgressBar'
-// import useSocket from 'use-socket.io-client';
-
-// import  { socket } from '../contexts/Socket.js';
-// import io from "socket.io-client";
+import { Container, Col, Row } from 'react-bootstrap';
 import socket from '../modules/Socket.js'
 
 const CardList = (props) => {
-    // const socket = React.useContext(SocketContext);
     const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
     const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"))
     const [ firstUser, setFirstUser ] = useState(false);
-    // const [socket, setSocket] = useState(null);
-    // const [socket] = useSocket('http://localhost:4000')
     
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -34,48 +26,51 @@ const CardList = (props) => {
 
     const chooseRandomCard = () => {
       let randomCard;
-      const rLength = cards.length-1;
+      const rLength = cards.length - 1;
       do {
-        randomCard = pairList[Math.floor(Math.random()*rLength)];
-      }
-      while (matchingCards.includes(randomCard.i) && turnedCards.includes(randomCard.i))
-    return randomCard;
-    }
+        randomCard = pairList[Math.floor(Math.random() * rLength)];
+      } while (
+        matchingCards.includes(randomCard.i) &&
+        turnedCards.includes(randomCard.i)
+      );
+      return randomCard;
+    };
 
     useEffect(() => {
       if (gameMode === "Playing vs Computer" && compTurn) {
         setTimeout(() => {
-          const randomCard = chooseRandomCard(); 
-          computerMove(randomCard);   
-      }, 700)
-      setTimeout(() => {
-        const randomCard = chooseRandomCard(); 
-        computerMove(randomCard);
-    }, 1500)
-  }
-}, [compTurn])
+          const randomCard = chooseRandomCard();
+          computerMove(randomCard);
+        }, 700);
+        setTimeout(() => {
+          const randomCard = chooseRandomCard();
+          computerMove(randomCard);
+        }, 1500);
+      }
+    }, [compTurn]);
 
 useEffect(() => {
   setTimeout(() => {
-  if (gameMode === "Playing with Friends" && cards.length > 0) {
-    toggleDisable();
-    let user = '';
-    while (user === '') {
-      user = prompt('Welcome! what is your name?')
-    }
-    // do I need handleUser?
-    //can I move this part to chat?
-    handleUser(user)
-    handleSocketInfo();
-    socket.emit('user', user)
-    socket.on('user turn', (number) => {
-      if (number === 0) {
-        setFirstUser(true);
+    if (gameMode === "Playing with Friends" && cards.length > 0) {
+      // prevent player from playing
+      toggleDisable();
+      let user = "";
+      while (user === "") {
+        user = prompt("Welcome! what is your name?");
       }
-    })
-  }
-}, 500)
-}, [cards])
+      // do I need handleUser?
+      //can I move this part to chat?
+      handleUser(user);
+      handleSocketInfo();
+      socket.emit("user", user);
+      socket.on("user turn", (number) => {
+        if (number === 0) {
+          setFirstUser(true);
+        }
+      });
+    }
+  }, 500);
+}, [cards]);
 
 const handleSocketInfo = () => {
   socket.on('turn card', (item) => {
@@ -94,6 +89,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (firstUser === true){
+  // allow player to play
     toggleDisable();
   }
 }, [firstUser])
@@ -133,7 +129,6 @@ let pairList = [];
           }
         </Row>
       </Container>
-      {/* <button onClick={handleSocketInfo}>Start Playing with Friends</button> */}
       </>
     )
   }

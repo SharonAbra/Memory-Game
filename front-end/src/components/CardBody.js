@@ -1,21 +1,17 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
-import { handleCardClick } from '../redux/actions';
-// import  { socket } from '../contexts/Socket.js';
-// import  { SocketContext } from '../contexts/Socket.js';
-// import { Socket } from 'socket.io-client';
-// import useSocket from 'use-socket.io-client';
+import { handleCardClick, toggleDisable } from '../redux/actions';
 import socket from '../modules/Socket.js'
 
 const CardBody = (props) => {
-  const { card, isTurned, isInactive, isDisabled, type, id, i, handleCardClick } = props;
+  const { card, isTurned, isInactive, isDisabled, type, id, i, handleCardClick, toggleDisable } = props;
   const turnedCards = useSelector(state => state.turnedCards);
-  // const socket = React.useContext(SocketContext);
   const gameMode = localStorage.getItem("gameMode");
 
     const handleClick = () => {
       if (turnedCards.length === 1) {
         socket.emit('pass_turn');
+        toggleDisable();
       }
       handleCardClick(i, id);
       if (gameMode === "Playing with Friends") {
@@ -63,7 +59,8 @@ const CardBody = (props) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      handleCardClick: (i, id) => dispatch(handleCardClick(i, id))
+      handleCardClick: (i, id) => dispatch(handleCardClick(i, id)),
+      toggleDisable: () => dispatch(toggleDisable())
     }
   }
 
