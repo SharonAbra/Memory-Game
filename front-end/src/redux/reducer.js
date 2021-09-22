@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, USER } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE} from './Constants';
 
 const initialState = {
     cards: [],
@@ -12,13 +12,10 @@ const initialState = {
     compTurn: false,
     computerMatches: 0,
     userMatches: 0
-    // user: ''
 }
 
 const reducer = (state=initialState,action={}) => {
     switch(action.type) {
-        case USER:
-            return {...state, user: action.payload}
         case FETCHCARDS:
             return {...state, cards:action.payload}
         case SETCATEGORY:

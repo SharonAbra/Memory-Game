@@ -1,164 +1,160 @@
-import { connect } from 'react-redux';
-import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable, handleUser} from '../redux/actions.js'
 import React,{ useEffect, useState } from 'react';
-import CardBody from './CardBody';
-import { Container, Col, Row } from 'react-bootstrap';
-import socket from '../modules/Socket.js'
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { Container, Col, Row } from 'react-bootstrap';
+import CardBody from './CardBody';
+import socket from '../modules/Socket.js'
+import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable} from '../redux/actions.js'
 
-const CardList = (props) => {
-    const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, computerMove, compTurn, toggleDisable } = props;
-    const gameMode = localStorage.getItem("gameMode");
-    const [ firstUser, setFirstUser ] = useState(false);
-    let history = useHistory();
-    
-    const isInactive = (i) => {
-      return matchingCards.includes(i)
-    }
+export default function CardList ({ cards }) {
 
-    const isTurned = (i) => {
-      return turnedCards.includes(i);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const turnedCards = useSelector(state => state.turnedCards);
+  const matchingCards = useSelector(state => state.matchingCards);
+  const disable = useSelector(state => state.disable);
+  const compTurn = useSelector(state => state.compTurn);
+  const [ firstUser, setFirstUser ] = useState(false);
+  const gameMode = localStorage.getItem("gameMode");
+  const pairList = [];
+  
+  // this will be sent to the card in the props, and will control it's individual css
+  const isInactive = (i) => {
+    return matchingCards.includes(i)
+  }
+
+  // this will be sent to the card in the props, and will control it's individual css
+  const isTurned = (i) => {
+    return turnedCards.includes(i);
+  }
+
+  // when two cards are turned, dispatch the action that checks for a match between two cards.
+  useEffect(() => {
+    if (turnedCards.length === 2) {
+      setTimeout(() => {
+        dispatch(checkMatch())
+      }, 700);
     }
- 
+  }, [turnedCards])
+
+  // when to cards match, dispatch the action that checks if all the board is matched
+  useEffect(() => {
+    if (cards.length > 0 && matchingCards.length > 0) {
+      dispatch(checkFinish());
+    }
+  }, [matchingCards])
+
+    // function to manage the game vs computer
     useEffect(() => {
-      if (cards.length > 0 && matchingCards.length > 0) {
-      checkFinish();
-      }
-    }, [matchingCards])
-
-      useEffect(() => {
-      // push matching to a local list
-      let localMatches =[...matchingCards, 100];
-      let localTurned = [];
-      if (gameMode === "Playing vs Computer" && compTurn && localMatches.length < pairList.length+2) {
-        setTimeout(() => {
-          let randomCard = {i:100, id:100};
-          while (localMatches.includes(randomCard.i)) {
+    // push matching to a local list
+    let localMatches =[...matchingCards, 100];
+    let localTurned = [];
+    if (gameMode === "Playing vs Computer" && compTurn && localMatches.length < pairList.length+2) {
+      setTimeout(() => {
+        let randomCard = {i:100, id:100};
+        while (localMatches.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
-    }
-          localTurned.push(randomCard.i);
-          console.log(randomCard)
-          computerMove(randomCard);
-        }, 700);
-        setTimeout(() => {
-          let randomCard = {i:100, id:100};
-          let localMatches =[...matchingCards, 100];
-          while (localMatches.includes(randomCard.i) || localTurned.includes(randomCard.i)) {
+        }
+        localTurned.push(randomCard.i);
+        dispatch(computerMove(randomCard));
+      }, 700);
+      setTimeout(() => {
+        let randomCard = {i:100, id:100};
+        let localMatches =[...matchingCards, 100];
+        while (localMatches.includes(randomCard.i) || localTurned.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
+        }
+        dispatch(computerMove(randomCard));
+      }, 1500);
     }
-          console.log(randomCard)
-          computerMove(randomCard);
-        }, 1500);
-      }
-    }, [compTurn, matchingCards]);
+  }, [compTurn, matchingCards]);
 
-useEffect(() => {
-  setTimeout(() => {
-    if (gameMode === "Playing with Friends" && cards.length > 0) {
-      // prevent player from playing
-      toggleDisable();
-      let user = "";
-      while (user === "") {
-        user = prompt("Welcome! what is your name?");
+  // take care of me *****************************************************************
+  // this needs to run only once
+  // change prompt to dialog box
+  // function to manage the multi-player mode
+  useEffect(() => {
+    // const timer = setTimeout(() => {
+      if (gameMode === "Playing with Friends" && cards.length > 0) {
+        // prevent player from playing
+        dispatch(toggleDisable());
+        let user = "";
+        while (user === "") {
+          user = prompt("Welcome! what is your name?");
+        }
+        if (user === null) {
+          history.push("/");
+        } else {
+        //can I move this part to chat?
+          handleSocketInfo();
+          socket.emit("user", user);
+          // determine if this player is the first socket that connected
+          socket.on("user turn", (number) => {
+            if (number === 0) {
+              setFirstUser(true);
+            }
+          });
+        }
       }
-      if (user === null) {
-        history.push("/");
-      } else {
-      //can I move this part to chat?
-        handleSocketInfo();
-        socket.emit("user", user);
-        socket.on("user turn", (number) => {
-          if (number === 0) {
-            setFirstUser(true);
-          }
-        });
-    }
+    // }, 50);
+    // return () => {
+    //   clearTimeout(timer);
+    // }
+  }, [cards]);
+
+
+  // in multi-player mode, allow first player to play
+  useEffect(() => {
+    if (firstUser === true){
+    dispatch(toggleDisable());
   }
-  }, 50);
-}, [cards]);
+  }, [firstUser])
 
-const handleSocketInfo = () => {
-  socket.on('turn card', (item) => {
-    const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
-    if (flippedCardIndex > -1) {
-      handleCardClick(flippedCardIndex, item.id);
-    }
-  })
+  // function to execute the cards that were flipped by other sockets
+  const handleSocketInfo = () => {
+    socket.on('turn card', (item) => {
+      const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
+      if (flippedCardIndex > -1) {
+        dispatch(handleCardClick(flippedCardIndex, item.id));
+      }
+    })
+  }
+
+  return (
+    <Container>
+      <Row>
+        {
+        // determine if the card will hold a text or an image
+        cards.map((card, i) => {
+          pairList.push({i:i, id:card.id})
+          let data = '';
+          // undefined means this item holds an image url
+          if (card.name === undefined) {
+            data = card.url;
+          } else {
+            // item holds text
+            data = card.name;
+          }
+
+          return (
+            <Col key={i} xs={2}>
+              <CardBody
+              // key is unique for each card, and is used to control its individual css
+                key={i}
+                card={data}
+                id={card.id}
+                type={card.type}
+              // id is shared by two identical cards, and is used to determine a match
+                i={i}
+                isDisabled={disable}
+                isInactive={isInactive(i)}
+                isTurned={isTurned(i)}
+              />
+            </Col>
+          );
+        })
+        }
+      </Row>
+    </Container>
+  )
 }
-
-useEffect(() => {
-  if (turnedCards.length === 2) {
-    setTimeout(checkMatch, 700);
-  }
-}, [turnedCards])
-
-useEffect(() => {
-  if (firstUser === true){
-  // allow player to play
-    toggleDisable();
-  }
-}, [firstUser])
-
-let pairList = [];
-    return (
-      <>
-      <Container>
-        <Row>
-          {
-            cards.map((card, i) => {
-              pairList.push({i:i, id:card.id})
-              let data = '';
-              if (card.name === undefined) {
-                data = card.url;
-              } else {
-                data = card.name;
-              }
-   
-              return (
-                <Col key={i} xs={2}>
-                  <CardBody
-                  // key is unique for each card
-                    key={i}
-                    card={data}
-                    id={card.id}
-                    type ={card.type}
-                   // id is shared by two identical cards
-                    i = {i}
-                    isDisabled={disable}
-                    isInactive={isInactive(i)}
-                    isTurned={isTurned(i)}
-                  />
-                </Col>
-              );
-            })
-          }
-        </Row>
-      </Container>
-      </>
-    )
-  }
-
-  const mapStateToProps = (state) => {
-    return {
-      turnedCards: state.turnedCards,
-      turnedCardsId: state.turnedCardsId,
-      matchingCards: state.matchingCards,
-      disable: state.disable,
-      vsComp: state.vsComp,
-      compTurn: state.compTurn,
-      multiPlayer: state.multiPlayer
-    }
-  }
-
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      checkMatch: () => dispatch(checkMatch()),
-      checkFinish: () => dispatch(checkFinish()),
-      computerMove: (i) => dispatch(computerMove(i)), 
-      handleCardClick: (i, id) => dispatch(handleCardClick(i, id)),
-      toggleDisable: () => dispatch(toggleDisable()),
-      handleUser: (user) => dispatch(handleUser(user))
-    }
-  }
-
-  export default connect(mapStateToProps, mapDispatchToProps)(CardList);

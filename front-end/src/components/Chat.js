@@ -99,12 +99,6 @@ function Chat({ toggleDisable }) {
           <h2>{next}</h2>
         </div>
         }
-        {/* {yourTurn && (
-          <div className="turnManager">
-            <h2>YOUR TURN!</h2>
-            <ProgressBar animated now={time} />
-          </div>
-        )} */}
       </div>
     </>
   );

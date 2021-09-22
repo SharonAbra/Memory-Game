@@ -1,69 +1,56 @@
-import React from 'react';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleCardClick, toggleDisable } from '../redux/actions';
 import socket from '../modules/Socket.js'
 
-const CardBody = (props) => {
-  const { card, isTurned, isInactive, isDisabled, type, id, i, handleCardClick, toggleDisable } = props;
+export default function CardBody ({ card, isTurned, isInactive, isDisabled, type, id, i}) {
+  const dispatch = useDispatch();
   const turnedCards = useSelector(state => state.turnedCards);
   const gameMode = localStorage.getItem("gameMode");
 
-    const handleClick = () => {
-      if (turnedCards.length === 1) {
-        socket.emit('pass_turn');
-        toggleDisable();
-      }
-      handleCardClick(i, id);
-      if (gameMode === "Playing with Friends") {
-        socket.emit('turn card', {id: id, type: type})
-      }
+  function handleClick () {
+    if (turnedCards.length === 1) {
+      socket.emit('pass_turn');
+      dispatch(toggleDisable());
     }
-
-    if (card.includes('png')) {
-      return (
-        <> 
-              <div
-              id = {id}
-              type = {type}
-              className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
-              onClick={handleClick}
-              >
-                <div 
-                className="card-face front">
-                  <img src={card} height="90%" alt=""></img>
-                </div>
-                <div className="card-face back"> <h3>{id}</h3>
-                </div>
-              </div>
-        </>
-      )
-    } else {
-      return (
-        <> 
-              <div
-              id = {id}
-              className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
-              onClick={handleClick}
-              >
-                <div 
-                className="card-face front">
-                  <span>{card}</span>
-                </div>
-                <div className="card-face back"> <h3>{id}</h3>
-                </div>
-              </div>
-        </>
-      )
+    dispatch(handleCardClick(i, id));
+    if (gameMode === "Playing with Friends") {
+      socket.emit('turn card', {id: id, type: type})
     }
   }
 
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      handleCardClick: (i, id) => dispatch(handleCardClick(i, id)),
-      toggleDisable: () => dispatch(toggleDisable())
-    }
+  if (card.includes('png')) {
+    return (
+      <> 
+            <div
+            id = {id}
+            type = {type}
+            className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
+            onClick={handleClick}
+            >
+              <div 
+              className="card-face front">
+                <img src={card} height="90%" alt=""></img>
+              </div>
+              <div className="card-face back"> <h3>{id}</h3>
+              </div>
+            </div>
+      </>
+    )
+  } else {
+    return (
+      <div
+      onClick={handleClick}
+      id = {id}
+      className = {
+        `cardBody ${isTurned ? "is-turned" : ""}
+        ${isInactive ? "is-inactive" : ""}
+        ${isDisabled ? "is-disabled" : ""}`
+      }
+      >
+        <div className="card-face front"><span>{card}</span></div>
+        <div className="card-face back"> <h3>{id}</h3></div>
+      </div>
+    )
   }
-
-  export default connect(null, mapDispatchToProps)(CardBody);
-
+}
   
