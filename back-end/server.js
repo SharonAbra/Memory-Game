@@ -41,12 +41,10 @@ function next_turn() {
   if (current_turn <= players.length - 1) {
     io.emit("next", `${players[current_turn].username} is now playing`);
     players[current_turn].emit("your_turn", current_turn);
-    console.log("next turn triggered ", current_turn);
   }
 }
 
 io.on("connection", (socket) => {
-  console.log(socket.id);
   socket.on("user", (user) => {
     socket.username = user;
     players.push(socket);
@@ -66,7 +64,7 @@ io.on("connection", (socket) => {
       players.splice(index, 1);
       if (index === current_turn) {
         current_turn = index >= players.length - 1 ? 0 : current_turn++;
-        io.emit("next", `${players[current_turn].username} is now playing`);
+        // io.emit("next", `${players[current_turn].username} is now playing`);
         players[current_turn].emit("your_turn", current_turn);
       }
     }
@@ -77,13 +75,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("turn card", (item) => {
-    console.log("a card is turned");
     socket.broadcast.emit("turn card", item);
   });
 
   socket.on("pass_turn", function () {
     if (players[current_turn] == socket) {
-      console.log("a second card is turned");
       next_turn();
     }
   });

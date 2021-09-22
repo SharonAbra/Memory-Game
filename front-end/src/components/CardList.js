@@ -69,7 +69,7 @@ useEffect(() => {
         }
       });
     }
-  }, 500);
+  }, 50);
 }, [cards]);
 
 const handleSocketInfo = () => {
