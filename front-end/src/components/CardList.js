@@ -7,8 +7,9 @@ import socket from '../modules/Socket.js'
 
 const CardList = (props) => {
     const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
-    const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"))
+    const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"));
     const [ firstUser, setFirstUser ] = useState(false);
+    const [ compFlipList, setCompFlipList ] = useState([]);
     
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -24,30 +25,50 @@ const CardList = (props) => {
       }
     }, [matchingCards])
 
-    const chooseRandomCard = () => {
-      let randomCard;
-      const rLength = cards.length - 1;
-      do {
-        randomCard = pairList[Math.floor(Math.random() * rLength)];
-      } while (
-        matchingCards.includes(randomCard.i) &&
-        turnedCards.includes(randomCard.i)
-      );
-      return randomCard;
-    };
+  // function chooseRandomCard() {
+  //   let randomCard = 100;
+  //   while (matchingCards.includes(randomCard)) {
+  //     randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
+  //   }
+  //   return randomCard;
+  // };
+
+     // const chooseRandomCard = () => {
+    //   let randomCard;
+    //   const rLength = cards.length - 1;
+    //   do {
+    //     randomCard = pairList[Math.floor(Math.random() * rLength)];
+    //   } while (
+    //     matchingCards.includes(randomCard.i) &&
+    //     turnedCards.includes(randomCard.i)
+    //   );
+    //   return randomCard;
+    // };
 
     useEffect(() => {
+      // push matching to a local list
+      let localMatches =[...matchingCards, 100];
+      // console.log(localMatches)
       if (gameMode === "Playing vs Computer" && compTurn) {
         setTimeout(() => {
-          const randomCard = chooseRandomCard();
+          let randomCard = {i:100, id:100};
+          while (localMatches.includes(randomCard.i)) {
+          randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
+    }
+          console.log(randomCard)
           computerMove(randomCard);
         }, 700);
         setTimeout(() => {
-          const randomCard = chooseRandomCard();
+          let randomCard = {i:100, id:100};
+          let localMatches =[...matchingCards, 100];
+          while (localMatches.includes(randomCard.i)) {
+          randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
+    }
+          console.log(randomCard)
           computerMove(randomCard);
         }, 1500);
       }
-    }, [compTurn]);
+    }, [compTurn, matchingCards]);
 
 useEffect(() => {
   setTimeout(() => {
