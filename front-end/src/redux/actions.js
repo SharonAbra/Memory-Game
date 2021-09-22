@@ -1,8 +1,8 @@
 import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE, USER } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
-    fetch(`https://memory-game-g.herokuapp.com/${category}`)
-    // fetch(`http://localhost:4000/${category}`)
+    // fetch(`https://memory-game-g.herokuapp.com/${category}`)
+    fetch(`http://localhost:4000/${category}`)
     .then(res => res.json())
     .then(data => {
         dispatch({type:FETCHCARDS, payload:data})

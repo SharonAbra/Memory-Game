@@ -7,10 +7,9 @@ import socket from '../modules/Socket.js'
 import { useHistory } from "react-router-dom";
 
 const CardList = (props) => {
-    const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
-    const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"));
+    const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, computerMove, compTurn, toggleDisable } = props;
+    const gameMode = localStorage.getItem("gameMode");
     const [ firstUser, setFirstUser ] = useState(false);
-    const [ compFlipList, setCompFlipList ] = useState([]);
     let history = useHistory();
     
     const isInactive = (i) => {
@@ -31,7 +30,7 @@ const CardList = (props) => {
       // push matching to a local list
       let localMatches =[...matchingCards, 100];
       let localTurned = [];
-      if (gameMode === "Playing vs Computer" && compTurn && localMatches.length <= pairList.length) {
+      if (gameMode === "Playing vs Computer" && compTurn && localMatches.length < pairList.length+2) {
         setTimeout(() => {
           let randomCard = {i:100, id:100};
           while (localMatches.includes(randomCard.i)) {

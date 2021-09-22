@@ -46,7 +46,6 @@ function Chat({ toggleDisable }) {
 
   function handleInput(e) {
     setInput(e.target.value);
-    console.log(input)
   }
 
   function handleSend(e) {
