@@ -4,12 +4,14 @@ import React,{ useEffect, useState } from 'react';
 import CardBody from './CardBody';
 import { Container, Col, Row } from 'react-bootstrap';
 import socket from '../modules/Socket.js'
+import { useHistory } from "react-router-dom";
 
 const CardList = (props) => {
     const { cards, turnedCards, matchingCards, disable, handleCardClick, checkMatch, checkFinish, vsComp, computerMove, compTurn, multiPlayer, toggleDisable } = props;
     const [ gameMode, setGameMode ] = useState(localStorage.getItem("gameMode"));
     const [ firstUser, setFirstUser ] = useState(false);
     const [ compFlipList, setCompFlipList ] = useState([]);
+    let history = useHistory();
     
     const isInactive = (i) => {
       return matchingCards.includes(i)
@@ -25,43 +27,24 @@ const CardList = (props) => {
       }
     }, [matchingCards])
 
-  // function chooseRandomCard() {
-  //   let randomCard = 100;
-  //   while (matchingCards.includes(randomCard)) {
-  //     randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
-  //   }
-  //   return randomCard;
-  // };
-
-     // const chooseRandomCard = () => {
-    //   let randomCard;
-    //   const rLength = cards.length - 1;
-    //   do {
-    //     randomCard = pairList[Math.floor(Math.random() * rLength)];
-    //   } while (
-    //     matchingCards.includes(randomCard.i) &&
-    //     turnedCards.includes(randomCard.i)
-    //   );
-    //   return randomCard;
-    // };
-
-    useEffect(() => {
+      useEffect(() => {
       // push matching to a local list
       let localMatches =[...matchingCards, 100];
-      // console.log(localMatches)
-      if (gameMode === "Playing vs Computer" && compTurn) {
+      let localTurned = [];
+      if (gameMode === "Playing vs Computer" && compTurn && localMatches.length <= pairList.length) {
         setTimeout(() => {
           let randomCard = {i:100, id:100};
           while (localMatches.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
     }
+          localTurned.push(randomCard.i);
           console.log(randomCard)
           computerMove(randomCard);
         }, 700);
         setTimeout(() => {
           let randomCard = {i:100, id:100};
           let localMatches =[...matchingCards, 100];
-          while (localMatches.includes(randomCard.i)) {
+          while (localMatches.includes(randomCard.i) || localTurned.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
     }
           console.log(randomCard)
@@ -79,17 +62,19 @@ useEffect(() => {
       while (user === "") {
         user = prompt("Welcome! what is your name?");
       }
-      // do I need handleUser?
+      if (user === null) {
+        history.push("/");
+      } else {
       //can I move this part to chat?
-      handleUser(user);
-      handleSocketInfo();
-      socket.emit("user", user);
-      socket.on("user turn", (number) => {
-        if (number === 0) {
-          setFirstUser(true);
-        }
-      });
+        handleSocketInfo();
+        socket.emit("user", user);
+        socket.on("user turn", (number) => {
+          if (number === 0) {
+            setFirstUser(true);
+          }
+        });
     }
+  }
   }, 50);
 }, [cards]);
 

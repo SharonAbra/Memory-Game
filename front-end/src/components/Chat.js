@@ -12,9 +12,10 @@ function Chat({ toggleDisable }) {
   useEffect(() => (timeRef.current = time), [time]);
   const countdown = useRef(null);
   const [yourTurn, setYourTurn] = useState(false);
+  const [ next, setNext ] = useState('')
 
   useEffect(() => {
-    if (messageList.length > 10) {
+    if (messageList.length > 8) {
       messageList.splice(0,1)
     }
   }, [messageList])
@@ -39,7 +40,7 @@ function Chat({ toggleDisable }) {
 
   useEffect(() => {
     socket.on("next", (message) =>
-      setMessageList((list) => [...list, message])
+      setNext(message)
     );
   }, []);
 
@@ -65,7 +66,7 @@ function Chat({ toggleDisable }) {
 
       countdown.current = setInterval(() => {
         if (timeRef.current > 0) {
-          setTime((time) => time - 10);
+          setTime((time) => time - 1);
         } else {
           clearInterval(countdown.current);
           setTime(100);
@@ -73,7 +74,7 @@ function Chat({ toggleDisable }) {
           toggleDisable();
           socket.emit("pass_turn");
         }
-      }, 1000);
+      }, 100);
     });
   });
 
@@ -85,16 +86,26 @@ function Chat({ toggleDisable }) {
             <li key={i}>{msg}</li>
           ))}
         </div>
-        {yourTurn && (
-          <div>
-            <h2>YOUR TURN!</h2>
-            <ProgressBar animated now={time} />
-          </div>
-        )}
         <form onSubmit = {(e) => handleSend(e)}>
           <input type="text" name="text" autoComplete="off" onChange={(e) => handleInput(e)}></input>
           <input type="submit" value="SEND"></input>
         </form>
+        {
+          yourTurn ? 
+          <div className="turnManager">
+            <h2>YOUR TURN!</h2>
+            <ProgressBar animated now={time} />
+          </div> :
+          <div className="turnManager">
+          <h2>{next}</h2>
+        </div>
+        }
+        {/* {yourTurn && (
+          <div className="turnManager">
+            <h2>YOUR TURN!</h2>
+            <ProgressBar animated now={time} />
+          </div>
+        )} */}
       </div>
     </>
   );

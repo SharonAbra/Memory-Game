@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { handleRestart } from '../redux/actions.js'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -20,7 +20,23 @@ function PaperComponent(props) {
   );
 }
 
-const Finish = ({finish, moves, handleRestart}) => {
+const Finish = ({finish, moves, handleRestart, userMatches, computerMatches}) => {
+  const gameMode = localStorage.getItem("gameMode");
+  const [ textOne, setTextOne ] = useState('');
+  const [ textTwo, setTextTwo ] = useState('');
+
+  useEffect(() => {
+    if (gameMode === "Playing Solo") {
+      setTextOne(`Well done! You matched them all in ${moves} moves!`)
+      setTextTwo('');
+    } else if ((gameMode === "Playing vs Computer")) {
+      setTextOne(`Your matches: ${userMatches}`);
+      setTextTwo(`Computer matches: ${computerMatches}`);
+    } else {
+      setTextOne(`Your matches: ${userMatches}`);
+        setTextTwo('');
+      }
+  }, [finish])
   return (
     <div>
       <Dialog
@@ -31,11 +47,12 @@ const Finish = ({finish, moves, handleRestart}) => {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Well Done!
+          Game Over!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            You've matched them all in {moves} moves!
+            <div>{textOne}</div>
+            <div>{textTwo}</div>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -48,7 +65,7 @@ const Finish = ({finish, moves, handleRestart}) => {
 }
 
   const mapStateToProps = (state) => {
-    return {finish:state.finish, moves:state.moves}
+    return {finish:state.finish, moves:state.moves, userMatches: state.userMatches, computerMatches: state.computerMatches}
   }
 
   const mapDispatchToProps = (dispatch) => {

@@ -39,7 +39,7 @@ function next_turn() {
   }
 
   if (current_turn <= players.length - 1) {
-    io.emit("next", `${players[current_turn].username} is now playing`);
+    io.emit("next", `${players[current_turn].username}'s turn.`);
     players[current_turn].emit("your_turn", current_turn);
   }
 }
@@ -65,7 +65,9 @@ io.on("connection", (socket) => {
       if (index === current_turn) {
         current_turn = index >= players.length - 1 ? 0 : current_turn++;
         // io.emit("next", `${players[current_turn].username} is now playing`);
-        players[current_turn].emit("your_turn", current_turn);
+        if (players.length > 0) {
+          players[current_turn].emit("your_turn", current_turn);
+        }
       }
     }
   });

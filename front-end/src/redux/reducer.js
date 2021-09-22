@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, VSCOMP, COMPUTERMOVE, SOLO, MULTI, TOGGLEDISABLE, USER } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, USER } from './Constants';
 
 const initialState = {
     cards: [],
@@ -9,23 +9,14 @@ const initialState = {
     disable: false,
     finish: false,
     moves: 0,
-    // gameMode: localStorage.getItem("gameMode"),
-    // solo: localStorage.getItem("solo"),
-    // vsComp: localStorage.getItem("vsComp"),
-    // multiPlayer: localStorage.getItem("multi"),
     compTurn: false,
-    computerMoves: 0,
-    user: ''
+    computerMatches: 0,
+    userMatches: 0
+    // user: ''
 }
 
 const reducer = (state=initialState,action={}) => {
     switch(action.type) {
-        // case SOLO:
-        //     return { ...state, solo:true, gameMode: 'Playing Solo'}
-        // case VSCOMP:
-        //     return { ...state, vsComp:true, gameMode: 'Playing vs Computer'}
-        // case MULTI:
-        // return {...state, multiPlayer: true, gameMode: 'Playing with friends'}
         case USER:
             return {...state, user: action.payload}
         case FETCHCARDS:
@@ -38,7 +29,11 @@ const reducer = (state=initialState,action={}) => {
                      turnedCards:[],
                      turnedCardsId:[],
                      finish:false,
-                     moves:0 }
+                     compTurn:false,
+                     moves:0,
+                    computerMatches:0,
+                    userMatches:0
+                    }
         case  HANDLECARDCLICK:
             if (state.turnedCards.length === 1) {
                 return { ...state, 
@@ -58,13 +53,29 @@ const reducer = (state=initialState,action={}) => {
             const [ cardOneId, cardTwoId ] = state.turnedCardsId;
             if (state.compTurn === false) {
                 if (cardOneId === cardTwoId) {
-                    return { ...state, matchingCards: [ ...state.matchingCards, cardOne, cardTwo], turnedCards:[], turnedCardsId:[], disable:false, compTurn:true }
+                    return { 
+                        ...state, 
+                        matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+                        turnedCards:[],
+                        turnedCardsId:[],
+                        disable:false,
+                        userMatches: state.userMatches+1,
+                        compTurn:true 
+                    }
                 } else {
                     return { ...state, turnedCards: [], disable:false, compTurn:true}
                 }
             } else {
                 if (cardOneId === cardTwoId) {
-                    return { ...state, matchingCards: [ ...state.matchingCards, cardOne, cardTwo], turnedCards:[], turnedCardsId:[], disable:false, compTurn:false }
+                    return {
+                        ...state,
+                        matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+                        turnedCards:[],
+                        turnedCardsId:[],
+                        computerMatches: state.computerMatches+1,
+                        disable:false,
+                        compTurn:false
+                    }
                 } else {
                     return { ...state, turnedCards: [], disable:false, compTurn:false}
                 }
