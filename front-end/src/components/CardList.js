@@ -13,7 +13,6 @@ export default function CardList ({ cards }) {
   const disable = useSelector(state => state.disable);
   const compTurn = useSelector(state => state.compTurn);
   const username = useSelector(state => state.username);
-  const multi = useSelector(state => state.multi);
   const [ firstUser, setFirstUser ] = useState(false);
   const gameMode = localStorage.getItem("gameMode");
   const pairList = [];
@@ -46,21 +45,25 @@ export default function CardList ({ cards }) {
 
     // function to manage the game vs computer
     useEffect(() => {
-    // push matching to a local list
+    // push matching to a local list with placeholder value
     let localMatches =[...matchingCards, 100];
     let localTurned = [];
-    if (gameMode === "Playing vs Computer" && compTurn && localMatches.length < pairList.length+2) {
+    // adding to the pairList length to include placeholder
+    if (gameMode === "Playing vs Computer" && compTurn && localMatches.length <= pairList.length+1) {
       setTimeout(() => {
+        // initialize a placeholder value to enable the while loop its first run
         let randomCard = {i:100, id:100};
         while (localMatches.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
         }
+        // push first card to prevent the computer from selecting it again.
         localTurned.push(randomCard.i);
         dispatch(computerMove(randomCard));
       }, 700);
       setTimeout(() => {
+        // do all of this again for the second card
         let randomCard = {i:100, id:100};
-        let localMatches =[...matchingCards, 100];
+        // let localMatches =[...matchingCards, 100];
         while (localMatches.includes(randomCard.i) || localTurned.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
         }

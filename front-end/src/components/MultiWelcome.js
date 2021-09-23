@@ -8,7 +8,6 @@ export default function MultiWelcome() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
-    // const multi = useSelector(state => state.multi);
     const gameMode = localStorage.getItem("gameMode");
 
     useEffect(() => {
@@ -37,18 +36,18 @@ export default function MultiWelcome() {
           keyboard={false}
           className = "center"
         >
-          <Modal.Header closeButton>
-            <Modal.Title>Welcome! Ready to play with your friends?</Modal.Title>
+          <Modal.Header closeButton className="modalBody modalText">
+            <Modal.Title><h1>Welcome!</h1></Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            What is your name?
+          <Modal.Body className="modalBody modalText">
+            What's your name?
             <form 
                 onSubmit = {(e) => handleForm(e)}>
-                <input type="text" name="username"></input>
-                <input type="submit" value="Let's Go!" className=" btn-primary"></input>
+                <input type="text" name="username"></input><br></br>
+                <input type="submit" value="Let's Go!" className="btn btn-primary"></input>
             </form>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer className="modalBody">
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>

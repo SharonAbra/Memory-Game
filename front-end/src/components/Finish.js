@@ -16,6 +16,7 @@ export default function Finish() {
   const gameMode = localStorage.getItem("gameMode");
 
   useEffect(() => {
+    // set the text of the modal according to chosen game mode
     if (gameMode === "Playing Solo") {
       setTextOne(`Well done! You matched them all in ${moves} moves!`)
       setTextTwo('');
@@ -45,20 +46,16 @@ export default function Finish() {
           keyboard={false}
           className = "center"
         >
-          <Modal.Header closeButton>
-            <Modal.Title>Game Over!</Modal.Title>
+          <Modal.Header closeButton className="modalBody">
+            <Modal.Title><h1 className="modalText">Game Over!</h1></Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="modalBody modalText">
             <div>{textOne}</div>
             <div>{textTwo}</div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={() => dispatch(handleRestart())}>
-              Restart
-            </Button>
-            <Button variant="primary" onClick={handleHome}>
-              Home
-            </Button>
+          <Modal.Footer className="modalBody">
+            <Button variant="primary" onClick={() => dispatch(handleRestart())}>Restart</Button>
+            <Button variant="secondary" onClick={handleHome}>Home</Button>
           </Modal.Footer>
         </Modal>
       </>

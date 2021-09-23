@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 
-const Start = () => {
-    return(
+export default function Start() {
+    return (
         <>
         <div className="home">
             <h1 className="welcome">Welcome to Memory Game!</h1>
@@ -13,5 +13,3 @@ const Start = () => {
         </>
     )
 }
-
-export default Start;

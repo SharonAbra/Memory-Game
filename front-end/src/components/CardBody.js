@@ -8,32 +8,36 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
   const gameMode = localStorage.getItem("gameMode");
 
   function handleClick () {
-    if (turnedCards.length === 1) {
-      socket.emit('pass_turn');
-      dispatch(toggleDisable());
-    }
     dispatch(handleCardClick(i, id));
     if (gameMode === "Playing with Friends") {
+      // send the other players information about the turned cards
       socket.emit('turn card', {id: id, type: type})
+      if (turnedCards.length === 1) {
+        // when second card is clicked, pass the turn
+        socket.emit('pass_turn');
+        // dispatch(toggleDisable());
+      }
     }
   }
 
   if (card.includes('png')) {
     return (
       <> 
-            <div
-            id = {id}
-            type = {type}
-            className = {`cardBody ${isTurned ? "is-turned" : ""} ${isInactive ? "is-inactive" : ""} ${isDisabled ? "is-disabled" : ""}`}
-            onClick={handleClick}
-            >
-              <div 
-              className="card-face front">
-                <img src={card} height="90%" alt=""></img>
-              </div>
-              <div className="card-face back"> <h3>{id}</h3>
-              </div>
-            </div>
+        <div
+        onClick={handleClick}
+        id = {id}
+        type = {type}
+        className = {`cardBody ${isTurned ? "is-turned" : ""}
+                    ${isInactive ? "is-inactive" : ""}
+                    ${isDisabled ? "is-disabled" : ""}`}
+        >
+          <div 
+          className="card-face front">
+            <img src={card} height="90%" alt=""></img>
+          </div>
+          <div className="card-face back"> <h3>{id}</h3>
+          </div>
+        </div>
       </>
     )
   } else {

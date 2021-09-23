@@ -1,9 +1,12 @@
 import React,{useEffect, useState} from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-function Header(props) {
-
-    const { moves, finish, category, computerMatches, userMatches} = props;
+export default function Header(props) {
+    const category = useSelector(state => state.category);
+    const moves = useSelector(state => state.moves);
+    const finish = useSelector(state=> state.finish);
+    const computerMatches = useSelector(state => state.computerMatches);
+    const userMatches = useSelector( state => state.userMatches);
     const gameMode = localStorage.getItem("gameMode");
     const [ bestScore, setBestScore ] = useState(
         JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY);
@@ -62,22 +65,8 @@ if (gameMode === "Playing Solo") {
                     <h4 className="instructions">Click on two cards to find a match!</h4>
                     <div className="information">
                         <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
-                        {/* <span>Your Matches: <b>{userMatches}</b></span> */}
                     </div>
                 </header>
             )
         }
   }
-  
-  const mapStateToProps = (state) => {
-    return {
-        category: state.category,
-            moves:state.moves, 
-            finish:state.finish, 
-            vsComp: state.vsComp, 
-            computerMatches: state.computerMatches,
-            userMatches: state.userMatches
-        }
-  }
-  
-  export default connect(mapStateToProps)(Header);

@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, MULTI, USERNAME} from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, USERNAME} from './Constants';
 
 const initialState = {
     cards: [],
@@ -7,12 +7,11 @@ const initialState = {
     turnedCardsId: [],
     matchingCards: [],
     disable: false,
-    finish: true,
+    finish: false,
     moves: 0,
     compTurn: false,
     computerMatches: 0,
     userMatches: 0,
-    // multi: false,
     username: ''
 }
 
@@ -50,35 +49,86 @@ const reducer = (state=initialState,action={}) => {
         case CHECKMATCH:
             const [ cardOne, cardTwo ] = state.turnedCards;
             const [ cardOneId, cardTwoId ] = state.turnedCardsId;
-            if (state.compTurn === false) {
-                if (cardOneId === cardTwoId) {
-                    return { 
-                        ...state, 
-                        matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
-                        turnedCards:[],
-                        turnedCardsId:[],
-                        disable:true,
-                        userMatches: state.userMatches+1,
-                        compTurn:true 
+
+            if (localStorage.getItem("gameMode") === "Playing vs Computer") {
+                // adjust reducer to include computer moves
+                if (state.compTurn === true) {
+                // actions to be taken when it is the computer's turn
+                    if (cardOneId === cardTwoId) {
+                        return {
+                            ...state,
+                            matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+                            turnedCards:[],
+                            turnedCardsId:[],
+                            computerMatches: state.computerMatches+1,
+                            disable:false,
+                            compTurn:false
+                        }
+                    } else {
+                        return { ...state, turnedCards: [], disable:false, compTurn:false}
                     }
                 } else {
-                    return { ...state, turnedCards: [], disable:true, compTurn:true}
+                // actions to be taken when it is not the computer's turn
+                    if (cardOneId === cardTwoId) {
+                        return { 
+                            ...state, 
+                            matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+                            turnedCards:[],
+                            turnedCardsId:[],
+                            disable:true,
+                            userMatches: state.userMatches+1,
+                            compTurn:true 
+                        }
+                    } else {
+                        return { ...state, turnedCards: [], disable:true, compTurn:true}
+                    }
                 }
             } else {
+                // actions to be taken in the case of a single player
                 if (cardOneId === cardTwoId) {
                     return {
                         ...state,
                         matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
                         turnedCards:[],
                         turnedCardsId:[],
-                        computerMatches: state.computerMatches+1,
                         disable:false,
-                        compTurn:false
                     }
                 } else {
-                    return { ...state, turnedCards: [], disable:false, compTurn:false}
+                    return { ...state, turnedCards: [], disable:false}
                 }
             }
+        // case CHECKMATCH:
+        //     const [ cardOne, cardTwo ] = state.turnedCards;
+        //     const [ cardOneId, cardTwoId ] = state.turnedCardsId;
+        //     if (state.compTurn === false) {
+        //         if (cardOneId === cardTwoId) {
+        //             return { 
+        //                 ...state, 
+        //                 matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+        //                 turnedCards:[],
+        //                 turnedCardsId:[],
+        //                 disable:true,
+        //                 userMatches: state.userMatches+1,
+        //                 compTurn:true 
+        //             }
+        //         } else {
+        //             return { ...state, turnedCards: [], disable:true, compTurn:true}
+        //         }
+        //     } else {
+        //         if (cardOneId === cardTwoId) {
+        //             return {
+        //                 ...state,
+        //                 matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+        //                 turnedCards:[],
+        //                 turnedCardsId:[],
+        //                 computerMatches: state.computerMatches+1,
+        //                 disable:false,
+        //                 compTurn:false
+        //             }
+        //         } else {
+        //             return { ...state, turnedCards: [], disable:false, compTurn:false}
+        //         }
+        //     }
         case CHECKFINISH:
             if (state.matchingCards.length === state.cards.length * 2) {
                 return { ...state, finish:true}
@@ -90,7 +140,6 @@ const reducer = (state=initialState,action={}) => {
                 return { ...state, 
                     turnedCards: [...state.turnedCards, action.payload[0]],
                     turnedCardsId: [...state.turnedCardsId, action.payload[1]],
-                    computerMoves: state.computerMoves+1
                 }
             } else {
                 return { ...state,
@@ -105,10 +154,7 @@ const reducer = (state=initialState,action={}) => {
             } else {
                 return {...state, disable: true}
             }
-        // case MULTI:
-        // return {...state, multi:true}
         case USERNAME:
-            // console.log(action.payload)
             return {...state, username: action.payload}
         default:
             return {...state}

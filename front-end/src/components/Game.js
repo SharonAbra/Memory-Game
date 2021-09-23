@@ -1,17 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import { setCategory } from '../redux/actions.js'
+import { useParams } from 'react-router';
 import Header from './Header';
 import MemoryGrid from "./MemoryGrid";
 import Finish from './Finish';
-import { useParams } from 'react-router';
-import { useEffect } from 'react';
 
-const Game = ({categoryFunc}) => {
+export default function Game ()  {
   const { category } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    categoryFunc(category);
+    dispatch(setCategory(category));
   }, [])
 
           return (
@@ -24,11 +24,3 @@ const Game = ({categoryFunc}) => {
         </>
       )
     }
-
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      categoryFunc: (category) => dispatch(setCategory(category))
-    }
-  }
-    export default connect(null, mapDispatchToProps)(Game);

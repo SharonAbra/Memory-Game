@@ -9,8 +9,8 @@ const server = http.createServer(app);
 const { Server, Socket } = require("socket.io");
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
-    // origin: "https://memory-game-english.herokuapp.com",
+    // origin: "http://localhost:3000",
+    origin: "https://memory-game-english.herokuapp.com",
     methods: ["GET", "POST"],
   },
 });
