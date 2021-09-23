@@ -6,3 +6,5 @@ export const SETCATEGORY = 'SETCATEGORY';
 export const FETCHCARDS = 'FETCHCARDS';
 export const COMPUTERMOVE = 'COMPUTERMOVE';
 export const TOGGLEDISABLE = 'TOGGLEDISABLE';
+export const MULTI = 'MULTI';
+export const USERNAME = 'USERNAME';

@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE} from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, MULTI, USERNAME} from './Constants';
 
 const initialState = {
     cards: [],
@@ -7,11 +7,13 @@ const initialState = {
     turnedCardsId: [],
     matchingCards: [],
     disable: false,
-    finish: false,
+    finish: true,
     moves: 0,
     compTurn: false,
     computerMatches: 0,
-    userMatches: 0
+    userMatches: 0,
+    // multi: false,
+    username: ''
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -55,12 +57,12 @@ const reducer = (state=initialState,action={}) => {
                         matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
                         turnedCards:[],
                         turnedCardsId:[],
-                        disable:false,
+                        disable:true,
                         userMatches: state.userMatches+1,
                         compTurn:true 
                     }
                 } else {
-                    return { ...state, turnedCards: [], disable:false, compTurn:true}
+                    return { ...state, turnedCards: [], disable:true, compTurn:true}
                 }
             } else {
                 if (cardOneId === cardTwoId) {
@@ -103,7 +105,11 @@ const reducer = (state=initialState,action={}) => {
             } else {
                 return {...state, disable: true}
             }
-            
+        // case MULTI:
+        // return {...state, multi:true}
+        case USERNAME:
+            // console.log(action.payload)
+            return {...state, username: action.payload}
         default:
             return {...state}
     }

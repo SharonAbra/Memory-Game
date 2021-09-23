@@ -1,29 +1,19 @@
-import { connect } from 'react-redux';
 import { handleRestart } from '../redux/actions.js'
 import React, { useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Paper from '@material-ui/core/Paper';
-import Draggable from 'react-draggable';
-import {Link} from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
 
-
-function PaperComponent(props) {
-  return (
-    <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
-
-const Finish = ({finish, moves, handleRestart, userMatches, computerMatches}) => {
-  const gameMode = localStorage.getItem("gameMode");
+export default function Finish() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const finish = useSelector(state => state.finish)
+  const moves = useSelector(state => state.moves)
+  const userMatches = useSelector(state => state.userMatches)
+  const computerMatches = useSelector(state => state.computerMatches)
   const [ textOne, setTextOne ] = useState('');
   const [ textTwo, setTextTwo ] = useState('');
+  const gameMode = localStorage.getItem("gameMode");
 
   useEffect(() => {
     if (gameMode === "Playing Solo") {
@@ -37,41 +27,40 @@ const Finish = ({finish, moves, handleRestart, userMatches, computerMatches}) =>
         setTextTwo('');
       }
   }, [finish])
-  return (
-    <div>
-      <Dialog
-        open={finish}
-        disableBackdropClick
-        disableEscapeKeyDown
-        PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title"
-      >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Game Over!
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+        
+  function handleClose () {
+    history.push("/");
+  }
+
+  function handleHome () {
+    history.push("/");
+  }
+
+    return (
+      <>
+        <Modal
+          show={finish}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+          className = "center"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Game Over!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <div>{textOne}</div>
             <div>{textTwo}</div>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleRestart} className="restartButton">RESTART</Button>
-          <Link to="/" className="btn myHomeButton" onClick={handleRestart}>HOME</Link>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
-
-  const mapStateToProps = (state) => {
-    return {finish:state.finish, moves:state.moves, userMatches: state.userMatches, computerMatches: state.computerMatches}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={() => dispatch(handleRestart())}>
+              Restart
+            </Button>
+            <Button variant="primary" onClick={handleHome}>
+              Home
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
   }
-
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      handleRestart: () => dispatch(handleRestart())
-    }
-  }
-
-  export default connect(mapStateToProps, mapDispatchToProps)(Finish);

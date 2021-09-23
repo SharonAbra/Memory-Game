@@ -1,6 +1,10 @@
 import {Link} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {handleMulti} from '../redux/actions.js'
 
 export default function ModeChoice () {
+
+    const dispatch = useDispatch();
 
     function handleSoloClick() {
         localStorage.setItem("gameMode", "Playing Solo")
@@ -12,6 +16,7 @@ export default function ModeChoice () {
 
     function handleMultiPlayerClick() {
         localStorage.setItem("gameMode", "Playing with Friends")
+        dispatch(handleMulti());
     };
 
     return (

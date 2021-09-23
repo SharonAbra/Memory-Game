@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchCards } from '../redux/actions.js'
 import CardList from './CardList';
 import Chat from './Chat';
+import MultiWelcome from './MultiWelcome';
 
 
 class MemoryGrid extends React.Component {
@@ -27,6 +28,7 @@ class MemoryGrid extends React.Component {
         <>
           
           <div className="game">
+            <MultiWelcome/>
             <Chat/>
             <CardList cards={shuffledCards}/>
           </div>

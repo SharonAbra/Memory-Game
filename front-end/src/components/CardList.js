@@ -1,6 +1,5 @@
 import React,{ useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
 import { Container, Col, Row } from 'react-bootstrap';
 import CardBody from './CardBody';
 import socket from '../modules/Socket.js'
@@ -8,12 +7,13 @@ import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable} f
 
 export default function CardList ({ cards }) {
 
-  const history = useHistory();
   const dispatch = useDispatch();
   const turnedCards = useSelector(state => state.turnedCards);
   const matchingCards = useSelector(state => state.matchingCards);
   const disable = useSelector(state => state.disable);
   const compTurn = useSelector(state => state.compTurn);
+  const username = useSelector(state => state.username);
+  const multi = useSelector(state => state.multi);
   const [ firstUser, setFirstUser ] = useState(false);
   const gameMode = localStorage.getItem("gameMode");
   const pairList = [];
@@ -68,40 +68,22 @@ export default function CardList ({ cards }) {
       }, 1500);
     }
   }, [compTurn, matchingCards]);
-
-  // take care of me *****************************************************************
-  // this needs to run only once
-  // change prompt to dialog box
+  
   // function to manage the multi-player mode
-  useEffect(() => {
-    // const timer = setTimeout(() => {
-      if (gameMode === "Playing with Friends" && cards.length > 0) {
-        // prevent player from playing
-        dispatch(toggleDisable());
-        let user = "";
-        while (user === "") {
-          user = prompt("Welcome! what is your name?");
+  useEffect(()=> {
+    if (gameMode === "Playing with Friends" && cards.length > 0) {
+      // prevent player from playing
+      dispatch(toggleDisable());
+      handleSocketInfo();
+      socket.emit("user", username);
+      // determine if this player is the first socket that connected
+      socket.on("user turn", (number) => {
+        if (number === 0) {
+          setFirstUser(true);
         }
-        if (user === null) {
-          history.push("/");
-        } else {
-        //can I move this part to chat?
-          handleSocketInfo();
-          socket.emit("user", user);
-          // determine if this player is the first socket that connected
-          socket.on("user turn", (number) => {
-            if (number === 0) {
-              setFirstUser(true);
-            }
-          });
-        }
-      }
-    // }, 50);
-    // return () => {
-    //   clearTimeout(timer);
-    // }
-  }, [cards]);
-
+      });
+    }
+  }, [username])
 
   // in multi-player mode, allow first player to play
   useEffect(() => {

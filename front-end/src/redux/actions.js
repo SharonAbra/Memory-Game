@@ -1,8 +1,8 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, MULTI, USERNAME } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
-    fetch(`https://memory-game-g.herokuapp.com/${category}`)
-    // fetch(`http://localhost:4000/${category}`)
+    // fetch(`https://memory-game-g.herokuapp.com/${category}`)
+    fetch(`http://localhost:4000/${category}`)
     .then(res => res.json())
     .then(data => {
         dispatch({type:FETCHCARDS, payload:data})
@@ -54,5 +54,18 @@ export const setCategory = (choice) => {
   export const toggleDisable = () => {
     return {
       type: TOGGLEDISABLE,
+    }
+  }
+
+  export const handleMulti = () => {
+    return {
+      type: MULTI,
+    }
+  }
+
+  export const handleUser = (username) => {
+    return {
+      type: USERNAME,
+      payload: username
     }
   }
