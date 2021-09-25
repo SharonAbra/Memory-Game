@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, USERNAME } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME, COUNTER, ENABLE, DISABLE, FLIPBACK } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
     // fetch(`https://memory-game-g.herokuapp.com/${category}`)
@@ -50,16 +50,34 @@ export const setCategory = (choice) => {
       payload: [i, id]
     }
   }
-  
-  export const toggleDisable = () => {
-    return {
-      type: TOGGLEDISABLE,
-    }
-  }
 
   export const handleUser = (username) => {
     return {
       type: USERNAME,
       payload: username
+    }
+  }
+
+  export const handleCounter = () => {
+    return {
+      type: COUNTER,
+    }
+  }
+
+  export const handleEnable = () => {
+    return {
+      type: ENABLE,
+    }
+  }
+
+  export const handleDisable = () => {
+    return {
+      type: DISABLE,
+    }
+  }
+
+  export const flipBack = () => {
+    return {
+      type: FLIPBACK,
     }
   }

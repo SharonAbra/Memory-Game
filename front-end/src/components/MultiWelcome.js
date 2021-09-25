@@ -2,13 +2,15 @@ import { Modal, Button } from 'react-bootstrap';
 import React,{ useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import {handleUser} from '../redux/actions.js';
 
 export default function MultiWelcome() {
     const history = useHistory();
+    const { register } = useForm();
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
-    const gameMode = localStorage.getItem("gameMode");
+    const gameMode = sessionStorage.getItem("gameMode");
 
     useEffect(() => {
         if (gameMode === "Playing with Friends") {
@@ -23,7 +25,6 @@ export default function MultiWelcome() {
   
     const handleForm = (e) => {
         e.preventDefault();
-        console.log(e.target.username.value)
         dispatch(handleUser(e.target.username.value));
         setShow(false);
     }
@@ -43,7 +44,7 @@ export default function MultiWelcome() {
             What's your name?
             <form 
                 onSubmit = {(e) => handleForm(e)}>
-                <input type="text" name="username"></input><br></br>
+                <input type="text" name="username" register={register} required></input><br></br>
                 <input type="submit" value="Let's Go!" className="btn btn-primary"></input>
             </form>
           </Modal.Body>

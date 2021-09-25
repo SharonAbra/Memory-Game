@@ -23,11 +23,11 @@ class MemoryGrid extends React.Component {
     const shuffledCards = nameList.concat(urlList);
     shuffledCards.sort((a, b) => 0.5 - Math.random());
     
-      if(localStorage.getItem("gameMode") === "Playing with Friends") { 
+      if(sessionStorage.getItem("gameMode") === "Playing with Friends") { 
       return (
         <div className="game">
           <MultiWelcome/>
-          <Chat/>
+          <Chat cards={shuffledCards}/>
           <CardList cards={shuffledCards}/>
         </div>
       )

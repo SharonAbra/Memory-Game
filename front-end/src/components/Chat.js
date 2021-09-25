@@ -1,18 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import socket from "../modules/Socket.js";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { toggleDisable } from "../redux/actions.js";
-import { connect } from 'react-redux';
+import { handleCardClick, handleEnable, handleDisable, flipBack } from "../redux/actions.js";
+import { useSelector, useDispatch } from 'react-redux';
 
-function Chat({ toggleDisable }) {
-  const [input, setInput] = useState();
-  const [messageList, setMessageList] = useState([]);
-  const [time, setTime] = useState(100);
-  const timeRef = useRef(time);
-  useEffect(() => (timeRef.current = time), [time]);
-  const countdown = useRef(null);
-  const [yourTurn, setYourTurn] = useState(false);
+export default function Chat({ cards }) {
+  const counter = useSelector(state => state.counter);
+  const username = useSelector(state => state.username);
+  const [ input, setInput ] = useState();
+  const [ messageList, setMessageList ] = useState([]);
+  const [ time, setTime ] = useState(100);  
+  const [ yourTurn, setYourTurn ] = useState(false);
   const [ next, setNext ] = useState('')
+  const countdown = useRef(null);
+  const timeRef = useRef(time);
+  const dispatch = useDispatch();
+  const gameMode = sessionStorage.getItem("gameMode");
+
+  useEffect(() => (timeRef.current = time), [time]);
 
   useEffect(() => {
     if (messageList.length > 8) {
@@ -44,6 +49,12 @@ function Chat({ toggleDisable }) {
     );
   }, []);
 
+  useEffect(() => {
+    socket.on("flip_back", () => {
+    dispatch(flipBack());
+    });
+  }, []);
+
   function handleInput(e) {
     setInput(e.target.value);
   }
@@ -54,28 +65,68 @@ function Chat({ toggleDisable }) {
     e.target.text.value = ""; 
   }
 
+  // function to execute the cards that were flipped by other sockets
+  const handleSocketInfo = () => {
+    socket.on('turn card', (item) => {
+      const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
+      if (flippedCardIndex > -1) {
+        dispatch(handleCardClick(flippedCardIndex, item.id));
+      }
+    })
+  }
+
+  // function to commence the multi-player mode
+  useEffect(()=> {
+    if (gameMode === "Playing with Friends" && cards.length > 0) {
+      handleSocketInfo();
+      socket.emit("user", username);
+      // determine if this player is the first socket that connected
+      socket.on("user turn", (number) => {
+        if (number === 0) {
+        } else {
+          dispatch(handleDisable());
+        }
+      });
+    }
+  }, [username])
+
   useEffect(() => {
     socket.on("your_turn", () => {
+      // instruct the user to play
       setYourTurn(true);
-      toggleDisable();
-
+      // enable clicks
+      dispatch(handleEnable());
+      // manage the time for each turn
       if (countdown.current) {
         clearInterval(countdown.current);
       }
-
+       // each turn is 10 seconds
       countdown.current = setInterval(() => {
         if (timeRef.current > 0) {
           setTime((time) => time - 1);
         } else {
+          console.log('went into else')
           clearInterval(countdown.current);
           setTime(100);
           setYourTurn(false);
-          toggleDisable();
+          dispatch(handleDisable());
           socket.emit("pass_turn");
+          socket.emit("flip_back");
         }
       }, 100);
     });
-  });
+  }, []);
+
+  // when the player turned two cards, the turn will be passed to the next
+  useEffect(() => {
+    if (counter === 2) {
+      clearInterval(countdown.current);
+      setTime(100);
+      setYourTurn(false);
+      dispatch(handleDisable());
+      socket.emit("pass_turn");
+    }
+  }, [counter])
 
   return (
     <>
@@ -103,9 +154,3 @@ function Chat({ toggleDisable }) {
     </>
   );
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return { toggleDisable: () => dispatch(toggleDisable()) }
-}
-
-export default connect(null, mapDispatchToProps)(Chat);

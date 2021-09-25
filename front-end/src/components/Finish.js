@@ -13,7 +13,7 @@ export default function Finish() {
   const computerMatches = useSelector(state => state.computerMatches)
   const [ textOne, setTextOne ] = useState('');
   const [ textTwo, setTextTwo ] = useState('');
-  const gameMode = localStorage.getItem("gameMode");
+  const gameMode = sessionStorage.getItem("gameMode");
 
   useEffect(() => {
     // set the text of the modal according to chosen game mode

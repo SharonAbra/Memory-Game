@@ -2,8 +2,7 @@ import React,{ useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Col, Row } from 'react-bootstrap';
 import CardBody from './CardBody';
-import socket from '../modules/Socket.js'
-import {handleCardClick, checkMatch, checkFinish, computerMove, toggleDisable} from '../redux/actions.js'
+import {checkMatch, checkFinish, computerMove, handleDisable} from '../redux/actions.js'
 
 export default function CardList ({ cards }) {
 
@@ -12,9 +11,9 @@ export default function CardList ({ cards }) {
   const matchingCards = useSelector(state => state.matchingCards);
   const disable = useSelector(state => state.disable);
   const compTurn = useSelector(state => state.compTurn);
-  const username = useSelector(state => state.username);
-  const [ firstUser, setFirstUser ] = useState(false);
-  const gameMode = localStorage.getItem("gameMode");
+  // const username = useSelector(state => state.username);
+  // const [ firstUser, setFirstUser ] = useState(false);
+  const gameMode = sessionStorage.getItem("gameMode");
   const pairList = [];
   
   // this will be sent to the card in the props, and will control it's individual css
@@ -32,6 +31,8 @@ export default function CardList ({ cards }) {
     if (turnedCards.length === 2) {
       setTimeout(() => {
         dispatch(checkMatch())
+        if (gameMode === "Playing Solo")
+          dispatch(handleDisable());
       }, 700);
     }
   }, [turnedCards])
@@ -72,38 +73,40 @@ export default function CardList ({ cards }) {
     }
   }, [compTurn, matchingCards]);
   
-  // function to manage the multi-player mode
-  useEffect(()=> {
-    if (gameMode === "Playing with Friends" && cards.length > 0) {
-      // prevent player from playing
-      dispatch(toggleDisable());
-      handleSocketInfo();
-      socket.emit("user", username);
-      // determine if this player is the first socket that connected
-      socket.on("user turn", (number) => {
-        if (number === 0) {
-          setFirstUser(true);
-        }
-      });
-    }
-  }, [username])
+  // // function to commence the multi-player mode
+  // useEffect(()=> {
+  //   if (gameMode === "Playing with Friends" && cards.length > 0) {
+  //     // prevent player from playing
+  //     // dispatch(toggleDisable());
+  //     handleSocketInfo();
+  //     socket.emit("user", username);
+  //     // determine if this player is the first socket that connected
+  //     socket.on("user turn", (number) => {
+  //       if (number === 0) {
+  //         // setFirstUser(true);
+  //       } else {
+  //         dispatch(toggleDisable());
+  //       }
+  //     });
+  //   }
+  // }, [username])
 
   // in multi-player mode, allow first player to play
-  useEffect(() => {
-    if (firstUser === true){
-    dispatch(toggleDisable());
-  }
-  }, [firstUser])
+  // useEffect(() => {
+  //   if (firstUser === true) {
+  //   dispatch(toggleDisable());
+  // }
+  // }, [firstUser])
 
-  // function to execute the cards that were flipped by other sockets
-  const handleSocketInfo = () => {
-    socket.on('turn card', (item) => {
-      const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
-      if (flippedCardIndex > -1) {
-        dispatch(handleCardClick(flippedCardIndex, item.id));
-      }
-    })
-  }
+  // // function to execute the cards that were flipped by other sockets
+  // const handleSocketInfo = () => {
+  //   socket.on('turn card', (item) => {
+  //     const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
+  //     if (flippedCardIndex > -1) {
+  //       dispatch(handleCardClick(flippedCardIndex, item.id));
+  //     }
+  //   })
+  // }
 
   return (
     <Container>

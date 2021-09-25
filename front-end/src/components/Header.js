@@ -7,7 +7,7 @@ export default function Header(props) {
     const finish = useSelector(state=> state.finish);
     const computerMatches = useSelector(state => state.computerMatches);
     const userMatches = useSelector( state => state.userMatches);
-    const gameMode = localStorage.getItem("gameMode");
+    const gameMode = sessionStorage.getItem("gameMode");
     const [ bestScore, setBestScore ] = useState(
         JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY);
 
@@ -62,7 +62,7 @@ if (gameMode === "Playing Solo") {
             return (
                 <header className ="header">
                     <h1 className="gameName">MEMORY GAME</h1>
-                    <h4 className="instructions">Click on two cards to find a match!</h4>
+                    <h4 className="instructions">Player 1 - please make your first move to start the game!</h4>
                     <div className="information">
                         <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
                     </div>

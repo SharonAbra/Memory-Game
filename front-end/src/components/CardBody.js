@@ -1,22 +1,30 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { handleCardClick } from '../redux/actions';
+import { handleCardClick, handleCounter, handleDisable } from '../redux/actions';
 import socket from '../modules/Socket.js'
 
 export default function CardBody ({ card, isTurned, isInactive, isDisabled, type, id, i}) {
   const dispatch = useDispatch();
   const turnedCards = useSelector(state => state.turnedCards);
-  const gameMode = localStorage.getItem("gameMode");
+  const gameMode = sessionStorage.getItem("gameMode");
 
   function handleClick () {
     dispatch(handleCardClick(i, id));
     if (gameMode === "Playing with Friends") {
       // send the other players information about the turned cards
       socket.emit('turn card', {id: id, type: type})
-      if (turnedCards.length === 1) {
+      if (turnedCards.length === 0) {
+        // increase click counter
+        dispatch(handleCounter());
+      } else if (turnedCards.length === 1) {
         // when second card is clicked, pass the turn
         socket.emit('pass_turn');
-        // dispatch(toggleDisable());
+        // prevent player from playing
+        dispatch(handleDisable());
+        // increase click counter
+        dispatch(handleCounter());
       }
+    } else if (gameMode === "Playing Solo" && turnedCards.length === 1) {
+      dispatch(handleDisable());
     }
   }
 

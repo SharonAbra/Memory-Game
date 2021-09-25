@@ -3,15 +3,15 @@ import {Link} from 'react-router-dom';
 export default function ModeChoice () {
 
     function handleSoloClick() {
-        localStorage.setItem("gameMode", "Playing Solo")
+        sessionStorage.setItem("gameMode", "Playing Solo")
     };
 
     function handleVsCompClick() {
-        localStorage.setItem("gameMode", "Playing vs Computer")
+        sessionStorage.setItem("gameMode", "Playing vs Computer")
     };
 
     function handleMultiPlayerClick() {
-        localStorage.setItem("gameMode", "Playing with Friends")
+        sessionStorage.setItem("gameMode", "Playing with Friends")
     };
 
     return (

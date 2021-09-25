@@ -14,7 +14,7 @@ return (
           <Route exact path='/category-choice' component={CategoryChoice}/>
           <Route exact path='/game/:category' component={Game}/>
            {/* <Route path='/game/:category'>
-            {localStorage.getItem("gameMode") === null ? <Redirect to= '/'/> : <Game/>}
+            {sessionStorage.getItem("gameMode") === null ? <Redirect to= '/'/> : <Game/>}
           </Route> */}
         </Switch>
       </BrowserRouter>

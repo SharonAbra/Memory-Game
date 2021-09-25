@@ -66,7 +66,6 @@ io.on("connection", (socket) => {
       players.splice(index, 1);
       if (index === current_turn) {
         current_turn = index >= players.length - 1 ? 0 : current_turn++;
-        // io.emit("next", `${players[current_turn].username} is now playing`);
         if (players.length > 0) {
           players[current_turn].emit("your_turn", current_turn);
         }
@@ -80,6 +79,10 @@ io.on("connection", (socket) => {
 
   socket.on("turn card", (item) => {
     socket.broadcast.emit("turn card", item);
+  });
+
+  socket.on("flip_back", function (){
+    io.emit("flip_back");
   });
 
   socket.on("pass_turn", function () {

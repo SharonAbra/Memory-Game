@@ -1,4 +1,4 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, TOGGLEDISABLE, USERNAME} from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME, COUNTER, ENABLE, DISABLE, FLIPBACK} from './Constants';
 
 const initialState = {
     cards: [],
@@ -12,7 +12,8 @@ const initialState = {
     compTurn: false,
     computerMatches: 0,
     userMatches: 0,
-    username: ''
+    username: '',
+    counter: 0
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -50,7 +51,7 @@ const reducer = (state=initialState,action={}) => {
             const [ cardOne, cardTwo ] = state.turnedCards;
             const [ cardOneId, cardTwoId ] = state.turnedCardsId;
 
-            if (localStorage.getItem("gameMode") === "Playing vs Computer") {
+            if (sessionStorage.getItem("gameMode") === "Playing vs Computer") {
                 // adjust reducer to include computer moves
                 if (state.compTurn === true) {
                 // actions to be taken when it is the computer's turn
@@ -91,10 +92,14 @@ const reducer = (state=initialState,action={}) => {
                         matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
                         turnedCards:[],
                         turnedCardsId:[],
-                        disable:false,
+                        // disable:false,
+                        counter: 0
                     }
                 } else {
-                    return { ...state, turnedCards: [], disable:false}
+                    return { ...state,
+                             turnedCards: [],
+                            //  disable:false, 
+                             counter: 0}
                 }
             }
         // case CHECKMATCH:
@@ -148,14 +153,16 @@ const reducer = (state=initialState,action={}) => {
                         turnedCardsId: [action.payload[1]],
                     }
             }
-        case TOGGLEDISABLE:
-            if (state.disable === true) {
-                return {...state, disable: false}
-            } else {
+        case DISABLE:
                 return {...state, disable: true}
-            }
+        case ENABLE:
+            return {...state, disable: false}
         case USERNAME:
             return {...state, username: action.payload}
+        case COUNTER:
+            return {...state, counter: state.counter+1}
+        case FLIPBACK:
+            return {...state, turnedCards: [], turnedCardsId: []}
         default:
             return {...state}
     }
