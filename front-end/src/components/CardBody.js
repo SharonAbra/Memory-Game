@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { handleCardClick, toggleDisable } from '../redux/actions';
+import { handleCardClick } from '../redux/actions';
 import socket from '../modules/Socket.js'
 
 export default function CardBody ({ card, isTurned, isInactive, isDisabled, type, id, i}) {

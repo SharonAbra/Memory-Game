@@ -9,8 +9,9 @@ const server = http.createServer(app);
 const { Server, Socket } = require("socket.io");
 const io = require("socket.io")(server, {
   cors: {
-    // origin: "http://localhost:3000",
-    origin: "https://memory-game-english.herokuapp.com",
+    // url of client
+    origin: "http://localhost:3000",
+    // origin: "https://memory-game-english.herokuapp.com",
     methods: ["GET", "POST"],
   },
 });
@@ -51,7 +52,7 @@ io.on("connection", (socket) => {
     players.push(socket);
     socket.emit("user turn", players.indexOf(socket));
     console.log(players.length);
-    socket.emit("welcome", `Welcome ${user}!`);
+    socket.emit("welcome", `Welcome ${user}! Your turn is ${players.indexOf(socket)+1}.`);
     socket.broadcast.emit("welcome", `${user} has joined the game.`);
   });
 

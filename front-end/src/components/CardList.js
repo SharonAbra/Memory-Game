@@ -49,7 +49,7 @@ export default function CardList ({ cards }) {
     let localMatches =[...matchingCards, 100];
     let localTurned = [];
     // adding to the pairList length to include placeholder
-    if (gameMode === "Playing vs Computer" && compTurn && localMatches.length <= pairList.length+1) {
+    if (gameMode === "Playing vs Computer" && compTurn && localMatches.length < pairList.length+1) {
       setTimeout(() => {
         // initialize a placeholder value to enable the while loop its first run
         let randomCard = {i:100, id:100};
