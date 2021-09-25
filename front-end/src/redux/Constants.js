@@ -11,3 +11,4 @@ export const COUNTER = 'COUNTER';
 export const ENABLE = 'ENABLE';
 export const DISABLE = 'DISABLE';
 export const FLIPBACK = 'FLIPBACK';
+export const YOURTURN = 'YOURTURN';

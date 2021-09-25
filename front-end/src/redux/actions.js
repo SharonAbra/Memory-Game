@@ -1,4 +1,7 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME, COUNTER, ENABLE, DISABLE, FLIPBACK } from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH,
+         HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME, 
+         COUNTER, ENABLE, DISABLE, FLIPBACK, YOURTURN 
+        } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
     // fetch(`https://memory-game-g.herokuapp.com/${category}`)
@@ -79,5 +82,11 @@ export const setCategory = (choice) => {
   export const flipBack = () => {
     return {
       type: FLIPBACK,
+    }
+  }
+
+  export const handleYourTurn = () => {
+    return {
+      type: YOURTURN,
     }
   }

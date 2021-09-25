@@ -1,4 +1,7 @@
-import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH, HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME, COUNTER, ENABLE, DISABLE, FLIPBACK} from './Constants';
+import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH,
+         HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME,
+        COUNTER, ENABLE, DISABLE, FLIPBACK, YOURTURN
+        } from './Constants';
 
 const initialState = {
     cards: [],
@@ -13,7 +16,9 @@ const initialState = {
     computerMatches: 0,
     userMatches: 0,
     username: '',
-    counter: 0
+    counter: 0,
+    yourTurn: false,
+    matchesInMulti: 0
 }
 
 const reducer = (state=initialState,action={}) => {
@@ -87,53 +92,30 @@ const reducer = (state=initialState,action={}) => {
             } else {
                 // actions to be taken in the case of a single player
                 if (cardOneId === cardTwoId) {
+                    if (state.yourTurn === false) {
+                        return {
+                            ...state, 
+                                matchesInMulti: state.matchesInMulti+1,
+                                matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+                                turnedCards:[],
+                                turnedCardsId:[],
+                                counter: 0
+                            }
+                    } else {
                     return {
                         ...state,
                         matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
                         turnedCards:[],
                         turnedCardsId:[],
-                        // disable:false,
                         counter: 0
                     }
+                }
                 } else {
                     return { ...state,
                              turnedCards: [],
-                            //  disable:false, 
                              counter: 0}
                 }
             }
-        // case CHECKMATCH:
-        //     const [ cardOne, cardTwo ] = state.turnedCards;
-        //     const [ cardOneId, cardTwoId ] = state.turnedCardsId;
-        //     if (state.compTurn === false) {
-        //         if (cardOneId === cardTwoId) {
-        //             return { 
-        //                 ...state, 
-        //                 matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
-        //                 turnedCards:[],
-        //                 turnedCardsId:[],
-        //                 disable:true,
-        //                 userMatches: state.userMatches+1,
-        //                 compTurn:true 
-        //             }
-        //         } else {
-        //             return { ...state, turnedCards: [], disable:true, compTurn:true}
-        //         }
-        //     } else {
-        //         if (cardOneId === cardTwoId) {
-        //             return {
-        //                 ...state,
-        //                 matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
-        //                 turnedCards:[],
-        //                 turnedCardsId:[],
-        //                 computerMatches: state.computerMatches+1,
-        //                 disable:false,
-        //                 compTurn:false
-        //             }
-        //         } else {
-        //             return { ...state, turnedCards: [], disable:false, compTurn:false}
-        //         }
-        //     }
         case CHECKFINISH:
             if (state.matchingCards.length === state.cards.length * 2) {
                 return { ...state, finish:true}
@@ -163,6 +145,13 @@ const reducer = (state=initialState,action={}) => {
             return {...state, counter: state.counter+1}
         case FLIPBACK:
             return {...state, turnedCards: [], turnedCardsId: []}
+        case YOURTURN:
+            if (state.yourTurn === false) {
+                return {...state, yourTurn: true}
+            } else {
+                return {...state, yourTurn: false}
+            }
+            
         default:
             return {...state}
     }

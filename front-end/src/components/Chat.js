@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import socket from "../modules/Socket.js";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { handleCardClick, handleEnable, handleDisable, flipBack } from "../redux/actions.js";
+import { handleCardClick, handleEnable, handleDisable, flipBack, handleYourTurn } from "../redux/actions.js";
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function Chat({ cards }) {
@@ -10,7 +10,7 @@ export default function Chat({ cards }) {
   const [ input, setInput ] = useState();
   const [ messageList, setMessageList ] = useState([]);
   const [ time, setTime ] = useState(100);  
-  const [ yourTurn, setYourTurn ] = useState(false);
+  const yourTurn = useSelector(state => state.yourTurn);
   const [ next, setNext ] = useState('')
   const countdown = useRef(null);
   const timeRef = useRef(time);
@@ -83,6 +83,7 @@ export default function Chat({ cards }) {
       // determine if this player is the first socket that connected
       socket.on("user turn", (number) => {
         if (number === 0) {
+          dispatch(handleYourTurn());
         } else {
           dispatch(handleDisable());
         }
@@ -93,7 +94,7 @@ export default function Chat({ cards }) {
   useEffect(() => {
     socket.on("your_turn", () => {
       // instruct the user to play
-      setYourTurn(true);
+      dispatch(handleYourTurn());
       // enable clicks
       dispatch(handleEnable());
       // manage the time for each turn
@@ -108,7 +109,7 @@ export default function Chat({ cards }) {
           console.log('went into else')
           clearInterval(countdown.current);
           setTime(100);
-          setYourTurn(false);
+          dispatch(handleYourTurn());
           dispatch(handleDisable());
           socket.emit("pass_turn");
           socket.emit("flip_back");
@@ -122,7 +123,7 @@ export default function Chat({ cards }) {
     if (counter === 2) {
       clearInterval(countdown.current);
       setTime(100);
-      setYourTurn(false);
+      dispatch(handleYourTurn());
       dispatch(handleDisable());
       socket.emit("pass_turn");
     }
