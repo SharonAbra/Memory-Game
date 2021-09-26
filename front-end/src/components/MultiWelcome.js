@@ -40,15 +40,16 @@ export default function MultiWelcome() {
           <Modal.Header closeButton className="modalBody modalText">
             <Modal.Title><h1>Welcome!</h1></Modal.Title>
           </Modal.Header>
-          <Modal.Body className="modalBody modalText">
+          <Modal.Body className="modalBody modalText landscape">
             What's your name?
             <form 
                 onSubmit = {(e) => handleForm(e)}>
                 <input type="text" name="username" register={register} required></input><br></br>
-                <input type="submit" value="Let's Go!" className="btn btn-primary"></input>
+                <input type="submit" value="Let's Go!" className="btn btn-primary go"></input>
             </form>
           </Modal.Body>
           <Modal.Footer className="modalBody">
+            <p className="portrait">Please rotate your device to landscape orientation.</p>
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>

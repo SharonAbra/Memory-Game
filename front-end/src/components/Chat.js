@@ -20,7 +20,7 @@ export default function Chat({ cards }) {
   useEffect(() => (timeRef.current = time), [time]);
 
   useEffect(() => {
-    if (messageList.length > 8) {
+    if (messageList.length > 7) {
       messageList.splice(0,1)
     }
   }, [messageList])
@@ -63,6 +63,7 @@ export default function Chat({ cards }) {
     e.preventDefault();
     socket.emit("message", input);
     e.target.text.value = ""; 
+    setInput('');
   }
 
   // function to execute the cards that were flipped by other sockets
@@ -106,13 +107,17 @@ export default function Chat({ cards }) {
         if (timeRef.current > 0) {
           setTime((time) => time - 1);
         } else {
-          console.log('went into else')
           clearInterval(countdown.current);
           setTime(100);
+           // change your turn to false
           dispatch(handleYourTurn());
           dispatch(handleDisable());
           socket.emit("pass_turn");
           socket.emit("flip_back");
+          // setTimeout(() => {
+          //   // wait until check match is done and change your turn to false
+          //   dispatch(handleYourTurn());
+          // }, 800);
         }
       }, 100);
     });
@@ -123,9 +128,14 @@ export default function Chat({ cards }) {
     if (counter === 2) {
       clearInterval(countdown.current);
       setTime(100);
+      // change your turn to false
       dispatch(handleYourTurn());
       dispatch(handleDisable());
       socket.emit("pass_turn");
+      // setTimeout(() => {
+      //   // wait until check match is done and change your turn to false
+      //   dispatch(handleYourTurn());
+      // }, 800);
     }
   }, [counter])
 
@@ -147,7 +157,7 @@ export default function Chat({ cards }) {
             <h2>YOUR TURN!</h2>
             <ProgressBar animated now={time} />
           </div> :
-          <div className="turnManager">
+          <div className="turnManagerOther">
           <h2>{next}</h2>
         </div>
         }

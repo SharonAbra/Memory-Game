@@ -12,7 +12,7 @@ export default function Header(props) {
         JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY);
 
 useEffect(() => {
-    if (finish === true) {
+    if (finish === true && gameMode==="Playing Solo") {
         const highestScore = Math.min(moves, bestScore);
         setBestScore(highestScore);
         localStorage.setItem("bestScore", highestScore)
@@ -26,8 +26,9 @@ if (gameMode === "Playing Solo") {
                 <h1 className="gameName">MEMORY GAME</h1>
                 <h4 className="instructions">Click on two cards to find a match!</h4>
                 <div className="information">
-                    <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
-                    <span>Moves: <b>{moves}</b></span>
+                    <span>Game Mode:<br></br><b>{gameMode}</b></span>
+                    <span>Category:<br></br><b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                    <span>Moves:<br></br><b>{moves}</b></span>
                 </div>
             </header>
         );
@@ -37,9 +38,10 @@ if (gameMode === "Playing Solo") {
                 <h1 className="gameName">MEMORY GAME</h1>
                 <h4 className="instructions">Click on two cards to find a match!</h4>
                 <div className="information">
-                    <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
-                    <span>Moves: <b>{moves}</b></span>
-                    <span>Best Score: <b>{bestScore}</b></span>
+                    <span>Game Mode:<br></br><b>{gameMode}</b></span>
+                    <span>Category:<br></br><b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                    <span>Moves:<br></br><b>{moves}</b></span>
+                    <span>Best Score:<br></br><b>{bestScore}</b></span>
                 </div>
             </header>
         )
@@ -51,9 +53,10 @@ if (gameMode === "Playing Solo") {
                     <h1 className="gameName">MEMORY GAME</h1>
                     <h4 className="instructions">Click on two cards to find a match!</h4>
                     <div className="information">
-                        <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
-                        <span>Your Matches: <b>{userMatches}</b></span>
-                        <span>Computer Matches: <b>{computerMatches}</b></span>
+                        <span>Game Mode:<br></br><b>{gameMode}</b></span>
+                        <span>Category:<br></br><b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                        <span>Your Matches:<br></br><b>{userMatches}</b></span>
+                        <span>Computer Matches:<br></br><b>{computerMatches}</b></span>
                     </div>
                 </header>
             )
@@ -62,9 +65,10 @@ if (gameMode === "Playing Solo") {
             return (
                 <header className ="header">
                     <h1 className="gameName">MEMORY GAME</h1>
-                    <h4 className="instructions">Player 1 - please make your first move to start the game!</h4>
+                    <h4 className="instructions">Click on two cards to find a match!</h4>
                     <div className="information">
-                        <span>Category: <b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
+                        <span>Game Mode:<br></br><b>{gameMode}</b></span>
+                        <span>Category:<br></br><b>{category.charAt(0).toUpperCase()+category.slice(1)}</b></span>
                     </div>
                 </header>
             )

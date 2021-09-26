@@ -36,7 +36,8 @@ const reducer = (state=initialState,action={}) => {
                      compTurn:false,
                      moves:0,
                     computerMatches:0,
-                    userMatches:0
+                    userMatches:0, 
+                    disable: false
                     }
         case  HANDLECARDCLICK:
             if (state.turnedCards.length === 1) {
@@ -90,9 +91,10 @@ const reducer = (state=initialState,action={}) => {
                     }
                 }
             } else {
-                // actions to be taken in the case of a single player
+                // actions to be taken in the other game modes
                 if (cardOneId === cardTwoId) {
-                    if (state.yourTurn === false) {
+                    if (state.yourTurn === true) {
+                        // console.log(state.matchesInMulti)
                         return {
                             ...state, 
                                 matchesInMulti: state.matchesInMulti+1,
@@ -102,14 +104,14 @@ const reducer = (state=initialState,action={}) => {
                                 counter: 0
                             }
                     } else {
-                    return {
-                        ...state,
-                        matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
-                        turnedCards:[],
-                        turnedCardsId:[],
-                        counter: 0
+                        return {
+                            ...state,
+                            matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
+                            turnedCards:[],
+                            turnedCardsId:[],
+                            counter: 0,
+                        }
                     }
-                }
                 } else {
                     return { ...state,
                              turnedCards: [],

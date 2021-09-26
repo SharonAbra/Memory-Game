@@ -173,9 +173,19 @@ margin-bottom: 25px;
     padding: 7px;
   }
 
+  @media screen and (max-width: 767px) {
+    .chat {
+      height: 200px;
+    }
+  }
+
   input {
     background-color: #f3e0ff;
     border-radius: 5px;
+  }
+
+  .go {
+    margin-top: 10px;
   }
 
   li {
@@ -187,9 +197,15 @@ margin-bottom: 25px;
     margin-top: 5px;
   }
 
+  .turnManagerOther {
+    align-self: center;
+    margin-top: 5px;
+    padding-bottom: 15px;
+  }
+
   .center {
     text-align: center;
-    font-size: 3vw;
+    font-size: 150%;
   }
   
   .modalBody {
@@ -199,3 +215,21 @@ margin-bottom: 25px;
   .modalText {
     color: #c404ff
   }
+
+  @media screen and (max-width: 480px) and (orientation:portrait) {
+    .landscape {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 480px) and (orientation:landscape) {
+    .portrait {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 481px) {
+  .portrait {
+    display: none;
+  }
+}

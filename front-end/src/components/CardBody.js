@@ -16,12 +16,12 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
         // increase click counter
         dispatch(handleCounter());
       } else if (turnedCards.length === 1) {
+        // increase click counter
+        dispatch(handleCounter());
         // when second card is clicked, pass the turn
         socket.emit('pass_turn');
         // prevent player from playing
         dispatch(handleDisable());
-        // increase click counter
-        dispatch(handleCounter());
       }
     } else if (gameMode === "Playing Solo" && turnedCards.length === 1) {
       dispatch(handleDisable());

@@ -32,10 +32,12 @@ export default function Finish() {
         
   function handleClose () {
     history.push("/");
+    dispatch(handleRestart());
   }
 
   function handleHome () {
     history.push("/");
+    dispatch(handleRestart());
   }
 
     return (

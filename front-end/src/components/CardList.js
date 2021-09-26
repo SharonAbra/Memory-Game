@@ -1,4 +1,4 @@
-import React,{ useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Col, Row } from 'react-bootstrap';
 import CardBody from './CardBody';
@@ -11,8 +11,6 @@ export default function CardList ({ cards }) {
   const matchingCards = useSelector(state => state.matchingCards);
   const disable = useSelector(state => state.disable);
   const compTurn = useSelector(state => state.compTurn);
-  // const username = useSelector(state => state.username);
-  // const [ firstUser, setFirstUser ] = useState(false);
   const gameMode = sessionStorage.getItem("gameMode");
   const pairList = [];
   
@@ -73,41 +71,6 @@ export default function CardList ({ cards }) {
     }
   }, [compTurn, matchingCards]);
   
-  // // function to commence the multi-player mode
-  // useEffect(()=> {
-  //   if (gameMode === "Playing with Friends" && cards.length > 0) {
-  //     // prevent player from playing
-  //     // dispatch(toggleDisable());
-  //     handleSocketInfo();
-  //     socket.emit("user", username);
-  //     // determine if this player is the first socket that connected
-  //     socket.on("user turn", (number) => {
-  //       if (number === 0) {
-  //         // setFirstUser(true);
-  //       } else {
-  //         dispatch(toggleDisable());
-  //       }
-  //     });
-  //   }
-  // }, [username])
-
-  // in multi-player mode, allow first player to play
-  // useEffect(() => {
-  //   if (firstUser === true) {
-  //   dispatch(toggleDisable());
-  // }
-  // }, [firstUser])
-
-  // // function to execute the cards that were flipped by other sockets
-  // const handleSocketInfo = () => {
-  //   socket.on('turn card', (item) => {
-  //     const flippedCardIndex = cards.findIndex(card => card.id === item.id && card.type === item.type)
-  //     if (flippedCardIndex > -1) {
-  //       dispatch(handleCardClick(flippedCardIndex, item.id));
-  //     }
-  //   })
-  // }
-
   return (
     <Container>
       <Row>
