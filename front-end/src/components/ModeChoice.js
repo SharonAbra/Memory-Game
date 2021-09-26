@@ -16,7 +16,7 @@ export default function ModeChoice () {
 
     return (
         <div className="ModeChoice"> 
-            <h1>How would you like to play?</h1>
+            <h1 className="choose">How would you like to play?</h1>
             <Link to="/category-choice" className="start" onClick={handleSoloClick}><div className="startButton">Play solo</div></Link>
             <Link to="/category-choice" className="start" onClick={handleVsCompClick}><div className="startButton">Play vs computer</div></Link>
             <Link to="/game/animals" className="start"onClick = {handleMultiPlayerClick}><div className="startButton">Play with friends</div></Link>

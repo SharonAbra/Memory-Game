@@ -18,6 +18,11 @@
   box-shadow: 1px 1px 3px 3px black;
 }
 
+.startCategory:hover {
+  box-shadow: 1px 1px 3px 3px black;
+}
+
+
 .startButton {
   color:white;
   font-size: 300%;
@@ -40,12 +45,22 @@
   }
 }
 
-.ModeChoice, .CategoryChoice {
+.ModeChoice {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   margin-top: 40px;
+}
+
+.categoryContainer {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.choose {
+  margin: 30px;
 }
 
 .startCategory {
