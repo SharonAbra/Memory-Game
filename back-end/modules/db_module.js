@@ -22,16 +22,35 @@ const db = knex({
   }
 });
 
-const getAllColors = () => {
-    return db.select('id','name').from('colors').whereIn('id', [1,2,3]);
+const getAllClothes = () => {
+    return db.select('id','name', 'url').from('clothes');
   }
 
-  const getAllAnimals = () => {
-    return db.select('id','name', 'url').from('animals');
-  }
+const getAllAnimals = () => {
+  return db.select('id','name', 'url').from('animals');
+}
 
+const getAllKitchen = () => {
+  return db.select('id','name', 'url').from('kitchen');
+}
+
+const getAllMusic = () => {
+  return db.select('id','name', 'url').from('music');
+}
+
+const getAllHome = () => {
+  return db.select('id','name', 'url').from('home');
+}
+
+const getAllJobs = () => {
+  return db.select('id','name', 'url').from('jobs');
+}
 
 module.exports = {
-  getAllColors,
-  getAllAnimals
+  getAllClothes,
+  getAllAnimals,
+  getAllKitchen,
+  getAllMusic,
+  getAllHome,
+  getAllJobs
 }

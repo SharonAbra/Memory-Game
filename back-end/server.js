@@ -28,6 +28,58 @@ app.get("/animals", (req, res) => {
     });
 });
 
+app.get("/clothes", (req, res) => {
+  DB.getAllClothes()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      res.send("Things are not working as expected");
+    });
+});
+
+app.get("/kitchen", (req, res) => {
+  DB.getAllKitchen()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      res.send("Things are not working as expected");
+    });
+});
+
+app.get("/music", (req, res) => {
+  DB.getAllMusic()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      res.send("Things are not working as expected");
+    });
+});
+
+
+app.get("/home", (req, res) => {
+  DB.getAllHome()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      res.send("Things are not working as expected");
+    });
+});
+
+
+app.get("/jobs", (req, res) => {
+  DB.getAllJobs()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      res.send("Things are not working as expected");
+    });
+});
+
 // initialize variables for socket functionality
 
 let players = [];

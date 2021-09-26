@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Col, Row } from 'react-bootstrap';
 import CardBody from './CardBody';
-import {checkMatch, checkFinish, computerMove, handleDisable} from '../redux/actions.js'
+import {checkMatch, checkFinish, computerMove, handleEnable} from '../redux/actions.js'
 
 export default function CardList ({ cards }) {
 
@@ -30,7 +30,7 @@ export default function CardList ({ cards }) {
       setTimeout(() => {
         dispatch(checkMatch())
         if (gameMode === "Playing Solo")
-          dispatch(handleDisable());
+          dispatch(handleEnable());
       }, 700);
     }
   }, [turnedCards])
