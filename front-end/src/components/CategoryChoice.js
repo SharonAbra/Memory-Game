@@ -1,46 +1,27 @@
 import {Link} from 'react-router-dom';
 import { Container, Col, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 export default function CategoryChoice() {
+    const categoryList = useSelector(state => state.categoryList);
+    
     return (
-        <div className="categoryContainer">
-            <Container>
-                <h1 className="choose">Please choose your category:</h1>
-                <Row>
-                    <Col xs={2}>
-                        <Link to="/game/animals" className="startButton"><div className="startCategory">Animals</div></Link>
+        <Container>
+            <h1 className="choose">Please choose your category:</h1>
+            <Row>
+                {
+                categoryList.map((item, i) => {
+                    return (
+                    <Col xs={4} key={i}>
+                        <Link to={`/game/${item}`} className="link"><div className="startCategory">{item}</div></Link>
                     </Col>
-                    <Col xs={2}>
-                        <Link to="/game/clothes" className="startButton"><div className="startCategory">Clothes</div></Link>
+                    )
+                })
+                }
+                    <Col xs={4}>
+                        <Link to={`/game/${categoryList[Math.floor(Math.random()*categoryList.length)]}`} className="link"><div className="startCategory">Random</div></Link>
                     </Col>
-                    <Col xs={2}>
-                        <Link to="/game/kitchen" className="startButton"><div className="startCategory">Kitchen</div></Link>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={2}>
-                        <Link to="/game/music" className="startButton"><div className="startCategory">Music</div></Link>
-                    </Col>
-                    <Col xs={2}>
-                        <Link to="/game/home" className="startButton"><div className="startCategory">Home</div></Link>
-                    </Col>
-                    <Col xs={2}>
-                        <Link to="/game/jobs" className="startButton"><div className="startCategory">Jobs</div></Link>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-
-        // <div className="categoryContainer">
-        //     <h1 className="choose">Please choose your category:</h1>
-        //     <div className="CategoryChoice"> 
-        //         <Link to="/game/animals" className="startButton"><div className="startCategory">Animals</div></Link>
-        //         <Link to="/game/clothes" className="startButton"><div className="startCategory">Clothes</div></Link>
-        //         <Link to="/game/kitchen" className="startButton"><div className="startCategory">Kitchen</div></Link>
-        //         <Link to="/game/music" className="startButton"><div className="startCategory">Music</div></Link>
-        //         <Link to="/game/home" className="startButton"><div className="startCategory">Home</div></Link>
-        //         <Link to="/game/jobs" className="startButton"><div className="startCategory">Jobs</div></Link>
-        //     </div>
-        // </div>
+            </Row>
+        </Container>
     )
 }

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {handleUser} from '../redux/actions.js';
+import socket from '../modules/Socket.js';
 
 export default function MultiWelcome() {
     const history = useHistory();
@@ -25,6 +26,7 @@ export default function MultiWelcome() {
   
     const handleForm = (e) => {
         e.preventDefault();
+        // socket.emit("user", e.target.username.value);
         dispatch(handleUser(e.target.username.value));
         setShow(false);
     }
@@ -40,6 +42,7 @@ export default function MultiWelcome() {
           <Modal.Header closeButton className="modalBody modalText">
             <Modal.Title><h1>Welcome!</h1></Modal.Title>
           </Modal.Header>
+          <p className="portrait">It is recommended to rotate your device.</p>
           <Modal.Body className="modalBody modalText landscape">
             What's your name?
             <form 
@@ -49,7 +52,6 @@ export default function MultiWelcome() {
             </form>
           </Modal.Body>
           <Modal.Footer className="modalBody">
-            <p className="portrait">Please rotate your device to landscape orientation.</p>
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>

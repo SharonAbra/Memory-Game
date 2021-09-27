@@ -5,6 +5,7 @@ import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH,
 
 const initialState = {
     cards: [],
+    categoryList: ['animals', 'clothes', 'kitchen', 'music', 'home', 'jobs'],
     category: '',
     turnedCards: [],
     turnedCardsId: [],
@@ -26,6 +27,7 @@ const reducer = (state=initialState,action={}) => {
         case FETCHCARDS:
             return {...state, cards:action.payload}
         case SETCATEGORY:
+            // console.log(action.payload);
             return {...state, category:action.payload}
         case HANDLERESTART:
             return { ...state,
@@ -93,8 +95,7 @@ const reducer = (state=initialState,action={}) => {
             } else {
                 // actions to be taken in the other game modes
                 if (cardOneId === cardTwoId) {
-                    if (state.yourTurn === true) {
-                        // console.log(state.matchesInMulti)
+                    if (state.counter > 0) {
                         return {
                             ...state, 
                                 matchesInMulti: state.matchesInMulti+1,

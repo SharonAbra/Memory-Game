@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 
-export default function Header(props) {
+export default function Header() {
     const category = useSelector(state => state.category);
     const moves = useSelector(state => state.moves);
     const finish = useSelector(state=> state.finish);

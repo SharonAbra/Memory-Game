@@ -53,22 +53,22 @@
   margin-top: 40px;
 }
 
-.categoryContainer {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
 .choose {
   margin: 30px;
+  text-align: center;
 }
 
 .startCategory {
   background-color: #9304be;
   border-radius: 20px;
-  margin-bottom: 30px;
-  padding: 20px;
+  margin-bottom: 15px;
+  color:white;
+  font-size: 200%;
+  text-align: center;
+}
 
+.link {
+  text-decoration: none;
 }
 
 .header {
@@ -107,9 +107,10 @@ margin-bottom: 25px;
     font-size: 3vw;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 480px) {
   .cardBody {
-    height: 40px;
+    height: 60px;
+    width: 120%;
   }
 }
 
@@ -231,10 +232,8 @@ margin-bottom: 25px;
     color: #c404ff
   }
 
-  @media screen and (max-width: 480px) and (orientation:portrait) {
-    .landscape {
-      display: none;
-    }
+  .portrait {
+    margin-bottom: 5px;
   }
 
   @media screen and (max-width: 480px) and (orientation:landscape) {
