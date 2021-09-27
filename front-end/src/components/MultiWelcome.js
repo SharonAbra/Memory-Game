@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {handleUser} from '../redux/actions.js';
-import socket from '../modules/Socket.js';
 
 export default function MultiWelcome() {
     const history = useHistory();
@@ -26,7 +25,6 @@ export default function MultiWelcome() {
   
     const handleForm = (e) => {
         e.preventDefault();
-        // socket.emit("user", e.target.username.value);
         dispatch(handleUser(e.target.username.value));
         setShow(false);
     }

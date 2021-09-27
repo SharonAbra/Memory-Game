@@ -64,6 +64,7 @@ import { useParams } from 'react-router';
 import Header from './Header';
 import MemoryGrid from "./MemoryGrid";
 import Finish from './Finish';
+import ErrorBoundary from '../modules/ErrorBoundary';
 
 export default function Game ()  {
   const { urlCategory } = useParams();
@@ -77,7 +78,9 @@ export default function Game ()  {
         <> 
           <div>
             <Header/>
-            <MemoryGrid category={urlCategory}/>
+            <ErrorBoundary>
+              <MemoryGrid category={urlCategory}/>
+            </ErrorBoundary>
             <Finish/>
             </div>
         </>
