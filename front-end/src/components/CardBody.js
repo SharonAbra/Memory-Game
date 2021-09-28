@@ -42,7 +42,7 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
         >
           <div 
           className="card-face front">
-            <img src={card} height="90%" alt=""></img>
+            <img src={card} height="90%" width="90%" alt=""></img>
           </div>
           <div className="card-face back"></div>
         </div>
