@@ -1,10 +1,11 @@
-import { handleRestart } from '../redux/actions.js'
 import React, { useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { Modal, Button } from 'react-bootstrap';
+import { handleRestart } from '../redux/actions.js'
 
 export default function Finish() {
+
   const history = useHistory();
   const dispatch = useDispatch();
   const finish = useSelector(state => state.finish);
@@ -40,27 +41,27 @@ export default function Finish() {
     dispatch(handleRestart());
   }
 
-    return (
-      <>
-        <Modal
-          show={finish}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-          className = "center"
-        >
-          <Modal.Header closeButton className="modalBody">
-            <Modal.Title><h1 className="modalText">Game Over!</h1></Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="modalBody modalText">
-            <div>{textOne}</div>
-            <div>{textTwo}</div>
-          </Modal.Body>
-          <Modal.Footer className="modalBody">
-            <Button variant="primary" onClick={() => dispatch(handleRestart())}>Restart</Button>
-            <Button variant="secondary" onClick={handleHome}>Home</Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-  }
+  return (
+    <>
+      <Modal
+        show={finish}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        className = "center"
+      >
+        <Modal.Header closeButton className="modalBody">
+          <Modal.Title><h1 className="modalText">Game Over!</h1></Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modalBody modalText">
+          <div>{textOne}</div>
+          <div>{textTwo}</div>
+        </Modal.Body>
+        <Modal.Footer className="modalBody">
+          <Button variant="primary" onClick={() => dispatch(handleRestart())}>Restart</Button>
+          <Button variant="secondary" onClick={handleHome}>Home</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}

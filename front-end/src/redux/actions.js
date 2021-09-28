@@ -4,8 +4,8 @@ import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH,
         } from './Constants';
 
 export const fetchCards = (category) => (dispatch) => {
-    // fetch(`https://memory-game-g.herokuapp.com/${category}`)
-    fetch(`http://localhost:4000/${category}`)
+    fetch(`https://memory-game-g.herokuapp.com/${category}`)
+    // fetch(`http://localhost:4000/${category}`)
     .then(res => res.json())
     .then(data => {
         dispatch({type:FETCHCARDS, payload:data})
@@ -18,75 +18,75 @@ export const fetchCards = (category) => (dispatch) => {
 export const setCategory = (choice) => {
     return {
         type: SETCATEGORY,
-        payload: choice,
+        payload: choice
     }
 }
 
-  export const handleCardClick = (i, id) => {
-    return {
-      type: HANDLECARDCLICK,
-      payload: [i, id]
-    }
+export const handleCardClick = (i, id) => {
+  return {
+    type: HANDLECARDCLICK,
+    payload: [i, id]
   }
-  
-  export const checkMatch = () => {
-    return {
-      type: CHECKMATCH,
-    }
-  }
+}
 
-  export const checkFinish = () => {
-    return {
-      type: CHECKFINISH,
-    }
+export const checkMatch = () => {
+  return {
+    type: CHECKMATCH
   }
-  
-  export const handleRestart = () => {
-    return {
-      type: HANDLERESTART,
-    }
-  }
+}
 
-  export const computerMove = ({i, id}) => {
-    return {
-      type: COMPUTERMOVE,
-      payload: [i, id]
-    }
+export const checkFinish = () => {
+  return {
+    type: CHECKFINISH
   }
+}
 
-  export const handleUser = (username) => {
-    return {
-      type: USERNAME,
-      payload: username
-    }
+export const handleRestart = () => {
+  return {
+    type: HANDLERESTART
   }
+}
 
-  export const handleCounter = () => {
-    return {
-      type: COUNTER,
-    }
+export const computerMove = ({i, id}) => {
+  return {
+    type: COMPUTERMOVE,
+    payload: [i, id]
   }
+}
 
-  export const handleEnable = () => {
-    return {
-      type: ENABLE,
-    }
+export const handleUser = (username) => {
+  return {
+    type: USERNAME,
+    payload: username
   }
+}
 
-  export const handleDisable = () => {
-    return {
-      type: DISABLE,
-    }
+export const handleCounter = () => {
+  return {
+    type: COUNTER
   }
+}
 
-  export const flipBack = () => {
-    return {
-      type: FLIPBACK,
-    }
+export const handleEnable = () => {
+  return {
+    type: ENABLE
   }
+}
 
-  export const handleYourTurn = () => {
-    return {
-      type: YOURTURN,
-    }
+export const handleDisable = () => {
+  return {
+    type: DISABLE
   }
+}
+
+export const flipBack = () => {
+  return {
+    type: FLIPBACK
+  }
+}
+
+export const handleYourTurn = () => {
+  return {
+    type: YOURTURN
+  }
+}

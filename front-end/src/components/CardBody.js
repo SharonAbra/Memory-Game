@@ -28,6 +28,7 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
     }
   }
 
+  // image cards
   if (card.includes('png')) {
     return (
       <> 
@@ -43,11 +44,12 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
           className="card-face front">
             <img src={card} height="90%" alt=""></img>
           </div>
-          <div className="card-face back"> <h3>{id}</h3>
-          </div>
+          <div className="card-face back"></div>
         </div>
       </>
     )
+    
+  // text cards
   } else {
     return (
       <div
@@ -60,7 +62,7 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
       }
       >
         <div className="card-face front"><span>{card}</span></div>
-        <div className="card-face back"> <h3>{id}</h3></div>
+        <div className="card-face back"></div>
       </div>
     )
   }

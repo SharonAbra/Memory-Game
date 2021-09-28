@@ -3,17 +3,6 @@ env.config();
 
 const knex = require('knex');
 
-// const db = knex({
-//   client: 'pg',
-//   connection: {
-//     host : '127.0.0.1',
-//     port: '5433',
-//     user : 'postgres',
-//     password : process.env.POSTGRES_PASSWORD,
-//     database : 'Memory_Game'
-//   }
-// });
-
 const db = knex({
   client: 'pg',
   connection: {
@@ -23,8 +12,8 @@ const db = knex({
 });
 
 const getAllClothes = () => {
-    return db.select('id','name', 'url').from('clothes');
-  }
+  return db.select('id','name', 'url').from('clothes');
+}
 
 const getAllAnimals = () => {
   return db.select('id','name', 'url').from('animals');

@@ -1,6 +1,6 @@
 import { FETCHCARDS, HANDLECARDCLICK, CHECKMATCH, CHECKFINISH,
          HANDLERESTART, SETCATEGORY, COMPUTERMOVE, USERNAME,
-        COUNTER, ENABLE, DISABLE, FLIPBACK, YOURTURN
+         COUNTER, ENABLE, DISABLE, FLIPBACK, YOURTURN
         } from './Constants';
 
 const initialState = {
@@ -24,23 +24,13 @@ const initialState = {
 
 const reducer = (state=initialState,action={}) => {
     switch(action.type) {
+
+        case SETCATEGORY:
+            return {...state, category:action.payload}
+
         case FETCHCARDS:
             return {...state, cards:action.payload}
-        case SETCATEGORY:
-            // console.log(action.payload);
-            return {...state, category:action.payload}
-        case HANDLERESTART:
-            return { ...state,
-                     matchingCards:[],
-                     turnedCards:[],
-                     turnedCardsId:[],
-                     finish:false,
-                     compTurn:false,
-                     moves:0,
-                    computerMatches:0,
-                    userMatches:0, 
-                    disable: false
-                    }
+
         case  HANDLECARDCLICK:
             if (state.turnedCards.length === 1) {
                 return { ...state, 
@@ -55,6 +45,7 @@ const reducer = (state=initialState,action={}) => {
                         turnedCardsId: [action.payload[1]],
                     }
             }
+
         case CHECKMATCH:
             const [ cardOne, cardTwo ] = state.turnedCards;
             const [ cardOneId, cardTwoId ] = state.turnedCardsId;
@@ -63,6 +54,7 @@ const reducer = (state=initialState,action={}) => {
                 // adjust reducer to include computer moves
                 if (state.compTurn === true) {
                 // actions to be taken when it is the computer's turn
+                    // if cards match
                     if (cardOneId === cardTwoId) {
                         return {
                             ...state,
@@ -79,6 +71,7 @@ const reducer = (state=initialState,action={}) => {
                 } else {
                 // actions to be taken when it is not the computer's turn
                     if (cardOneId === cardTwoId) {
+                        // if cards match
                         return { 
                             ...state, 
                             matchingCards: [ ...state.matchingCards, cardOne, cardTwo],
@@ -94,7 +87,10 @@ const reducer = (state=initialState,action={}) => {
                 }
             } else {
                 // actions to be taken in the other game modes
+                    // if cards match
                 if (cardOneId === cardTwoId) {
+                    // in multiplayer mode, a click counter greater than 0 indicates 
+                    // that the card flip was done by the user and not other players
                     if (state.counter > 0) {
                         return {
                             ...state, 
@@ -119,12 +115,28 @@ const reducer = (state=initialState,action={}) => {
                              counter: 0}
                 }
             }
+
         case CHECKFINISH:
             if (state.matchingCards.length === state.cards.length * 2) {
                 return { ...state, finish:true}
             } else {
                 return {...state}
             }
+
+        case HANDLERESTART:
+            return { ...state,
+                    matchingCards:[],
+                    turnedCards:[],
+                    turnedCardsId:[],
+                    finish:false,
+                    compTurn:false,
+                    moves:0,
+                    computerMatches:0,
+                    userMatches:0, 
+                    disable: false,
+                    matchesInMulti: 0
+                    }
+
         case COMPUTERMOVE:
             if (state.turnedCards.length === 1) {
                 return { ...state, 
@@ -138,16 +150,22 @@ const reducer = (state=initialState,action={}) => {
                         turnedCardsId: [action.payload[1]],
                     }
             }
+            
         case DISABLE:
                 return {...state, disable: true}
+
         case ENABLE:
             return {...state, disable: false}
+
         case USERNAME:
             return {...state, username: action.payload}
+
         case COUNTER:
             return {...state, counter: state.counter+1}
+
         case FLIPBACK:
             return {...state, turnedCards: [], turnedCardsId: []}
+
         case YOURTURN:
             if (state.yourTurn === false) {
                 return {...state, yourTurn: true}

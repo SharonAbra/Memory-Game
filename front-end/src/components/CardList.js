@@ -47,6 +47,7 @@ export default function CardList ({ cards }) {
     // push matching to a local list with placeholder value
     let localMatches =[...matchingCards, 100];
     let localTurned = [];
+
     // adding to the pairList length to include placeholder
     if (gameMode === "Playing vs Computer" && compTurn && localMatches.length < pairList.length+1) {
       setTimeout(() => {
@@ -59,10 +60,10 @@ export default function CardList ({ cards }) {
         localTurned.push(randomCard.i);
         dispatch(computerMove(randomCard));
       }, 700);
+
       setTimeout(() => {
-        // do all of this again for the second card
+        // do this again for the second card
         let randomCard = {i:100, id:100};
-        // let localMatches =[...matchingCards, 100];
         while (localMatches.includes(randomCard.i) || localTurned.includes(randomCard.i)) {
           randomCard = pairList[Math.floor(Math.random() * (cards.length - 1))];
         }

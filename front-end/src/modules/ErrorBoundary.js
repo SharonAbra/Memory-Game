@@ -3,34 +3,35 @@ import React from 'react';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: '',
-      errorInfo: null
-    }
+    this.state = { hasError: false };
   }
 
-  componentDidCatch(error, errorInfo){
-    this.setState({
-      error:error,
-      errorInfo:errorInfo
-    })
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
   }
+
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo)
+  }
+
 
   handleTryAgain() {
     window.location.reload(false);
   }
 
-  render(){
-    if(this.state.errorInfo){
+  render() {
+    if (this.state.hasError) {
       return (
-        <div>
-          <img alt="oops" src="https://i.ibb.co/jTnz9P1/oops.png"></img>
+        <div style = {{display:'flex', flexDirection: 'column', alignItems:'center'}}>
+          <img alt="oops" src="https://i.ibb.co/jTnz9P1/oops.png" width="100px"></img>
           <h2>That was not supposed to happen...</h2>
-          <button onClick ={this.handleTryAgain} className="startButton">Let's try again</button>
+          <button onClick ={this.handleTryAgain} className="start startButton">Let's try again</button>
         </div>
       )
     }
     return this.props.children;
   }
 }
+
 export default ErrorBoundary;

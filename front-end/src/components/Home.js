@@ -1,7 +1,7 @@
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
-import CategoryChoice from './CategoryChoice';
-import ModeChoice from './ModeChoice';
 import Start from './Start'
+import ModeChoice from './ModeChoice';
+import CategoryChoice from './CategoryChoice';
 import Game from './Game';
 
 export default function Home() {
