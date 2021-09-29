@@ -24,7 +24,7 @@
   box-shadow: 1px 1px 3px 3px black;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 767px) {
   .start {
     width:60%
   }
@@ -40,7 +40,7 @@
   color:white
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 767px) {
   .startButton {
     font-size: 200%;
   }
@@ -96,7 +96,7 @@ margin-bottom: 25px;
   font-size: 150%;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 767px) {
   .information {
     font-size: 4vw;
   }
@@ -113,12 +113,25 @@ margin-bottom: 25px;
   position: relative;
   cursor: pointer;
   margin: 10px 0px 20px 0px;
-  font-size: 3vw;
+  font-size: 200%;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 996px) {
+  .cardBody {
+    font-size: 150%;
+  }
+}
+
+@media screen and (max-width: 767px) {
   .cardBody {
     height: 40px;
+    font-size: 100%;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .cardBody {
+    font-size: 55%;
   }
 }
 
@@ -137,6 +150,16 @@ margin-bottom: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.pic {
+  height: 90%;
+}
+
+@media screen and (max-width: 996px) {
+  .pic {
+    width: 90%;
+  }
 }
 
 .back {
