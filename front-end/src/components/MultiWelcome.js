@@ -49,7 +49,7 @@ export default function MultiWelcome() {
           What's your name?
           <form 
               onSubmit = {(e) => handleForm(e)}>
-              <input type="text" name="username" register={register} required></input><br></br>
+              <input type="text" name="username" autoComplete="off" register={register} required></input><br></br>
               <input type="submit" value="Let's Go!" className="btn btn-primary go"></input>
           </form>
         </Modal.Body>
