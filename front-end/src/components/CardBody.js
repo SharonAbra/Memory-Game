@@ -44,7 +44,7 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
           className="card-face front">
             <img src={card} className="pic" alt=""></img>
           </div>
-          <div className="card-face back"></div>
+          <div className="card-face back">{id}</div>
         </div>
       </>
     )
@@ -62,7 +62,7 @@ export default function CardBody ({ card, isTurned, isInactive, isDisabled, type
       }
       >
         <div className="card-face front"><span>{card}</span></div>
-        <div className="card-face back"></div>
+        <div className="card-face back">{id}</div>
       </div>
     )
   }
